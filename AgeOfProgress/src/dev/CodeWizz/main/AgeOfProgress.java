@@ -12,6 +12,7 @@ public class AgeOfProgress extends AbstractGame {
 	
 	public AgeOfProgress() {
 		inst = this;
+		cam = new Camera();
 	}
 	
 	@Override
