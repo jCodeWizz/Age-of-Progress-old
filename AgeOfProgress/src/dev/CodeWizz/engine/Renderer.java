@@ -1,5 +1,6 @@
 package dev.CodeWizz.engine;
 
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
@@ -377,6 +378,8 @@ public class Renderer {
 		}
 	}
 	
+	
+	
 	public void drawLine(int color, int x0, int y0, int x1, int y1) {
 		int dx = Math.abs(x1 - x0);
 		int dy = Math.abs(y1 - y0);
@@ -528,6 +531,16 @@ public class Renderer {
 		imageRequests.clear();
 		lightRequests.clear();
 		processing = false;
+	}
+	
+	public void drawPolygon(int color, Polygon poly) {
+		for(int i = 0; i < poly.xpoints.length; i++) {
+			if(i < poly.xpoints.length-1) {
+				drawLine(color, poly.xpoints[i], poly.ypoints[i], poly.xpoints[i+1], poly.ypoints[i+1]);
+			} else {
+				drawLine(color, poly.xpoints[i], poly.ypoints[i], poly.xpoints[0], poly.ypoints[0]);
+			}
+		}
 	}
 
 	public void drawImage(Image image, int x, int y) {
