@@ -1,9 +1,8 @@
 package dev.CodeWizz.main.objects.envirement;
 
-public enum TileType {
+public enum CellState {
 
-	Grass(),
 	Empty(),
-	Stone(),
-	Dirt();
+	Full(),
+	Edge();
 }

@@ -5,7 +5,6 @@ import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.main.graphics.Camera;
 import dev.CodeWizz.main.input.Input;
-import dev.CodeWizz.main.objects.Tree;
 import dev.CodeWizz.main.objects.envirement.World;
 
 public class AgeOfProgress extends AbstractGame {
@@ -19,12 +18,13 @@ public class AgeOfProgress extends AbstractGame {
 		inst = this;
 		cam = new Camera();
 		input = new Input();
-		world = new World();
+		
 	}
 	
 	@Override
 	public void update(GameContainer gc, float dt) {
 		input.update(gc);
+		world.tick(gc);
 		cam.update(gc);
 	}
 
@@ -45,7 +45,8 @@ public class AgeOfProgress extends AbstractGame {
 
 	@Override
 	public void init(GameContainer gc) {
-		gc.handler.addObject(new Tree(0, 0));
+		world = new World();
+		world.init(gc);
 	}
 	
 	public static void main(String[] args) {

@@ -4,39 +4,110 @@ import java.awt.Polygon;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
-import dev.CodeWizz.engine.gfx.light.Light;
-import dev.CodeWizz.engine.object.GameObject;
+import dev.CodeWizz.engine.gfx.Image;
 import dev.CodeWizz.engine.util.Textures;
 
-public class Tile extends GameObject {
+public abstract class Tile {
 
-	private TileType type;
-	
-	
-	public Tile(float x, float y, TileType type) {
-		super(x, y);
-		
-		this.type = type;
-		
+	private static Image basetexture = Textures.get("base-tile");
+
+	protected TileType type;
+	protected Cell cell;
+	protected int x, y, w, h;
+
+	public Tile(int x, int y, Cell cell) {
+		this.cell = cell;
+		this.x = x;
+		this.y = y;
+
 		w = 64;
 		h = 48;
+
+	}
+
+	public void tick(GameContainer gc) {
+	}
+
+	public void render(GameContainer gc, Renderer r) {
+		r.drawImage(basetexture, x - (w / 2), y - (h / 2));
+	}
+	
+	public void onPlace() {
+		Cell[] cells = this.cell.getNeighbours();
+		
+		for (int i = 0; i < cells.length; i++) {
+			if (cells[i] != null) {
+				cells[i].getTile().update();
+			}
+		}
+	}
+	
+	public void update() {
 		
 	}
 
-	@Override
-	public void tick(GameContainer gc) { }
-	
-	@Override
-	public void render(GameContainer gc, Renderer r) {
-		r.drawImage(Textures.get(type.getTexture()), (int) (position.x-w/2), (int) (position.y-h/2));
+	public boolean[] checkNeighbours() {
+		boolean[] data = new boolean[] { false, false, false, false };
+		Cell[] neighbours = this.cell.getNeighbours();
+
+		for (int i = 0; i < neighbours.length; i++) {
+			if (neighbours[i] == null) {
+				data[i] = false;
+			} else {
+				data[i] = neighbours[i].getTile().getType() == this.type;
+			}
+		}
+		return data;
 	}
 	
+	public boolean[] checkNeighbours(TileType type) {
+		boolean[] data = new boolean[] { false, false, false, false };
+		Cell[] neighbours = this.cell.getNeighbours();
+
+		for (int i = 0; i < neighbours.length; i++) {
+			if (neighbours[i] == null) {
+				data[i] = false;
+			} else {
+				data[i] = neighbours[i].getTile().getType() == type;
+			}
+		}
+		return data;
+	}
+
 	public void render2(GameContainer gc, Renderer r) {
-		r.drawPolygon(0xffffffff, getHitbox());
-		r.fillRect((int)position.x, (int)position.y, 1, 1, 0xffff0000, Light.NONE);
+		// r.drawPolygon(0xffffffff, getHitbox());
+		// r.fillRect(x, y, 1, 1, 0xffff0000, Light.NONE);
 	}
-	
+
+	public TileType getType() {
+		return type;
+	}
+
+	public void setType(TileType type) {
+		this.type = type;
+	}
+
+	public Cell getCell() {
+		return cell;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getW() {
+		return w;
+	}
+
+	public int getH() {
+		return h;
+	}
+
 	public Polygon getHitbox() {
-		return new Polygon(new int[] { (int)position.x-33, (int) (position.x-1), (int) (position.x + 31), (int)(position.x-1) }, new int[] { (int) (position.y-8), (int)position.y-24, (int) (position.y-8), (int) (position.y + 8)}, 4);
+		return new Polygon(cell.getXPoints(), cell.getYPoints(), 4);
 	}
 }

@@ -50,7 +50,7 @@ public class Renderer {
 		lm = new int[p.length];
 		lb = new int[p.length];
 		
-		this.font = Font.DETAILED;
+		this.font = Font.STANDARD;
 	}
 
 	public void setPixel(int x, int y, int value) {
