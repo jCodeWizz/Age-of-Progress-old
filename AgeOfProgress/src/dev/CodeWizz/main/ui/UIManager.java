@@ -2,7 +2,7 @@ package dev.CodeWizz.main.ui;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
-import dev.CodeWizz.main.objects.envirement.World;
+import dev.CodeWizz.main.objects.environment.World;
 
 public class UIManager {
 

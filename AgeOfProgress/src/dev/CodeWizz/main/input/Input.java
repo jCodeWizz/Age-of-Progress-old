@@ -2,7 +2,7 @@ package dev.CodeWizz.main.input;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.main.AgeOfProgress;
-import dev.CodeWizz.main.objects.envirement.World;
+import dev.CodeWizz.main.objects.environment.World;
 
 public class Input {
 

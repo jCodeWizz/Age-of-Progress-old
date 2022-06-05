@@ -5,7 +5,7 @@ import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.main.graphics.Camera;
 import dev.CodeWizz.main.input.Input;
-import dev.CodeWizz.main.objects.envirement.World;
+import dev.CodeWizz.main.objects.environment.World;
 import dev.CodeWizz.main.ui.UIManager;
 
 public class AgeOfProgress extends AbstractGame {

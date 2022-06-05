@@ -1,6 +1,8 @@
-package dev.CodeWizz.main.objects.envirement;
+package dev.CodeWizz.main.objects.environment.tiles;
 
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.objects.environment.Cell;
+import dev.CodeWizz.main.objects.environment.TileType;
 
 public class TiledTile extends PathTile {
 

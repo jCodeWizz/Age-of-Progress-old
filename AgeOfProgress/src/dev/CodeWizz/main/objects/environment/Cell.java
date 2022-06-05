@@ -1,6 +1,11 @@
-package dev.CodeWizz.main.objects.envirement;
+package dev.CodeWizz.main.objects.environment;
 
 import dev.CodeWizz.engine.util.Direction;
+import dev.CodeWizz.main.objects.environment.tiles.DirtPathTile;
+import dev.CodeWizz.main.objects.environment.tiles.DirtTile;
+import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
+import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
+import dev.CodeWizz.main.objects.environment.tiles.TiledTile;
 
 public class Cell {
 

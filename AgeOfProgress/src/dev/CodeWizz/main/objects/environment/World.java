@@ -1,4 +1,4 @@
-package dev.CodeWizz.main.objects.envirement;
+package dev.CodeWizz.main.objects.environment;
 
 import java.awt.event.KeyEvent;
 

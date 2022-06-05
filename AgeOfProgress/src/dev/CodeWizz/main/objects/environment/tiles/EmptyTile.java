@@ -1,9 +1,12 @@
-package dev.CodeWizz.main.objects.envirement;
+package dev.CodeWizz.main.objects.environment.tiles;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Image;
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.objects.environment.Cell;
+import dev.CodeWizz.main.objects.environment.Tile;
+import dev.CodeWizz.main.objects.environment.TileType;
 
 public class EmptyTile extends Tile {
 
