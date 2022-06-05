@@ -161,7 +161,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keys[e.getKeyCode()] = true;
-
+		
 		if ((int) (e.getKeyChar()) - 32 < 58 && (int) (e.getKeyChar()) - 32 >= 0) {
 			for (ITextInput b : inputs) {
 				b.charTyped(e.getKeyChar());

@@ -6,6 +6,7 @@ import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.main.graphics.Camera;
 import dev.CodeWizz.main.input.Input;
 import dev.CodeWizz.main.objects.envirement.World;
+import dev.CodeWizz.main.ui.UIManager;
 
 public class AgeOfProgress extends AbstractGame {
 
@@ -13,12 +14,14 @@ public class AgeOfProgress extends AbstractGame {
 	public Camera cam;
 	public Input input;
 	public World world;
+	public UIManager uiManager;
+	
 	
 	public AgeOfProgress() {
 		inst = this;
 		cam = new Camera();
 		input = new Input();
-		
+		uiManager = new UIManager();
 	}
 	
 	@Override
@@ -26,11 +29,17 @@ public class AgeOfProgress extends AbstractGame {
 		input.update(gc);
 		world.tick(gc);
 		cam.update(gc);
+		uiManager.update(gc, world);
 	}
 
 	@Override
 	public void render(GameContainer gc, Renderer r) {
 		world.render(gc, r);
+
+		
+		
+		
+		uiManager.render(gc, r, world);
 	}
 
 	@Override
@@ -40,7 +49,7 @@ public class AgeOfProgress extends AbstractGame {
 
 	@Override
 	public void renderUI(GameContainer gc, Renderer r) {
-		
+		uiManager.renderUI(gc, r, world);
 	}
 
 	@Override

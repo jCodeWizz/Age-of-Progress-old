@@ -13,15 +13,20 @@ public class Textures {
 	public void load() {
 		WDebug.log("[System]: Loading textures...");
 		
+		list.put("tile-highlight1", new Image("/assets/textures/ui/tile-highlight.png"));
+		list.put("tile-highlight2", new Image("/assets/textures/ui/tile-highlight2.png"));
+		
 		list.put("base-tile", new Image("/assets/textures/envirement/base-tile.png"));
 		list.put("dirt-tile", new Image("/assets/textures/envirement/dirt-tile.png"));
 		list.put("empty-tile", new Image("/assets/textures/envirement/empty-tile.png"));
-		
-		list.put("stone-tile", new Image("/assets/textures/envirement/stone-tile.png"));
-		list.put("stone-tile-tl", new Image("/assets/textures/envirement/stone-tile-TL.png"));
-		list.put("stone-tile-tr", new Image("/assets/textures/envirement/stone-tile-TR.png"));
-		list.put("stone-tile-br", new Image("/assets/textures/envirement/stone-tile-BR.png"));
-		list.put("stone-tile-bl", new Image("/assets/textures/envirement/stone-tile-BL.png"));
+		list.put("tiled-tile", new Image("/assets/textures/envirement/tiled-tile.png"));
+		list.put("dirt-path-tile", new Image("/assets/textures/envirement/dirt-path-tile.png"));
+
+		list.put("path-tile", new Image("/assets/textures/envirement/path-tile.png"));
+		list.put("path-tile-tl", new Image("/assets/textures/envirement/path-tile-TL.png"));
+		list.put("path-tile-tr", new Image("/assets/textures/envirement/path-tile-TR.png"));
+		list.put("path-tile-br", new Image("/assets/textures/envirement/path-tile-BR.png"));
+		list.put("path-tile-bl", new Image("/assets/textures/envirement/path-tile-BL.png"));
 
 		list.put("tile-up", new Image("/assets/textures/envirement/tile-up.png"));
 		list.put("tile-down", new Image("/assets/textures/envirement/tile-down.png"));

@@ -1,12 +1,14 @@
 package dev.CodeWizz.main.objects.envirement;
 
+import java.awt.event.KeyEvent;
+
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 
 public class World {
 
-	public static int WORLD_SIZE_W = 8;
-	public static int WORLD_SIZE_H = 16;
+	public static int WORLD_SIZE_W = 24;
+	public static int WORLD_SIZE_H = 48;
 
 	public Cell[][] grid;
 
@@ -55,6 +57,9 @@ public class World {
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				grid[j][i].getTile().render2(gc, r);
+				if(gc.getInput().isKey(KeyEvent.VK_ALT)) {
+					r.drawPolygon(0xffffffff, grid[j][i].getTile().getHitbox());
+				}
 			}
 		}
 	}

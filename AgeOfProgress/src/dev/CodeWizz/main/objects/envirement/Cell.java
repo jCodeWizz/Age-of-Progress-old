@@ -20,6 +20,7 @@ public class Cell {
 		
 		this.world = world;
 		this.tile = new EmptyTile(tileX, tileY, this);
+		this.state = CellState.Empty;
 	}
 	
 	public Cell(int x, int y, int tileX, int tileY, boolean odd, World world, Tile tile) {
@@ -95,9 +96,15 @@ public class Cell {
 		return this;
 	}
 	
-	public Cell setStone() {
+	public Cell setDirtPath() {
 		this.state = CellState.Full;
-		setTile(new StoneTile(tileX, tileY, this));
+		setTile(new DirtPathTile(tileX, tileY, this));
+		return this;
+	}
+	
+	public Cell setTiled() {
+		this.state = CellState.Full;
+		setTile(new TiledTile(tileX, tileY, this));
 		return this;
 	}
 	

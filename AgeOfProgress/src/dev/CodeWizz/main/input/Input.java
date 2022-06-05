@@ -13,7 +13,7 @@ public class Input {
 	public void update(GameContainer gc) {
 		World world = AgeOfProgress.inst.world;
 		
-		if(gc.getInput().isButton(2) || gc.getInput().isButton(1)) {
+		if(gc.getInput().isButton(2) || gc.getInput().isButton(1) || gc.getInput().isButton(3)) {
 			for (int i = 0; i < world.grid.length; i++) {
 				for (int j = 0; j < world.grid[i].length; j++) {
 					if (world.grid[i][j].getTile().getHitbox().contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
@@ -22,7 +22,11 @@ public class Input {
 							world.grid[i][j].setGrass();
 						}
 						if(gc.getInput().isButton(1)) {
-							world.grid[i][j].setStone();
+							world.grid[i][j].setDirtPath();
+						}
+						if(gc.getInput().isButton(3)) {
+							System.out.println("E");
+							world.grid[i][j].setTiled();
 						}
 					}
 				}
