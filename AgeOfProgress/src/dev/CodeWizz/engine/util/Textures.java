@@ -20,11 +20,15 @@ public class Textures {
 		list.put("icon-button-pressed", new Image("/assets/textures/ui/icons/icon-pressed.png"));
 		list.put("icon-board", new Image("/assets/textures/ui/icons/icon-board.png"));
 		
+		list.put("close-icon", new Image("/assets/textures/ui/icons/close-icon.png"));
 		list.put("manage-icon", new Image("/assets/textures/ui/icons/manage-icon.png"));
 		list.put("build-icon", new Image("/assets/textures/ui/icons/build-icon.png"));
 		list.put("path-icon", new Image("/assets/textures/ui/icons/path-icon.png"));
 		list.put("people-icon", new Image("/assets/textures/ui/icons/people-icon.png"));
 		list.put("tool-icon", new Image("/assets/textures/ui/icons/tool-icon.png"));
+		
+		list.put("path-menu", new Image("/assets/textures/ui/menus/path-menu.png"));
+		list.put("tile-background-buyslot", new Image("/assets/textures/ui/menus/tile-background-buyslot.png"));
 
 		list.put("base-tile", new Image("/assets/textures/envirement/base-tile.png"));
 		list.put("dirt-tile", new Image("/assets/textures/envirement/dirt-tile.png"));

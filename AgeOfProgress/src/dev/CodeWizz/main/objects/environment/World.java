@@ -33,19 +33,9 @@ public class World {
 			}
 		}
 	}
-
+	
 	public void init(GameContainer gc) {
-		for(int i = 2; i < 5; i++) {
-			grid[i][0].setGrass();
-		}
-		
-		for(int i = 2; i < 5; i++) {
-			grid[i][2].setGrass();
-		}
-		
-		for(int i = 2; i < 5; i++) {
-			grid[i][3].setGrass();
-		}
+
 	}
 
 	public void render(GameContainer gc, Renderer r) {

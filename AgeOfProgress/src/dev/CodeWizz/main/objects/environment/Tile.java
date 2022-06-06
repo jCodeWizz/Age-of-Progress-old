@@ -7,6 +7,8 @@ import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Camera;
 import dev.CodeWizz.engine.gfx.Image;
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
+import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
 
 public abstract class Tile {
 
@@ -75,6 +77,16 @@ public abstract class Tile {
 			}
 		}
 		return data;
+	}
+	
+	public static Tile tileFromType(TileType type, int x, int y, Cell cell) {
+		if(type == TileType.Empty) {
+			return EmptyTile.getNew(x, y, cell);
+		} else if(type == TileType.Grass) {
+			return GrassTile.getNew(x, y, cell);
+		}
+		
+		return null;
 	}
 
 	public void render2(GameContainer gc, Renderer r) {

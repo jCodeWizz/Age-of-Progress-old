@@ -44,9 +44,9 @@ public class UIManager {
 	
 	
 	
-	
-	
-	
+		for(Menu menu : menus) {
+			menu.init(gc);
+		}
 	}
 	
 	public void update(GameContainer gc, World world) {

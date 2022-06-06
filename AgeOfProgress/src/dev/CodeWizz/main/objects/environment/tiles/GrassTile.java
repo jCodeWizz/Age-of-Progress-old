@@ -21,4 +21,8 @@ public class GrassTile extends Tile {
 	public void render(GameContainer gc, Renderer r) {
 		r.drawImage(texture, x - (w / 2), y - (h / 2));
 	}
+	
+	public static Tile getNew(int x, int y, Cell cell) {
+		return new GrassTile(x, y, cell);
+	}
 }

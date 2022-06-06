@@ -57,7 +57,7 @@ public class Button {
 			if(pressed) {
 				r.drawImageUI(texturePressed, x, y, scale);
 				if(icon != null) {
-					r.drawImageUI(icon, x, y+4, scale);
+					r.drawImageUI(icon, x, y+2*scale, scale);
 				}
 			} else {
 				r.drawImageUI(texture, x, y, scale);

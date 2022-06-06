@@ -1,11 +1,9 @@
 package dev.CodeWizz.main.objects.environment;
 
+import java.lang.reflect.InvocationTargetException;
+
 import dev.CodeWizz.engine.util.Direction;
-import dev.CodeWizz.main.objects.environment.tiles.DirtPathTile;
-import dev.CodeWizz.main.objects.environment.tiles.DirtTile;
 import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
-import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
-import dev.CodeWizz.main.objects.environment.tiles.TiledTile;
 
 public class Cell {
 
@@ -95,34 +93,23 @@ public class Cell {
 		return data;
 	}
 	
-	public Cell setGrass() {
-		this.state = CellState.Full;
-		setTile(new GrassTile(tileX, tileY, this));
-		return this;
-	}
-	
-	public Cell setDirtPath() {
-		this.state = CellState.Full;
-		setTile(new DirtPathTile(tileX, tileY, this));
-		return this;
-	}
-	
-	public Cell setTiled() {
-		this.state = CellState.Full;
-		setTile(new TiledTile(tileX, tileY, this));
-		return this;
-	}
-	
-	public Cell setDirt() {
-		this.state = CellState.Full;
-		setTile(new DirtTile(tileX, tileY, this));
-		return this;
-	}
-	
-	public Cell setEmpty() {
-		this.state = CellState.Empty;
-		setTile(new EmptyTile(tileX, tileY, this));
-		return this;
+	public Tile getTile(Class<Tile> c, int tileX, int tileY) {
+		try {
+			try {
+				return (Tile) c.getMethod("getNew", c).invoke(c, tileX, tileY, this);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public int[] getXPoints() {
@@ -147,6 +134,8 @@ public class Cell {
 
 	public void setTile(Tile tile) {
 		if(tile.getType() != this.getTile().getType()) {
+			if(tile.getType() == TileType.Empty)
+				this.state = CellState.Empty;
 			this.tile = tile;
 			tile.onPlace();
 		}

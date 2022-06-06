@@ -22,7 +22,7 @@ public class Renderer {
 	public int ambientColor = 0xffffffff;
 	private int dayColor = 0xff3b414a;
 
-	private Font font;
+	public static Font font;
 
 	// Color for lights: 0xff407dd6
 
@@ -50,7 +50,7 @@ public class Renderer {
 		lm = new int[p.length];
 		lb = new int[p.length];
 		
-		this.font = Font.STANDARD;
+		font = Font.STANDARD;
 	}
 
 	public void setPixel(int x, int y, int value) {
@@ -941,9 +941,4 @@ public class Renderer {
 	public Font getFont() {
 		return font;
 	}
-
-	public void setFont(Font font) {
-		this.font = font;
-	}
-
 }

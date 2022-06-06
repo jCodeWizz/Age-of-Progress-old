@@ -10,6 +10,9 @@ import dev.CodeWizz.main.ui.menu.Menu;
 
 public class Input {
 
+	private Menu draggingMenu = null;
+	private int draggingOffset = 0;
+	
 	public Input() {
 
 	}
@@ -24,11 +27,35 @@ public class Input {
 					b.press(gc);
 				}
 			}
+			
+			for(Menu menu : uiManager.getMenus()) {
+				if(menu.isOpen()) {
+					if(menu.getBoundsTop().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+						draggingMenu = menu;
+						draggingOffset = gc.getInput().getMouseX() - gc.camera.getX() - menu.getX();
+						draggingMenu.setDragging(true);
+					}
+				}
+			}
 		}
+		
+		if(gc.getInput().isButton(1)) {
+			if(draggingMenu != null) {
+				draggingMenu.setX(gc.getInput().getMouseX() - gc.camera.getX() - draggingOffset);
+				draggingMenu.setY(gc.getInput().getMouseY() - gc.camera.getY() - 10);
+			}
+		}
+		
+		
 		
 		if(gc.getInput().isButtonUp(1)) {
 			for(Button b : uiManager.getButtons()) {
 				b.unpress(gc, b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY()));
+			}
+			
+			if(draggingMenu != null) {
+				draggingMenu.setDragging(false);
+				draggingMenu = null;
 			}
 		}
 		

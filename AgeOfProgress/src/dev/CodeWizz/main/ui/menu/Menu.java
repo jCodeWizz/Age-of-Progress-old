@@ -1,5 +1,6 @@
 package dev.CodeWizz.main.ui.menu;
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -16,9 +17,13 @@ public abstract class Menu {
 	protected int x, y, w, h;
 	protected Button[] buttons;
 	protected List<IHudComponent> components = new CopyOnWriteArrayList<>();
-	protected boolean open;
+	protected boolean open, dragging;
 	
 	public Menu() {
+		
+	}
+	
+	public void init(GameContainer gc) {
 		
 	}
 	
@@ -53,6 +58,7 @@ public abstract class Menu {
 		onClose(gc);
 	}
 	
+	public abstract Rectangle getBoundsTop();	
 	public MenuID getId() {
 		return id;
 	}
@@ -120,6 +126,14 @@ public abstract class Menu {
 	public abstract void onOpen(GameContainer gc);
 	
 	public abstract void onClose(GameContainer gc);
+
+	public boolean isDragging() {
+		return dragging;
+	}
+
+	public void setDragging(boolean dragging) {
+		this.dragging = dragging;
+	}
 	
 	
 }
