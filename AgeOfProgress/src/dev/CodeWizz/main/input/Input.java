@@ -1,8 +1,12 @@
 package dev.CodeWizz.main.input;
 
+import java.awt.event.KeyEvent;
+
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.main.AgeOfProgress;
-import dev.CodeWizz.main.objects.environment.World;
+import dev.CodeWizz.main.ui.Button;
+import dev.CodeWizz.main.ui.UIManager;
+import dev.CodeWizz.main.ui.menu.Menu;
 
 public class Input {
 
@@ -11,28 +15,29 @@ public class Input {
 	}
 
 	public void update(GameContainer gc) {
-		World world = AgeOfProgress.inst.world;
+		//World world = AgeOfProgress.inst.world;
+		UIManager uiManager = AgeOfProgress.inst.uiManager;
 		
-		if(gc.getInput().isButton(2) || gc.getInput().isButton(1) || gc.getInput().isButton(3)) {
-			for (int i = 0; i < world.grid.length; i++) {
-				for (int j = 0; j < world.grid[i].length; j++) {
-					if (world.grid[i][j].getTile().getHitbox().contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
-						
-						if(gc.getInput().isButton(2)) {
-							world.grid[i][j].setGrass();
-						}
-						if(gc.getInput().isButton(1)) {
-							world.grid[i][j].setDirtPath();
-						}
-						if(gc.getInput().isButton(3)) {
-							System.out.println("E");
-							world.grid[i][j].setTiled();
-						}
-					}
+		if(gc.getInput().isButtonDown(1)) {
+			for(Button b : uiManager.getButtons()) {
+				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+					b.press(gc);
 				}
 			}
 		}
-
 		
+		if(gc.getInput().isButtonUp(1)) {
+			for(Button b : uiManager.getButtons()) {
+				b.unpress(gc, b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY()));
+			}
+		}
+		
+		if(gc.getInput().isKeyDown(KeyEvent.VK_ESCAPE)) {
+			for(Menu menu  : uiManager.getMenus()) {
+				if(menu.isOpen()) {
+					menu.close(gc);
+				}
+			}
+		}
 	}
 }

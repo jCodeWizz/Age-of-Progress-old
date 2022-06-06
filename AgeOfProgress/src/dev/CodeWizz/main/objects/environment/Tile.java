@@ -4,6 +4,7 @@ import java.awt.Polygon;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
+import dev.CodeWizz.engine.gfx.Camera;
 import dev.CodeWizz.engine.gfx.Image;
 import dev.CodeWizz.engine.util.Textures;
 
@@ -33,6 +34,8 @@ public abstract class Tile {
 	}
 	
 	public void onPlace() {
+		Camera.shake(13, 5);
+		
 		Cell[] cells = this.cell.getNeighbours();
 		
 		for (int i = 0; i < cells.length; i++) {

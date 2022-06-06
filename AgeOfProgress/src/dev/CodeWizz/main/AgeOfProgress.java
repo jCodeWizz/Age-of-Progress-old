@@ -54,6 +54,7 @@ public class AgeOfProgress extends AbstractGame {
 
 	@Override
 	public void init(GameContainer gc) {
+		uiManager.init(gc);
 		world = new World();
 		world.init(gc);
 	}

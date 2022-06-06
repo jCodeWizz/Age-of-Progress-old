@@ -33,7 +33,7 @@ public class MousePreview {
 	}
 	
 	public void render(GameContainer gc, Renderer r, World world, UIManager manager) {
-		if(selected != null) {
+		if(selected != null && !UIManager.mouseOnUI) {
 			if(blocked) {
 				r.drawImage(Textures.get("tile-highlight2"), selected.getTileX() - (64 / 2), selected.getTileY() - (48 / 2));
 			} else {
