@@ -1,11 +1,15 @@
 package dev.CodeWizz.main.ui.menu;
 
 import java.awt.Rectangle;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Font;
+import dev.CodeWizz.engine.gfx.light.Light;
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.AgeOfProgress;
 import dev.CodeWizz.main.input.Input;
 import dev.CodeWizz.main.objects.environment.TileType;
 import dev.CodeWizz.main.ui.Button;
@@ -13,12 +17,11 @@ import dev.CodeWizz.main.ui.Button;
 public class PathMenu extends Menu {
 
 	private Menu m;
-	
-	private BuySlot slot;
-	private BuySlot slot2;
+	private List<BuySlot> tab1 = new CopyOnWriteArrayList<>();
+	private int scrollY = 0;
 	
 	public PathMenu() {
-		this.buttons = new Button[3];
+		this.buttons = new Button[1];
 		m = this;
 		
 		this.x = 10;
@@ -32,7 +35,6 @@ public class PathMenu extends Menu {
 	public void init(GameContainer gc) {
 		this.h = gc.getHeight()-20;
 		buttons[0] = new Button(x + 233, y + 1, 22, 24, Textures.get("icon-button"), Textures.get("icon-button-pressed"), Textures.get("close-icon"), 1) {
-			
 			@Override
 			public void onDeclick(GameContainer gc) {
 				m.close(gc);
@@ -40,25 +42,46 @@ public class PathMenu extends Menu {
 			
 		};
 		
-		slot = new BuySlot(13, 100, 0, 0, null, Textures.get("base-tile"), null, 1, "Base Tile", 10) {
-			
+		tab1.add(new BuySlot(13, 61, 0, 0, null, Textures.get("base-tile"), null, 1, "Base Tile", 10, this.getBoundsBuySlotSpace()) {
 			@Override
 			public void onDeclick(GameContainer gc) {
 				Input.placing = TileType.Grass;
 			}
-		};
+		});
 		
-		slot2 = new BuySlot(13, 300, 0, 0, null, Textures.get("tiled-tile"), null, 1, "Tiles", 10) {
-			
+		tab1.add(new BuySlot(13, 141, 0, 0, null, Textures.get("tiled-tile"), null, 1, "Tiles", 10, this.getBoundsBuySlotSpace()) {
 			@Override
 			public void onDeclick(GameContainer gc) {
 				Input.placing = TileType.Tiled;
 			}
-		};
+		});
 		
-		buttons[1] = slot;
-		buttons[2] = slot2;
-
+		tab1.add(new BuySlot(13, 221, 0, 0, null, Textures.get("dirt-path-tile"), null, 1, "Dirt Path", 10, this.getBoundsBuySlotSpace()) {
+			@Override
+			public void onDeclick(GameContainer gc) {
+				Input.placing = TileType.DirtPath;
+			}
+		});
+		
+		tab1.add(new BuySlot(13, 301, 0, 0, null, Textures.get("dirt-tile"), null, 1, "Dirt", 10, this.getBoundsBuySlotSpace()) {
+			@Override
+			public void onDeclick(GameContainer gc) {
+				Input.placing = TileType.Dirt;
+			}
+		});
+	}
+	
+	@Override
+	public void scroll(int value) {
+		value*= Input.SCROLL_SPEED;
+		
+		if(scrollY + value >= -500 && scrollY + value <= 0) {
+			for(BuySlot b : tab1) {
+				b.y+= value;
+			}
+			
+			scrollY += value;
+		}
 	}
 	
 	@Override
@@ -73,6 +96,10 @@ public class PathMenu extends Menu {
 		return new Rectangle(x, y, w-24, 26);
 	}
 	
+	public Rectangle getBoundsBuySlotSpace() {
+		return new Rectangle(x, y+49, w, h-49);
+	}
+	
 	@Override
 	public void renderUI(GameContainer gc, Renderer r) {
 		if(open) {
@@ -84,17 +111,22 @@ public class PathMenu extends Menu {
 			
 			Renderer.font = Font.STANDARD;
 			
-			slot.renderUI(gc, r);
+			r.drawRectUI(x, y+49, w, h-49, 0xffffff00, Light.NONE);
+			
 		}
 	}
 	
 	@Override
 	public void onOpen(GameContainer gc) {
-
+		for(Button b : tab1) {
+			AgeOfProgress.inst.uiManager.addButton(b);
+		}
 	}
 
 	@Override
 	public void onClose(GameContainer gc) {
-
+		for(Button b : tab1) {
+			AgeOfProgress.inst.uiManager.removeButton(b);
+		}
 	}
 }

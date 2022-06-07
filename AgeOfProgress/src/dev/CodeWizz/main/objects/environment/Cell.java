@@ -1,7 +1,5 @@
 package dev.CodeWizz.main.objects.environment;
 
-import java.lang.reflect.InvocationTargetException;
-
 import dev.CodeWizz.engine.util.Direction;
 import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
 
@@ -93,25 +91,6 @@ public class Cell {
 		return data;
 	}
 	
-	public Tile getTile(Class<Tile> c, int tileX, int tileY) {
-		try {
-			try {
-				return (Tile) c.getMethod("getNew", c).invoke(c, tileX, tileY, this);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public int[] getXPoints() {
 		return new int[] { tileX - 33, tileX - 1, tileX + 31, tileX - 1 };
 	}
@@ -136,6 +115,8 @@ public class Cell {
 		if(tile.getType() != this.getTile().getType()) {
 			if(tile.getType() == TileType.Empty)
 				this.state = CellState.Empty;
+			else
+				this.state = CellState.Full;
 			this.tile = tile;
 			tile.onPlace();
 		}

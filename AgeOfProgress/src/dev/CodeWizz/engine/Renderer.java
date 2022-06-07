@@ -656,6 +656,55 @@ public class Renderer {
 			}
 		}
 	}
+	
+	public void drawImageUI(Image image, int x, int y, Rectangle rec) {
+
+		if (image.isAlpha() && !processing) {
+			imageRequests.add(new ImageRequest(image, zDepth, x, y));
+			return;
+		}
+
+		// OFF SCREEN CODE
+		if (x < -image.getW())
+			return;
+		if (y < -image.getH())
+			return;
+		if (x >= pW)
+			return;
+		if (y >= pH)
+			return;
+		
+		int newX = 0;
+		int newY = 0;
+		int newWidth = image.getW();
+		int newHeight = image.getH();
+
+		if (x < rec.x) {
+			newX = rec.x;
+		}
+
+		if (y < rec.y) {
+			newY = rec.y;
+		}
+		if (newWidth + x > rec.x + rec.width) {
+			newWidth -= newWidth + x - rec.x + rec.width;
+		}
+		if (newHeight + y > rec.y + rec.height) {
+			newHeight -= newHeight + y -  rec.y + rec.height;
+		}
+		
+		for (int yy = newY; yy < newHeight; yy++) {
+			for (int xx = newX; xx < newWidth; xx++) {
+				setPixel(xx + x, yy + y, image.getP()[xx + yy * image.getW()]);
+				if (image.getNormalMap() != null) {
+
+					if (((image.getP()[xx + yy * image.getW()] >> 24) & 0xff) == 255) {
+						setLightBlock(xx + x, yy + y, image.getLightBlock());
+					}
+				}
+			}
+		}
+	}
 
 	public void drawImage(Image image, int x, int y, int scale) {
 		x -= camX;

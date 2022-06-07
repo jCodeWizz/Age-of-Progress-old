@@ -17,6 +17,7 @@ public class Input {
 	private int draggingOffset = 0;
 	
 	public static TileType placing;
+	public static final int SCROLL_SPEED = 8;
 	
 	public Input() {
 
@@ -26,42 +27,39 @@ public class Input {
 		World world = AgeOfProgress.inst.world;
 		UIManager uiManager = AgeOfProgress.inst.uiManager;
 		
+		boolean used = false;
+		
+		// 
+		
 		if(gc.getInput().isButtonDown(1)) {
 			for(Button b : uiManager.getButtons()) {
 				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
 					b.press(gc);
+					
+					used = true;
 				}
 			}
 			
-			for(Menu menu : uiManager.getMenus()) {
-				if(menu.isOpen()) {
-					if(menu.getBoundsTop().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
-						draggingMenu = menu;
-						draggingOffset = gc.getInput().getMouseX() - gc.camera.getX() - menu.getX();
-						draggingMenu.setDragging(true);
-					}
-				}
-			}
-		}
-		
-		if(gc.getInput().isButton(1)) {
-			if(draggingMenu != null) {
-				draggingMenu.setX(gc.getInput().getMouseX() - gc.camera.getX() - draggingOffset);
-				draggingMenu.setY(gc.getInput().getMouseY() - gc.camera.getY() - 10);
-			}
-			
-			if(placing != null) {
-				for(int i = 0; i < World.WORLD_SIZE_W; i++) {
-					for(int j = 0; j < World.WORLD_SIZE_H; j++) {
-						if(world.grid[i][j].getTile().getHitbox().contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
-							world.grid[i][j].setTile(Tile.tileFromType(placing, world.grid[i][j].getTileX(), world.grid[i][j].getTileY(), world.grid[i][j]));
+			if(!used) {
+				for(Menu menu : uiManager.getMenus()) {
+					if(menu.isOpen() ) {
+						if(menu.getBoundsTop().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+							draggingMenu = menu;
+							draggingOffset = gc.getInput().getMouseX() - gc.camera.getX() - menu.getX();
+							draggingMenu.setDragging(true);
 						}
 					}
 				}
 			}
 		}
 		
-		
+		if(gc.getInput().getScroll() != 0) {
+			for(Menu menu : uiManager.getMenus()) {
+				if(menu.isOpen() && menu.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+					menu.scroll(gc.getInput().getScroll());
+				}
+			}
+		}
 		
 		if(gc.getInput().isButtonUp(1)) {
 			for(Button b : uiManager.getButtons()) {
@@ -73,6 +71,29 @@ public class Input {
 				draggingMenu = null;
 			}
 		}
+		
+		// MOUSE WORLD
+		
+		if(gc.getInput().isButton(1)) {
+			if(draggingMenu != null) {
+				draggingMenu.setX(gc.getInput().getMouseX() - gc.camera.getX() - draggingOffset);
+				draggingMenu.setY(gc.getInput().getMouseY() - gc.camera.getY() - 10);
+			}
+			
+			if(placing != null && !UIManager.isMouseOnUI(gc)) {
+				for(int i = 0; i < World.WORLD_SIZE_W; i++) {
+					for(int j = 0; j < World.WORLD_SIZE_H; j++) {
+						if(world.grid[i][j].getTile().getHitbox().contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
+							world.grid[i][j].setTile(Tile.tileFromType(placing, world.grid[i][j].getTileX(), world.grid[i][j].getTileY(), world.grid[i][j]));
+						}
+					}
+				}
+			}
+		}
+		
+		
+		// KEYS
+		
 		
 		if(gc.getInput().isKeyDown(KeyEvent.VK_ESCAPE)) {
 			for(Menu menu  : uiManager.getMenus()) {

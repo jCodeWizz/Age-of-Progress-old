@@ -15,10 +15,9 @@ public class UIManager {
 
 	private Menu pathMenu;
 	
-	private List<Menu> menus = new CopyOnWriteArrayList<>();
-	private List<Button> buttons = new CopyOnWriteArrayList<>();
-	private MousePreview mousepreview;
-	public static boolean mouseOnUI;
+	private static List<Menu> menus = new CopyOnWriteArrayList<>();
+	private static List<Button> buttons = new CopyOnWriteArrayList<>();
+	private static MousePreview mousepreview;
 	
 	public UIManager() {
 		mousepreview = new MousePreview();
@@ -49,9 +48,32 @@ public class UIManager {
 		}
 	}
 	
+	public static boolean isMouseOnUI(GameContainer gc) {
+		
+		if(new Rectangle(gc.getWidth()/2-160, gc.getHeight()-75, 320, 75).contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+			return true;
+		} else {
+			for(Menu m : menus) {
+				if(m.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY()) && m.isOpen()) {
+					return true;
+				}
+			}
+			
+			for(Button b : buttons) {
+				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	public void update(GameContainer gc, World world) {
-		mouseOnUI = new Rectangle(gc.getWidth()/2-160, gc.getHeight()-75, 320, 75).contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY());
 
+		
+		
 		for(Menu menu : menus) {
 			menu.update(gc);
 		}
@@ -86,6 +108,14 @@ public class UIManager {
 	
 	public void addButton(Button button) {
 		buttons.add(button);
+	}
+	
+	public void addButtons(List<Button> button) {
+		buttons.addAll(button);
+	}
+	
+	public void removeButtons(List<Button> button) {
+		buttons.removeAll(button);
 	}
 	
 	public void removeButton(Button button) {

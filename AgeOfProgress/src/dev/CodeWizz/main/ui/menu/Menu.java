@@ -31,8 +31,15 @@ public abstract class Menu {
 		
 	}
 	
+	public void scroll(int value) {}
+	
+	
 	public void renderUI(GameContainer gc, Renderer r) {
 		
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, w, h);
 	}
 	
 	public void open(GameContainer gc) {

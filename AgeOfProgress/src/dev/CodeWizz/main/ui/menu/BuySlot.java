@@ -1,5 +1,7 @@
 package dev.CodeWizz.main.ui.menu;
 
+import java.awt.Rectangle;
+
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Font;
@@ -14,10 +16,11 @@ public class BuySlot extends Button {
 	
 	private String title;
 	private int cost;
+	private Rectangle space;
 	private Image tile;
 
 	public BuySlot(int x, int y, int w, int h, Image background, Image tile, Image c, int scale, String title,
-			int cost) {
+			int cost, Rectangle space) {
 		super(x, y, w, h, background, tile, c, scale);
 
 		this.tile = tile;
@@ -27,6 +30,8 @@ public class BuySlot extends Button {
 		
 		this.title = title;
 		this.cost = cost;
+		
+		this.space = space;
 	}
 
 	@Override
@@ -34,8 +39,8 @@ public class BuySlot extends Button {
 		if (activated) {
 			if (pressed) {
 			} else {
-				r.drawImageUI(tileBackground, x, y, scale);
-				r.drawImageUI(tile, x+5, y-5-tile.getH()*scale+tileBackground.getH(), scale);
+				r.drawImageUI(tileBackground, x, y, space);
+				r.drawImageUI(tile, x+5, y-5-tile.getH()*scale+tileBackground.getH(), space);
 				
 				Renderer.font = Font.DETAILED;
 				
