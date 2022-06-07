@@ -30,7 +30,7 @@ public class AgeOfProgress extends AbstractGame {
 		world.tick(gc);
 		cam.update(gc);
 		uiManager.update(gc, world);
-	}
+	}	
 
 	@Override
 	public void render(GameContainer gc, Renderer r) {

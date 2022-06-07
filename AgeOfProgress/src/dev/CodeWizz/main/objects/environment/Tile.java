@@ -7,8 +7,11 @@ import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Camera;
 import dev.CodeWizz.engine.gfx.Image;
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.objects.environment.tiles.DirtPathTile;
+import dev.CodeWizz.main.objects.environment.tiles.DirtTile;
 import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
 import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
+import dev.CodeWizz.main.objects.environment.tiles.TiledTile;
 
 public abstract class Tile {
 
@@ -84,6 +87,12 @@ public abstract class Tile {
 			return EmptyTile.getNew(x, y, cell);
 		} else if(type == TileType.Grass) {
 			return GrassTile.getNew(x, y, cell);
+		} else if(type == TileType.Tiled) {
+			return TiledTile.getNew(x, y, cell);
+		} else if(type == TileType.DirtPath) {
+			return DirtPathTile.getNew(x, y, cell);
+		} else if(type == TileType.Dirt) {
+			return DirtTile.getNew(x, y, cell);
 		}
 		
 		return null;

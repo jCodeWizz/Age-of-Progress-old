@@ -6,6 +6,8 @@ import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Font;
 import dev.CodeWizz.engine.util.Textures;
+import dev.CodeWizz.main.input.Input;
+import dev.CodeWizz.main.objects.environment.TileType;
 import dev.CodeWizz.main.ui.Button;
 
 public class PathMenu extends Menu {
@@ -13,9 +15,10 @@ public class PathMenu extends Menu {
 	private Menu m;
 	
 	private BuySlot slot;
+	private BuySlot slot2;
 	
 	public PathMenu() {
-		this.buttons = new Button[2];
+		this.buttons = new Button[3];
 		m = this;
 		
 		this.x = 10;
@@ -41,10 +44,20 @@ public class PathMenu extends Menu {
 			
 			@Override
 			public void onDeclick(GameContainer gc) {
+				Input.placing = TileType.Grass;
+			}
+		};
+		
+		slot2 = new BuySlot(13, 300, 0, 0, null, Textures.get("tiled-tile"), null, 1, "Tiles", 10) {
+			
+			@Override
+			public void onDeclick(GameContainer gc) {
+				Input.placing = TileType.Tiled;
 			}
 		};
 		
 		buttons[1] = slot;
+		buttons[2] = slot2;
 
 	}
 	
