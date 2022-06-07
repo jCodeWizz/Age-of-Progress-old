@@ -41,6 +41,9 @@ public class BuySlot extends Button {
 				
 				r.drawText(title, x+w-5-r.getFont().getWidth(title), y+32);
 				r.fillRectUI(x-10+w-r.getFont().getWidth(title), y+32+17, r.getFont().getWidth(title)+10, 2, 0xff2f1d1d, Light.NONE);
+				
+				r.drawText("" + cost, x+w-5-r.getFont().getWidth(title), y+55);
+				r.fillRectUI(x-10+w-r.getFont().getWidth(title), y+55+17, r.getFont().getWidth(title)+10, 2, 0xff2f1d1d, Light.NONE);
 			}
 		} else {
 		}

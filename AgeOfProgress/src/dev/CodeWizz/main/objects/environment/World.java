@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
+import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
 
 public class World {
 
@@ -35,20 +36,28 @@ public class World {
 	}
 	
 	public void init(GameContainer gc) {
-
+		for (int i = 0; i < grid[0].length; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				grid[j][i].setTile(new GrassTile(grid[j][i].getTileX(), grid[j][i].getTileY(), grid[j][i]));
+			}
+		}
 	}
 
 	public void render(GameContainer gc, Renderer r) {
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
-				grid[j][i].getTile().render(gc, r);
+				if(grid[j][i].getTileX() + 64 > 0 && grid[j][i].getTileX() < gc.getWidth() && grid[j][i].getTileY() < gc.getHeight() && grid[j][i].getTileY() + 48 > 0) {
+					grid[j][i].getTile().render(gc, r);
+				}
 			}
 		}
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
-				grid[j][i].getTile().render2(gc, r);
-				if(gc.getInput().isKey(KeyEvent.VK_ALT)) {
-					r.drawPolygon(0xffffffff, grid[j][i].getTile().getHitbox());
+				if(grid[j][i].getTileX() + 64 > 0 && grid[j][i].getTileX() < gc.getWidth() && grid[j][i].getTileY() < gc.getHeight() && grid[j][i].getTileY() + 48 > 0) {
+					grid[j][i].getTile().render2(gc, r);
+					if(gc.getInput().isKey(KeyEvent.VK_ALT)) {
+						r.drawPolygon(0xffffffff, grid[j][i].getTile().getHitbox());
+					}
 				}
 			}
 		}
