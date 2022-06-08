@@ -260,6 +260,29 @@ public class Renderer {
 		}
 	}
 	
+	public void drawText(String text, int offX, int offY, int color, Rectangle rec) {
+
+		int offset = 0;
+
+		for (int i = 0; i < text.length(); i++) {
+			int unicode = text.codePointAt(i) - 32;
+
+			for (int y = 0; y < font.getFontImage().getH(); y++) {
+				for (int x = 0; x < font.getWidths()[unicode]; x++) {
+					if (font.getFontImage().getP()[(x + font.getOffsets()[unicode])
+							+ y * font.getFontImage().getW()] == 0xffffffff) {
+						if(rec.contains(offX + x + offset, y + offY)) {
+							setPixel(x + offX + offset, y + offY, color);
+						}
+					}
+				}
+			}
+
+			offset += font.getWidths()[unicode];
+
+		}
+	}
+	
 	public void drawText(String text, int offX, int offY, int color, boolean a) {
 		offX -= camX;
 		offY -= camY;
@@ -665,32 +688,34 @@ public class Renderer {
 		}
 
 		// OFF SCREEN CODE
-		if (x < -image.getW())
+		if (x < -image.getW()) {
 			return;
-		if (y < -image.getH())
+		}
+		if (y < -image.getH()) {
 			return;
-		if (x >= pW)
+		}
+		if (x >= pW) {
 			return;
-		if (y >= pH)
+		}
+		if (y >= pH) {
 			return;
-		
+		}
 		int newX = 0;
 		int newY = 0;
 		int newWidth = image.getW();
 		int newHeight = image.getH();
 
 		if (x < rec.x) {
-			newX = rec.x;
+			newX -= x-rec.x;
 		}
-
 		if (y < rec.y) {
-			newY = rec.y;
+			newY -= y-rec.y;
 		}
-		if (newWidth + x > rec.x + rec.width) {
-			newWidth -= newWidth + x - rec.x + rec.width;
+		if (newWidth + newX > rec.x + rec.width) {
+			newWidth -= newWidth + newX - rec.x + rec.width;
 		}
-		if (newHeight + y > rec.y + rec.height) {
-			newHeight -= newHeight + y -  rec.y + rec.height;
+		if (newHeight + newY > rec.y + rec.height) {
+			newHeight -= newHeight + newY -  rec.y + rec.height;
 		}
 		
 		for (int yy = newY; yy < newHeight; yy++) {
@@ -885,6 +910,18 @@ public class Renderer {
 			}
 		}
 	}
+	
+	public void fillRectUI(int offX, int offY, int width, int height, int color, int lightblock, Rectangle rec) {
+
+		for (int y = 0; y <= height; y++) {
+			for (int x = 0; x <= width; x++) {
+				if(rec.contains(x + offX, y + offY)) {
+					setPixel(x + offX, y + offY, color);
+					setLightBlock(x + offX, y + offY, lightblock);
+				}
+			}
+		}
+	}
 
 	public void drawRect(int offX, int offY, int width, int height, int color, int lightblock) {
 		offX -= camX;
@@ -908,6 +945,25 @@ public class Renderer {
 	}
 
 	public void drawRectUI(int offX, int offY, int width, int height, int color, int lightblock) {
+
+		for (int y = 0; y <= height; y++) {
+			setPixel(offX, y + offY, color);
+			setPixel(offX + width, y + offY, color);
+		}
+
+		for (int x = 0; x < width; x++) {
+			setPixel(x + offX, offY, color);
+			setPixel(x + offX, offY + height, color);
+		}
+
+		for (int y = 0; y <= height; y++) {
+			for (int x = 0; x <= width; x++) {
+				setLightBlock(x + offX, y + offY, lightblock);
+			}
+		}
+	}
+	
+	public void drawRectUI(int offX, int offY, int width, int height, int color, int lightblock, Rectangle rec) {
 
 		for (int y = 0; y <= height; y++) {
 			setPixel(offX, y + offY, color);
@@ -991,3 +1047,6 @@ public class Renderer {
 		return font;
 	}
 }
+
+
+

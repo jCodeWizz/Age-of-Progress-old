@@ -33,7 +33,7 @@ public class Input {
 		
 		if(gc.getInput().isButtonDown(1)) {
 			for(Button b : uiManager.getButtons()) {
-				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
+				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY()) && UIManager.isMouseOnUI(gc)) {
 					b.press(gc);
 					
 					used = true;

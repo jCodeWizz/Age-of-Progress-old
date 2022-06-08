@@ -7,7 +7,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import dev.CodeWizz.engine.GameContainer;
 import dev.CodeWizz.engine.Renderer;
 import dev.CodeWizz.engine.gfx.Font;
-import dev.CodeWizz.engine.gfx.light.Light;
 import dev.CodeWizz.engine.util.Textures;
 import dev.CodeWizz.main.AgeOfProgress;
 import dev.CodeWizz.main.input.Input;
@@ -96,6 +95,7 @@ public class PathMenu extends Menu {
 		return new Rectangle(x, y, w-24, 26);
 	}
 	
+	@Override
 	public Rectangle getBoundsBuySlotSpace() {
 		return new Rectangle(x, y+49, w, h-49);
 	}
@@ -110,8 +110,6 @@ public class PathMenu extends Menu {
 			r.drawText("Pathing Menu", x+59, y + 5, 1, 0xffffffff);
 			
 			Renderer.font = Font.STANDARD;
-			
-			r.drawRectUI(x, y+49, w, h-49, 0xffffff00, Light.NONE);
 			
 		}
 	}

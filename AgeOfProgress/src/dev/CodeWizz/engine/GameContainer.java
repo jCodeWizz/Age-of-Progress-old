@@ -3,6 +3,7 @@ package dev.CodeWizz.engine;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 import dev.CodeWizz.engine.gfx.Camera;
@@ -53,6 +54,10 @@ public class GameContainer implements Runnable {
 		width = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / scale);
 		height = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / scale);
 		gameState = State.Game;
+	}
+	
+	public Rectangle getScreenBounds() {
+		return new Rectangle(camera.getX(), camera.getY(), getWidth(), getHeight());
 	}
 
 	public void start() {

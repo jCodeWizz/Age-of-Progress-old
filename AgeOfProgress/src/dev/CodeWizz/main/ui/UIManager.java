@@ -58,12 +58,6 @@ public class UIManager {
 					return true;
 				}
 			}
-			
-			for(Button b : buttons) {
-				if(b.getBounds().contains(gc.getInput().getMouseX() - gc.camera.getX(), gc.getInput().getMouseY() - gc.camera.getY())) {
-					return true;
-				}
-			}
 		}
 		
 		return false;

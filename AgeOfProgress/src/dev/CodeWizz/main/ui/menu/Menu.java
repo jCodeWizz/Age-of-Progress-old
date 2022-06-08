@@ -27,6 +27,10 @@ public abstract class Menu {
 		
 	}
 	
+	public Rectangle getBoundsBuySlotSpace() {
+		return null;		
+	}
+	
 	public void update(GameContainer gc) {
 		
 	}

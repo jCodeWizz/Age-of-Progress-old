@@ -46,11 +46,13 @@ public class World {
 	public void render(GameContainer gc, Renderer r) {
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
-				if(grid[j][i].getTileX() + 64 > 0 && grid[j][i].getTileX() < gc.getWidth() && grid[j][i].getTileY() < gc.getHeight() && grid[j][i].getTileY() + 48 > 0) {
+				if(gc.getScreenBounds().intersects(grid[j][i].getBounds())) {
 					grid[j][i].getTile().render(gc, r);
 				}
 			}
 		}
+		
+		/**
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				if(grid[j][i].getTileX() + 64 > 0 && grid[j][i].getTileX() < gc.getWidth() && grid[j][i].getTileY() < gc.getHeight() && grid[j][i].getTileY() + 48 > 0) {
@@ -61,6 +63,7 @@ public class World {
 				}
 			}
 		}
+		**/
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package dev.CodeWizz.main.objects.environment;
 
+import java.awt.Rectangle;
+
 import dev.CodeWizz.engine.util.Direction;
 import dev.CodeWizz.main.objects.environment.tiles.EmptyTile;
 
@@ -146,6 +148,8 @@ public class Cell {
 			return "0";
 		}
 	}
-	
-	
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, 64, 48);
+	}
 }
