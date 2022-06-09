@@ -112,7 +112,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jar/lwjgl-opengl.jar">
+	<classpathentry kind="lib" path="lib/jar/lwjgl-opengl.jar" sourcepath="lib/sources/lwjgl-opengl-sources.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
 		</attributes>

@@ -55,10 +55,10 @@ public class Window {
 		
 		this.title = "Age of Progress";
 		
-		this.a = 0f;
-		this.r = 0f;
-		this.g = 0f;
-		this.b = 0f;
+		this.a = 1f;
+		this.r = 0.23137254900196078f;
+		this.g = 0.2549019607843137f;
+		this.b = 0.2901960784313725f;
 	}
 	
 	public static void changeScene(int newScene) {

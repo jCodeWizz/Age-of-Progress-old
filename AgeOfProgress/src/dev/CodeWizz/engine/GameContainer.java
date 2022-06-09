@@ -41,7 +41,7 @@ public class GameContainer implements Runnable {
 	private boolean running = false;
 	private final double UPDATE_CAP = 1.0 / 60.0;
 
-	private final float scale = 1f;
+	private final float scale = 2f;
 	private int width = (int) (1920 / scale), height = (int) (1080 / scale);
 
 	private final String title = "Luqara Engine v0.0.0.0.1";
