@@ -8,8 +8,8 @@ import dev.CodeWizz.main.objects.environment.tiles.GrassTile;
 
 public class World {
 
-	public static int WORLD_SIZE_W = 24;
-	public static int WORLD_SIZE_H = 48;
+	public static int WORLD_SIZE_W = 48;
+	public static int WORLD_SIZE_H = 96;
 
 	public Cell[][] grid;
 
@@ -19,9 +19,9 @@ public class World {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (j % 2 == 0) {
-					grid[i][j] = new Cell(i, j, i * 64, j * 16, false, this);
+					grid[i][j] = new Cell(i, j, (i-(WORLD_SIZE_W/2)) * 64, (j-(WORLD_SIZE_H/2)) * 16, false, this);
 				} else {
-					grid[i][j] = new Cell(i, j, i * 64 + 32, j * 16, true, this);
+					grid[i][j] = new Cell(i, j, (i-(WORLD_SIZE_W/2)) * 64 + 32, (j-(WORLD_SIZE_H/2)) * 16, true, this);
 				}
 			}
 		}
@@ -52,10 +52,9 @@ public class World {
 			}
 		}
 		
-		/**
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
-				if(grid[j][i].getTileX() + 64 > 0 && grid[j][i].getTileX() < gc.getWidth() && grid[j][i].getTileY() < gc.getHeight() && grid[j][i].getTileY() + 48 > 0) {
+				if(gc.getScreenBounds().intersects(grid[j][i].getBounds())) {
 					grid[j][i].getTile().render2(gc, r);
 					if(gc.getInput().isKey(KeyEvent.VK_ALT)) {
 						r.drawPolygon(0xffffffff, grid[j][i].getTile().getHitbox());
@@ -63,7 +62,6 @@ public class World {
 				}
 			}
 		}
-		**/
 	}
 
 	@Override

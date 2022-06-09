@@ -150,6 +150,6 @@ public class Cell {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 64, 48);
+		return new Rectangle(tileX-32, tileY-24, 64, 48);
 	}
 }
