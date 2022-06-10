@@ -1,13 +1,14 @@
 package dev.codewizz.aop.scenes;
 
 import org.joml.Vector2f;
-import org.joml.Vector4f;
 
 import dev.codewizz.engine.gameobject.GameObject;
 import dev.codewizz.engine.gameobject.Transform;
+import dev.codewizz.engine.gameobject.components.Sprite;
 import dev.codewizz.engine.gameobject.components.SpriteRenderer;
 import dev.codewizz.engine.renderer.Camera;
 import dev.codewizz.engine.scene.Scene;
+import dev.codewizz.engine.util.AssetPool;
 
 public class MainMenuScene extends Scene {
 
@@ -29,23 +30,17 @@ public class MainMenuScene extends Scene {
 	public void init() {
 		this.camera = new Camera(new Vector2f());
 		
-		int xOffset = 10;
-		int yOffset = 10;
+		GameObject obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(64, 48)));
+		obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/base-tile.png"))));
+		this.addGameObjectToScene(obj1);
+		GameObject obj2 = new GameObject("Object 1", new Transform(new Vector2f(100, 400), new Vector2f(64, 48)));
+		obj2.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/base-tile.png"))));
+		this.addGameObjectToScene(obj2);
 		
-		float totalWidth = (float)(600 - xOffset * 2);
-		float totalHeight = (float)(300 - yOffset * 2);
-		float sizeX = totalWidth / 100.0f;
-		float sizeY = totalHeight / 100.0f;
-		
-		for(int x = 0; x < 100; x++) {
-			for(int y = 0; y < 100; y++) {
-				float xPos = xOffset + (x * sizeX);
-				float yPos = yOffset + (y * sizeY);
-				
-				GameObject object = new GameObject("Obj" + x + " " + y, new Transform(new Vector2f(xPos, yPos), new Vector2f(sizeX, sizeY)));
-				object.addComponent(new SpriteRenderer(new Vector4f(xPos / totalWidth, yPos / totalHeight, 1, 1)));
-				this.addGameObjectToScene(object);
-			}
-		}
+		loadResources();
+	}
+	
+	private void loadResources() {
+		AssetPool.getShader(".//res/assets/shaders/default.glsl");
 	}
 }

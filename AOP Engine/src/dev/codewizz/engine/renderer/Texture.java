@@ -2,8 +2,8 @@ package dev.codewizz.engine.renderer;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_REPEAT;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
 import static org.lwjgl.opengl.GL11.GL_RGB;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.stb.STBImage.stbi_image_free;
 import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.stb.STBImage.stbi_set_flip_vertically_on_load;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -26,6 +27,7 @@ public class Texture {
 	
 	private String filePath;
 	private int texID;
+	private int width, height;
 	
 	public Texture(String filePath) {
 		this.filePath = filePath;
@@ -42,9 +44,14 @@ public class Texture {
 		IntBuffer width = BufferUtils.createIntBuffer(1);
 		IntBuffer height = BufferUtils.createIntBuffer(1);
 		IntBuffer channels = BufferUtils.createIntBuffer(1);
+		stbi_set_flip_vertically_on_load(true);
 		ByteBuffer image = stbi_load(filePath, width, height, channels, 0);
 		
 		if(image != null) {
+			
+			this.width = width.get(0);
+			this.height = height.get(0);
+			
 			if(channels.get(0) == 3) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 			} else if(channels.get(0) == 4) {
@@ -59,6 +66,14 @@ public class Texture {
 		stbi_image_free(image);
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 	public void bind() {
 		glBindTexture(GL_TEXTURE_2D, texID);
 	}

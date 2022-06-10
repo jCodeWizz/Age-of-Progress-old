@@ -9,6 +9,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -41,7 +42,6 @@ import dev.codewizz.aop.scenes.MainMenuScene;
 import dev.codewizz.engine.input.KeyListener;
 import dev.codewizz.engine.input.MouseListener;
 import dev.codewizz.engine.scene.Scene;
-import dev.codewizz.engine.util.Time;
 
 public class Window {
 
@@ -165,8 +165,8 @@ public class Window {
 	
 	public void loop() {
 		
-		float beginTime = Time.getTime();
-		float endTime = Time.getTime();
+		float beginTime = (float)glfwGetTime();
+		float endTime = (float)glfwGetTime();
 		float dt = -1;
 		
 		while (!glfwWindowShouldClose(glfwWindow)) {
@@ -181,7 +181,7 @@ public class Window {
 			
 			glfwSwapBuffers(glfwWindow);
 			
-			endTime = Time.getTime();
+			endTime = (float)glfwGetTime();
 			dt = endTime - beginTime;
 			beginTime = endTime;
 		}
