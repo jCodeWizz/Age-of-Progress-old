@@ -28,6 +28,10 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -66,15 +70,21 @@ public class Window {
 			case 0:
 				currentScene = new MainMenuScene();
 				currentScene.init();
+				currentScene.start();
 				break;
 			case 1:
 				currentScene = new LevelScene();
 				currentScene.init();
+				currentScene.start();
 				break;
 			default:
 				assert false : "Unkown scene'" + newScene + "'";
 				break;
 		}
+	}
+	
+	public static Scene getScene() {
+		return currentScene;
 	}
 	
 	public static Window get() {
@@ -86,7 +96,34 @@ public class Window {
 		return window;
 	}
 	
+	public static void showSystemInformation() {
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			GraphicsDevice[] gs = ge.getScreenDevices();
+
+			System.out.println("");
+			System.out.println("------------------------------------------------");
+			System.out.println("");
+			
+			for (int i = 0; i < gs.length; i++) {
+				DisplayMode dm = gs[i].getDisplayMode();
+				if(gs.length == 1) {
+					System.out.println("[System]: Screen Refreshrate = " + dm.getRefreshRate() + "Hz || Screen Resolution = " + dm.getWidth() + "x" + dm.getHeight());
+				} else {
+					System.out.println("[System]: Screen [" + (i+1) + "] Refreshrate = " + dm.getRefreshRate() + "Hz || Screen Resolution = " + dm.getWidth() + "x" + dm.getHeight());
+				}
+			}
+			
+			System.out.println("[System]: Operating System: " + System.getProperty("os.name"));
+		 	System.out.println("[System]: Java Version: " + System.getProperty("java.version") + " || OpenGL Version: " + Version.getVersion());
+			System.out.println("[System]: Main Path = " + System.getProperty("sun.java.command") + ".java");
+			
+			System.out.println("");
+			System.out.println("------------------------------------------------");
+			System.out.println("");
+	}
+	
 	public void init() {
+		showSystemInformation();
 		// SETUP error callback
 		GLFWErrorCallback.createPrint(System.err).set();
 		
@@ -151,8 +188,6 @@ public class Window {
 	}
 	
 	public void run() {
-		System.out.println("Hello bitch " + Version.getVersion());
-		
 		init();
 		loop();
 		
