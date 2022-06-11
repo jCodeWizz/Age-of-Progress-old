@@ -22,6 +22,7 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -30,7 +31,7 @@ import dev.codewizz.engine.Window;
 import dev.codewizz.engine.gameobject.components.SpriteRenderer;
 import dev.codewizz.engine.util.AssetPool;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch> {
 
 	// Vertex
 	// ======
@@ -59,8 +60,10 @@ public class RenderBatch {
     private int vaoID, vboID;
     private int maxBatchSize;
     private Shader shader;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
+    	this.zIndex = zIndex;
     	shader = AssetPool.getShader(".//res/assets/shaders/default.glsl");
     	this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
@@ -124,9 +127,21 @@ public class RenderBatch {
     }
 
     public void render() {
+    	
+    	boolean rebufferData = false;
+    	for(int i = 0; i < numSprites; i++) {
+    		SpriteRenderer spr = sprites[i];
+    		if(spr.isDirty()) {
+    			loadVertexProperties(i);
+    			rebufferData = true;
+    			spr.setClean();
+    		}
+    	}
         // For now, we will rebuffer all data every frame
-        glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        if(rebufferData) {
+        	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        }
 
         // Use shader
         shader.use();
@@ -245,5 +260,13 @@ public class RenderBatch {
     public boolean hasTexture(Texture tex) {
     	return this.textures.contains(tex);
     }
+    
+    public int getZIndex() {
+    	return this.zIndex;
+    }
 
+	@Override
+	public int compareTo(RenderBatch o) {
+		return Integer.compare(this.zIndex, o.zIndex);
+	}
 }

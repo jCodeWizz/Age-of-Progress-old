@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import dev.codewizz.engine.gameobject.Component;
+import dev.codewizz.engine.gameobject.Transform;
 import dev.codewizz.engine.renderer.Texture;
 
 public class SpriteRenderer extends Component {
@@ -11,23 +12,31 @@ public class SpriteRenderer extends Component {
 	private Vector4f color;
 	private Sprite sprite;
 	
+	public Transform lastTransform;
+	private boolean isDirty = false;
+	
 	public SpriteRenderer(Vector4f color) {
 		this.color = color;
 		this.sprite = new Sprite(null);
-		
+		this.isDirty = true;
 	}
 	
 	public SpriteRenderer(Sprite sprite) {
 		this.sprite = sprite;
 		this.color = new Vector4f(1, 1, 1, 1);
+		this.isDirty = true;
 	}
 	
 	
 	@Override
 	public void start() {
+		this.lastTransform = gameObject.transform.copy();
 	}
 	@Override
 	public void update(float dt) {
+		if(!this.lastTransform.equals(this.gameObject.transform)) {
+			isDirty = true;
+		}
 	}
 	
 	public Vector4f getColor() {
@@ -40,5 +49,25 @@ public class SpriteRenderer extends Component {
 	
 	public Vector2f[] getTexCoords() {
 		return this.sprite.getTexCoords();
+	}
+	
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+		this.isDirty = true;
+	}
+	
+	public void setColor(Vector4f color) {
+		if(!this.color.equals(color)) {
+			this.color.set(color);
+			this.isDirty = true;
+		}
+	}
+	
+	public boolean isDirty() {
+		return isDirty;
+	}
+	
+	public void setClean() {
+		isDirty = false;
 	}
 }
