@@ -3,9 +3,12 @@ package dev.codewizz.engine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector2f;
+
 import dev.codewizz.engine.gameobject.GameObject;
 import dev.codewizz.engine.renderer.Camera;
 import dev.codewizz.engine.renderer.Renderer;
+import dev.codewizz.engine.util.AssetPool;
 
 public abstract class Scene {
 
@@ -39,6 +42,22 @@ public abstract class Scene {
 		return this.camera;
 	}
 	
-	public abstract void init();
-	public abstract void update(float dt);
+	public void init() {
+		this.camera = new Camera(new Vector2f());
+		loadResources();
+	}
+	
+	public void update(float dt) {
+		System.out.println("FPS: " + (1.0f / dt));
+		
+		for(GameObject object : objects) {
+			object.update(dt);
+		}
+		
+		this.renderer.render();
+	}
+	
+	private void loadResources() {
+		AssetPool.getShader(".//res/assets/shaders/default.glsl");
+	}
 }

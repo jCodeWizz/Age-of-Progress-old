@@ -175,6 +175,7 @@ public class Window {
 		while (!glfwWindowShouldClose(glfwWindow)) {
 			glfwPollEvents();
 			
+			glViewport(0, 0, 1920, 1080);
 			glClearColor(r, g, b, a);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
@@ -182,6 +183,7 @@ public class Window {
 				currentScene.update(dt);
 			}
 			
+			MouseListener.endFrame();
 			glfwSwapBuffers(glfwWindow);
 			
 			endTime = (float)glfwGetTime();
