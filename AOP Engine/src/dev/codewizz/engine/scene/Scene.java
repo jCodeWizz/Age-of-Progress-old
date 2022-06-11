@@ -1,7 +1,7 @@
 package dev.codewizz.engine.scene;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.joml.Vector2f;
 
@@ -15,7 +15,7 @@ public abstract class Scene {
 	protected Renderer renderer;
 	protected Camera camera;
 	private boolean isRunning = false;
-	protected List<GameObject> objects = new ArrayList<>();
+	protected List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
 	public Scene() {
 		renderer = new Renderer();

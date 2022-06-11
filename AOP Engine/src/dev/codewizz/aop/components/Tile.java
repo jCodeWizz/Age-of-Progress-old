@@ -6,11 +6,15 @@ import dev.codewizz.engine.gameobject.components.SpriteRenderer;
 
 public abstract class Tile extends Component {
 
+	public static final int WIDTH = 64, HEIGHT = 48;
+	
 	protected Sprite sprite;
 	protected TileType type;
+	protected int cellX, cellY;
 	
-	public Tile() {
-		
+	public Tile(int cellX, int cellY) {
+		this.cellX = cellX;
+		this.cellY = cellY;
 	}
 	
 	public Sprite getSprite() {

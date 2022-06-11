@@ -10,7 +10,7 @@ import dev.codewizz.engine.gameobject.components.SpriteRenderer;
 public class Renderer {
 
 	private final int MAX_BATCH_SIZE = 1000;
-	private List<RenderBatch> batches;
+	private static List<RenderBatch> batches;
 	
 	public Renderer() {
 		this.batches = new ArrayList<>();
@@ -49,6 +49,10 @@ public class Renderer {
 		for(RenderBatch batch : batches) {
 			batch.render();
 		}
+	}
+	
+	public static int getBatchesSize() {
+		return batches.size();
 	}
 	
 }
