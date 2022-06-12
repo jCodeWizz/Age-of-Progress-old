@@ -9,7 +9,6 @@ public class Camera {
 	private Matrix4f projectionMatrix, viewMatrix;
 	public Vector2f position;
 	public float zoom;
-	public static final float zoomConst = 2f;
 	
 	private float projectionWidth = 6;
 	private float projectionHeight = 3;

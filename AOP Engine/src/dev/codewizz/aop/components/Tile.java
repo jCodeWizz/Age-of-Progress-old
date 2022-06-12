@@ -27,4 +27,21 @@ public abstract class Tile extends Component {
 		if(r != null)
 			r.setSprite(s);
 	}
+	
+	public void onPlace() {
+		
+	}
+
+	public TileType getType() {
+		return type;
+	}
+
+	public int getCellX() {
+		return cellX;
+	}
+
+	public int getCellY() {
+		return cellY;
+	}
+	
 }

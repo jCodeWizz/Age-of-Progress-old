@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 
 import dev.codewizz.aop.components.Tile;
 import dev.codewizz.aop.components.TileType;
+import dev.codewizz.aop.components.tiles.EmptyTile;
 import dev.codewizz.aop.components.tiles.GrassTile;
 import dev.codewizz.engine.Window;
 import dev.codewizz.engine.gameobject.Component;
@@ -15,19 +16,23 @@ import dev.codewizz.engine.util.AssetPool;
 
 public class World extends Component {
 	
-	public static final int WIDTH = 64, HEIGHT = 64;
+	public static final int WIDTH = 32, HEIGHT = 64;
 	
-	public GameObject[][] grid;
+	public Cell[][] grid;
 	
 	public World() {
-		grid = new GameObject[WIDTH][HEIGHT];
+		grid = new Cell[WIDTH][HEIGHT];
 	}
 	
 	@Override
 	public void start() {
-		for(int i = 0; i < WIDTH; i++) {
-			for(int j = 0; j < HEIGHT; j++) {
-				grid[i][j] = setTile(i * Tile.WIDTH, j * Tile.HEIGHT, i, j, TileType.GrassTile);
+		for (int i = 0; i < grid[0].length; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				if (j % 2 == 0) {
+					grid[j][i] = new Cell(i, j, (i-(WIDTH/2)) * 64, (j-(HEIGHT/2)) * 16, false, this, TileType.EmptyTile);
+				} else {
+					grid[j][i] = new Cell(i, j, (i-(WIDTH/2)) * 64 + 32, (j-(HEIGHT/2)) * 16, true, this, TileType.GrassTile);
+				}
 			}
 		}
 	}
@@ -38,12 +43,23 @@ public class World extends Component {
 			object.addComponent(new GrassTile(cellX, cellY));
 			object.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/environment/base-tile.png"))));
 			Window.getScene().addGameObjectToScene(object);
-																									
+				
 			return object;
+		} else if(tile == TileType.EmptyTile) {
+			if(tile == TileType.GrassTile) {
+				GameObject object = new GameObject("EmptyTile", new Transform(new Vector2f(x, y), new Vector2f(Tile.WIDTH, Tile.HEIGHT)));
+				object.addComponent(new EmptyTile(cellX, cellY));
+				object.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/environment/empty-tile.png"))));
+				Window.getScene().addGameObjectToScene(object);
+					
+				return object;
+			}
 		}
 		
 		return null;
 	}
+	
+	
 	
 
 	@Override

@@ -38,7 +38,7 @@ public class Cell {
 		this.tile = tile;
 		this.state = CellState.Full;
 	}
-	
+
 	public Cell getNeighbour(Direction dir, Direction dir2) {
 		
 		if(odd) {
