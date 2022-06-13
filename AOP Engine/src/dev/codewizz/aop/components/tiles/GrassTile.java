@@ -24,4 +24,9 @@ public class GrassTile extends Tile {
 	public void start() {
 		
 	}
+
+	@Override
+	public void remove() {
+		
+	}
 }

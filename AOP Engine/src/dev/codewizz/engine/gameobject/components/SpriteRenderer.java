@@ -77,4 +77,9 @@ public class SpriteRenderer extends Component implements Comparable<SpriteRender
 	public int compareTo(SpriteRenderer o) {
 		return Integer.compare((int)o.gameObject.transform.position.y, (int)this.gameObject.transform.position.y);
 	}
+
+	@Override
+	public void remove() {
+		
+	}
 }

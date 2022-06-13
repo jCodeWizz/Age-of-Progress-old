@@ -76,7 +76,7 @@ public class GameObject {
 		for(int i = 0; i < components.size(); i++) {
 			Component c = components.get(i);
 			if(componentClass.isAssignableFrom(c.getClass())) {
-				System.out.println("Removed: " + components.get(i).getClass().toString());
+				components.get(i).remove();
 				components.remove(i);
 			}
 		}

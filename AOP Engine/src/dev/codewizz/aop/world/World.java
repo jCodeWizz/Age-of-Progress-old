@@ -38,9 +38,10 @@ public class World extends Component {
 			grid[20][20].setTile(TileType.DirtTile);
 			counter = 150;
 		}
-		
-		
-		
+	}
+
+	@Override
+	public void remove() {
 		
 	}
 }

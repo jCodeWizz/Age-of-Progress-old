@@ -6,4 +6,5 @@ public abstract class Component {
 	
 	public abstract void start();
 	public abstract void update(float dt);
+	public abstract void remove();
 }

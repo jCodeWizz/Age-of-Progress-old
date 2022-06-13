@@ -60,4 +60,8 @@ public abstract class Scene {
 	private void loadResources() {
 		AssetPool.getShader(".//res/assets/shaders/default.glsl");
 	}
+	
+	public Renderer getRenderer() {
+		return renderer;
+	}
 }

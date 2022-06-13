@@ -24,4 +24,9 @@ public class DirtTile extends Tile {
 	public void start() {
 		
 	}
+
+	@Override
+	public void remove() {
+		
+	}
 }

@@ -22,4 +22,9 @@ public class EmptyTile extends Tile {
 	@Override
 	public void update(float dt) {
 	}
+
+	@Override
+	public void remove() {
+		
+	}
 }

@@ -41,4 +41,9 @@ public class CameraComponent extends Component {
 		Window.getScene().camera().position.x = this.gameObject.transform.position.x;
 		Window.getScene().camera().position.y = this.gameObject.transform.position.y;
 	}
+
+	@Override
+	public void remove() {
+		
+	}
 }
