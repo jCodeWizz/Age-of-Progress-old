@@ -1,8 +1,20 @@
 package dev.codewizz.aop.world;
 
+import java.awt.Rectangle;
+
+import org.joml.Vector2f;
+
 import dev.codewizz.aop.components.Tile;
 import dev.codewizz.aop.components.TileType;
+import dev.codewizz.aop.components.tiles.DirtTile;
+import dev.codewizz.aop.components.tiles.EmptyTile;
+import dev.codewizz.aop.components.tiles.GrassTile;
+import dev.codewizz.engine.Window;
 import dev.codewizz.engine.gameobject.GameObject;
+import dev.codewizz.engine.gameobject.Transform;
+import dev.codewizz.engine.gameobject.components.Sprite;
+import dev.codewizz.engine.gameobject.components.SpriteRenderer;
+import dev.codewizz.engine.util.AssetPool;
 import dev.codewizz.engine.util.Direction;
 
 public class Cell {
@@ -22,7 +34,9 @@ public class Cell {
 		this.odd = odd;
 		
 		this.world = world;
-		this.tile = world.setTile(tileX, tileY, x, y, TileType.EmptyTile);
+		this.tile = new GameObject("Tile", new Transform(new Vector2f(tileX, tileY), new Vector2f(Tile.WIDTH, Tile.HEIGHT))).addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/environment/base-tile.png"))));
+		this.setTile(TileType.EmptyTile);
+		Window.getScene().addGameObjectToScene(this.tile);
 		this.state = CellState.Empty;
 	}
 	
@@ -36,6 +50,7 @@ public class Cell {
 		
 		this.world = world;
 		this.tile = tile;
+		Window.getScene().addGameObjectToScene(this.tile);
 		this.state = CellState.Used;
 	}
 	
@@ -48,8 +63,46 @@ public class Cell {
 		this.odd = odd;
 		
 		this.world = world;
-		this.tile = world.setTile(tileX, tileY, x, y, tile);
+		this.tile = new GameObject("Tile", new Transform(new Vector2f(tileX, tileY), new Vector2f(Tile.WIDTH, Tile.HEIGHT))).addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture(".//res/assets/textures/environment/base-tile.png"))));
+		this.setTile(tile);
+		Window.getScene().addGameObjectToScene(this.tile);
 		this.state = CellState.Used;
+	}
+	
+	public GameObject setTile(TileType tile) {
+		if(tile == TileType.GrassTile) {
+			this.tile.removeComponent(Tile.class);
+			this.tile.addComponent(new GrassTile(x, y));
+			this.tile.getComponent(Tile.class).setSprite();
+			
+			return this.tile;
+		} else if(tile == TileType.EmptyTile) {
+			this.tile.removeComponent(Tile.class);
+			this.tile.addComponent(new EmptyTile(x, y));
+			this.tile.getComponent(Tile.class).setSprite();
+			
+			return this.tile;
+		} else if(tile == TileType.DirtTile) {
+			this.tile.removeComponent(Tile.class);
+			this.tile.addComponent(new DirtTile(x, y));
+			this.tile.getComponent(Tile.class).setSprite();
+			
+			return this.tile;
+		} else if(tile == TileType.DirtPath) {
+			this.tile.removeComponent(Tile.class);
+			this.tile.addComponent(new GrassTile(x, y));
+			this.tile.getComponent(Tile.class).setSprite();
+			
+			return this.tile;
+		} else if(tile == TileType.TiledPath) {
+			this.tile.removeComponent(Tile.class);
+			this.tile.addComponent(new GrassTile(x, y));
+			this.tile.getComponent(Tile.class).setSprite();
+			
+			return this.tile;
+	}
+		
+		return null;
 	}
 	
 	public Cell getNeighbour(Direction dir, Direction dir2) {
@@ -136,6 +189,10 @@ public class Cell {
 
 	public boolean isOdd() {
 		return odd;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(tileX, tileY, Tile.WIDTH, Tile.HEIGHT);
 	}
 
 	public Cell[] getNeighbours() {

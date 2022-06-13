@@ -22,6 +22,7 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -49,7 +50,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int VERTEX_SIZE = 9;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
-    private SpriteRenderer[] sprites;
+   	public List<SpriteRenderer> sprites;
     private int numSprites;
     private boolean hasRoom;
     private float[] vertices;
@@ -64,7 +65,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     public RenderBatch(int maxBatchSize, int zIndex) {
     	this.zIndex = zIndex;
     	shader = AssetPool.getShader(".//res/assets/shaders/default.glsl");
-    	this.sprites = new SpriteRenderer[maxBatchSize];
+    	this.sprites = new CopyOnWriteArrayList<SpriteRenderer>();
         this.maxBatchSize = maxBatchSize;
 
         // 4 vertices quads
@@ -108,7 +109,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     public void addSprite(SpriteRenderer spr) {
         // Get index and add renderObject
         int index = this.numSprites;
-        this.sprites[index] = spr;
+        this.sprites.add(spr);
         this.numSprites++;
         
         if(spr.getTexture() != null) {
@@ -127,10 +128,10 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
     public void render() {
     	
-    	boolean rebufferData = false;
+    	boolean rebufferData = true;
     	for(int i = 0; i < numSprites; i++) {
-    		SpriteRenderer spr = sprites[i];
-    		if(spr.isDirty()) {
+    		SpriteRenderer spr = sprites.get(i);
+    		if(spr.isDirty() || true) {
     			loadVertexProperties(i);
     			rebufferData = true;
     			spr.setClean();
@@ -172,7 +173,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     }
 
     private void loadVertexProperties(int index) {
-        SpriteRenderer sprite = this.sprites[index];
+        SpriteRenderer sprite = this.sprites.get(index);
 
         // Find offset within array (4 vertices per sprite)
         int offset = index * 4 * VERTEX_SIZE;

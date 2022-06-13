@@ -4,5 +4,7 @@ public enum TileType {
 
 	GrassTile(),
 	EmptyTile(),
+	DirtPath(),
+	TiledPath(),
 	DirtTile();
 }

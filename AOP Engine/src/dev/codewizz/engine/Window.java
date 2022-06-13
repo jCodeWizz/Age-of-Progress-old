@@ -204,4 +204,20 @@ public class Window {
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
 	}
+	
+	public static int getWidth() {
+        return get().width;
+    }
+
+    public static int getHeight() {
+        return get().height;
+    }
+
+    public static void setWidth(int newWidth) {
+        get().width = newWidth;
+    }
+
+    public static void setHeight(int newHeight) {
+        get().height = newHeight;
+    }
 }

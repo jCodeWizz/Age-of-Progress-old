@@ -68,18 +68,25 @@ public class GameObject {
 		return null;
 	}
 	
+	public void clearComponents() {
+		components.clear();
+	}
+	
 	public <T extends Component> void removeComponent(Class<T> componentClass) {
 		for(int i = 0; i < components.size(); i++) {
 			Component c = components.get(i);
 			if(componentClass.isAssignableFrom(c.getClass())) {
+				System.out.println("Removed: " + components.get(i).getClass().toString());
 				components.remove(i);
 			}
 		}
 	}
 	
-	public void addComponent(Component c) {
+	public GameObject addComponent(Component c) {
 		this.components.add(c);
 		c.gameObject = this;
+	
+		return this;
 	}
 	
 	public void update(float dt) {

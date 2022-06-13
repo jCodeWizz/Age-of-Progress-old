@@ -15,17 +15,18 @@ public abstract class Tile extends Component {
 	public Tile(int cellX, int cellY) {
 		this.cellX = cellX;
 		this.cellY = cellY;
+		
+		
 	}
 	
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 	
-	public void setSprite(Sprite s) {
-		this.sprite = s;
+	public void setSprite() {
 		SpriteRenderer r = this.gameObject.getComponent(SpriteRenderer.class);
 		if(r != null)
-			r.setSprite(s);
+			r.setSprite(this.sprite);
 	}
 	
 	public void onPlace() {

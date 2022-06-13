@@ -9,7 +9,7 @@ import dev.codewizz.engine.gameobject.components.SpriteRenderer;
 
 public class Renderer {
 
-	private final int MAX_BATCH_SIZE = 1000;
+	private final int MAX_BATCH_SIZE = 10000;
 	private List<RenderBatch> batches;
 	
 	public Renderer() {
@@ -28,8 +28,11 @@ public class Renderer {
 		for(RenderBatch batch : batches) {
 			if(batch.hasRoom() && batch.getZIndex() == sprite.gameObject.getZIndex()) {
 				Texture tex = sprite.getTexture();
-				if(tex == null || batch.hasTexture(tex) || batch.hasTextureRoom()) {
+				
+				
+				if(tex == null || batch.hasTexture(sprite.getTexture()) || batch.hasTextureRoom()) {
 					batch.addSprite(sprite);
+					Collections.sort(batch.sprites);
 					added = true;
 					break;
 				}

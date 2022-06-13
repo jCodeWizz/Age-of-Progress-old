@@ -7,7 +7,7 @@ import dev.codewizz.engine.gameobject.Component;
 import dev.codewizz.engine.gameobject.Transform;
 import dev.codewizz.engine.renderer.Texture;
 
-public class SpriteRenderer extends Component {
+public class SpriteRenderer extends Component implements Comparable<SpriteRenderer> {
 
 	private Vector4f color;
 	private Sprite sprite;
@@ -71,5 +71,10 @@ public class SpriteRenderer extends Component {
 	
 	public void setClean() {
 		isDirty = false;
+	}
+	
+	@Override
+	public int compareTo(SpriteRenderer o) {
+		return Integer.compare((int)o.gameObject.transform.position.y, (int)this.gameObject.transform.position.y);
 	}
 }

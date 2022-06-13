@@ -48,7 +48,7 @@ public abstract class Scene {
 	}
 	
 	public void update(float dt) {
-		System.out.println("FPS: " + (1.0f / dt));
+		///System.out.println("FPS: " + (1.0f / dt));
 		
 		for(GameObject object : objects) {
 			object.update(dt);
