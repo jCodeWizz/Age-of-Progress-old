@@ -73,6 +73,10 @@ public class SpriteRenderer extends Component implements Comparable<SpriteRender
 		isDirty = false;
 	}
 	
+	public void setDirty() {
+		this.isDirty = true;
+	}
+	
 	@Override
 	public int compareTo(SpriteRenderer o) {
 		return Integer.compare((int)o.gameObject.transform.position.y, (int)this.gameObject.transform.position.y);

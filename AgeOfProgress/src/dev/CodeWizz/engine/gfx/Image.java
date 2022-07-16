@@ -4,6 +4,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -22,11 +23,14 @@ public class Image {
 	public Image(String path) {
 
 		try {
-			image = ImageIO.read(Image.class.getResourceAsStream(path));
+			InputStream s = Image.class.getResourceAsStream(path);
+			image = ImageIO.read(s);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		
+		
 		w = image.getWidth();
 		h = image.getHeight();
 

@@ -4,52 +4,55 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.codewizz.engine.gameobject.components.SpriteSheet;
 import dev.codewizz.engine.renderer.Shader;
+import dev.codewizz.engine.renderer.Spritesheet;
 import dev.codewizz.engine.renderer.Texture;
 
 public class AssetPool {
 	
-	private static Map<String, Shader> shaders = new HashMap<>();
-	private static Map<String, Texture> textures = new HashMap<>();
-	private static Map<String, SpriteSheet> spriteSheets = new HashMap<>();
-	
-	public static Shader getShader(String resourceName) {
-		File file = new File(resourceName);
-		if(shaders.containsKey(file.getAbsolutePath())) {
-			return shaders.get(file.getAbsolutePath());
-		} else {
-			Shader shader = new Shader(resourceName);
-			shader.compile();
-			shaders.put(file.getAbsolutePath(), shader);
-			return shader;
-		}
-	}
-	
-	public static Texture getTexture(String resourceName) {
-		File file = new File(resourceName);
-		if(textures.containsKey(file.getAbsolutePath())) {
-			return textures.get(file.getAbsolutePath());
-		} else {
-			Texture texture = new Texture(resourceName);
-			textures.put(file.getAbsolutePath(), texture);
-			return texture;
-		}
-	}
-	
-	public static void addSpriteSheet(String resourceName, SpriteSheet spriteSheet) {
-		File file = new File(resourceName);
-		if(!spriteSheets.containsKey(file.getAbsolutePath())) {
-			spriteSheets.put(file.getAbsolutePath(), spriteSheet);
-		}
-	}
-	
-	public static SpriteSheet addSpriteSheet(String resourceName) {
-		File file = new File(resourceName);
-		if(!spriteSheets.containsKey(file.getAbsolutePath())) {
-			assert false : "Error Tried to acces spriteSheet: " + resourceName + " but wasn't found";
-		}
-		
-		return spriteSheets.getOrDefault(file.getAbsolutePath(), null);
-	}
+    private static Map<String, Shader> shaders = new HashMap<>();
+    private static Map<String, Texture> textures = new HashMap<>();
+    private static Map<String, Spritesheet> spritesheets = new HashMap<>();
+
+    public static Shader getShader(String r) {
+        String resourceName = r;
+    	File file = new File(resourceName);
+        if (AssetPool.shaders.containsKey(file.getAbsolutePath())) {
+            return AssetPool.shaders.get(file.getAbsolutePath());
+        } else {
+            Shader shader = new Shader(resourceName);
+            shader.compile();
+            AssetPool.shaders.put(file.getAbsolutePath(), shader);
+            return shader;
+        }
+    }
+
+    public static Texture getTexture(String r) {
+        String resourceName = r;
+        File file = new File(resourceName);
+        if (AssetPool.textures.containsKey(file.getAbsolutePath())) {
+            return AssetPool.textures.get(file.getAbsolutePath());
+        } else {
+            Texture texture = new Texture(resourceName);
+            AssetPool.textures.put(file.getAbsolutePath(), texture);
+            return texture;
+        }
+    }
+
+    public static void addSpritesheet(String r, Spritesheet spritesheet) {
+        String resourceName = r;
+        File file = new File(resourceName);
+        if (!AssetPool.spritesheets.containsKey(file.getAbsolutePath())) {
+            AssetPool.spritesheets.put(file.getAbsolutePath(), spritesheet);
+        }
+    }
+
+    public static Spritesheet getSpritesheet(String r) {
+    	String resourceName = r;
+        File file = new File(resourceName);
+        if (!AssetPool.spritesheets.containsKey(file.getAbsolutePath())) {
+            assert false : "Error: Tried to access spritesheet '" + resourceName + "' and it has not been added to asset pool.";
+        }
+        return AssetPool.spritesheets.getOrDefault(file.getAbsolutePath(), null);
+    }
 }

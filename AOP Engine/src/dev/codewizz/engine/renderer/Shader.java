@@ -17,15 +17,19 @@ import static org.lwjgl.opengl.GL20.glGetShaderi;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL20.glUniform1iv;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUniform3f;
+import static org.lwjgl.opengl.GL20.glUniform4f;
+import static org.lwjgl.opengl.GL20.glUniformMatrix3fv;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
-import static org.lwjgl.opengl.GL20.*;
-
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.FloatBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -37,17 +41,25 @@ import org.lwjgl.BufferUtils;
 public class Shader {
 
     private int shaderProgramID;
-    private boolean beingUsed;
-	
-	private String vertexSource;
-	private String fragmentSource;
-	private String filePath;
-	
-	public Shader(String filePath) {
-		this.filePath = filePath;
-		
-		try {
-            String source = new String(Files.readAllBytes(Paths.get(filePath)));
+    private boolean beingUsed = false;
+
+    private String vertexSource;
+    private String fragmentSource;
+    private String filepath;
+
+    public Shader(String filepath) {
+        this.filepath = filepath;
+        try {
+        	InputStream s = getClass().getClassLoader().getResourceAsStream(filepath);       
+            byte[] bytes = null;
+    		
+            try {
+    			bytes = s.readAllBytes();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        	
+            String source = new String(bytes);
             String[] splitString = source.split("(#type)( )+([a-zA-Z]+)");
 
             // Find the first pattern after #type 'pattern'
@@ -77,12 +89,14 @@ public class Shader {
             }
         } catch(IOException e) {
             e.printStackTrace();
-            assert false : "Error: Could not open file for shader: '" + this.filePath + "'";
+            assert false : "Error: Could not open file for shader: '" + filepath + "'";
         }
-		
-	}
-	
-	public void compile() {
+    }
+
+    public void compile() {
+        // ============================================================
+        // Compile and link shaders
+        // ============================================================
         int vertexID, fragmentID;
 
         // First load and compile the vertex shader
@@ -95,7 +109,7 @@ public class Shader {
         int success = glGetShaderi(vertexID, GL_COMPILE_STATUS);
         if (success == GL_FALSE) {
             int len = glGetShaderi(vertexID, GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR: '" + filePath + "'\n\tVertex shader compilation failed.");
+            System.out.println("ERROR: '" + filepath + "'\n\tVertex shader compilation failed.");
             System.out.println(glGetShaderInfoLog(vertexID, len));
             assert false : "";
         }
@@ -110,7 +124,7 @@ public class Shader {
         success = glGetShaderi(fragmentID, GL_COMPILE_STATUS);
         if (success == GL_FALSE) {
             int len = glGetShaderi(fragmentID, GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR: '" + filePath + "'\n\tFragment shader compilation failed.");
+            System.out.println("ERROR: '" + filepath + "'\n\tFragment shader compilation failed.");
             System.out.println(glGetShaderInfoLog(fragmentID, len));
             assert false : "";
         }
@@ -125,25 +139,26 @@ public class Shader {
         success = glGetProgrami(shaderProgramID, GL_LINK_STATUS);
         if (success == GL_FALSE) {
             int len = glGetProgrami(shaderProgramID, GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR: '" + filePath + "'\n\tLinking of shaders failed.");
+            System.out.println("ERROR: '" + filepath + "'\n\tLinking of shaders failed.");
             System.out.println(glGetProgramInfoLog(shaderProgramID, len));
             assert false : "";
         }
-	}
-	
-	public void use() {
-		if(!beingUsed) {
-			glUseProgram(shaderProgramID);
-			beingUsed = true;
-		}
-	}
-	
-	public void detach() {
-		glUseProgram(0);
-		beingUsed = false;
-	}
-	
-	public void uploadMat4f(String varName, Matrix4f mat4) {
+    }
+
+    public void use() {
+        if (!beingUsed) {
+            // Bind shader program
+            glUseProgram(shaderProgramID);
+            beingUsed = true;
+        }
+    }
+
+    public void detach() {
+        glUseProgram(0);
+        beingUsed = false;
+    }
+
+    public void uploadMat4f(String varName, Matrix4f mat4) {
         int varLocation = glGetUniformLocation(shaderProgramID, varName);
         use();
         FloatBuffer matBuffer = BufferUtils.createFloatBuffer(16);
@@ -188,17 +203,16 @@ public class Shader {
         use();
         glUniform1i(varLocation, val);
     }
-    
+
     public void uploadTexture(String varName, int slot) {
-    	 int varLocation = glGetUniformLocation(shaderProgramID, varName);
-         use();
-         glUniform1i(varLocation, slot);
+        int varLocation = glGetUniformLocation(shaderProgramID, varName);
+        use();
+        glUniform1i(varLocation, slot);
     }
-    
+
     public void uploadIntArray(String varName, int[] array) {
-    	  int varLocation = glGetUniformLocation(shaderProgramID, varName);
-          use();
-          glUniform1iv(varLocation, array);
+        int varLocation = glGetUniformLocation(shaderProgramID, varName);
+        use();
+        glUniform1iv(varLocation, array);
     }
-	
 }

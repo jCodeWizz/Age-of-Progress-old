@@ -1,5 +1,10 @@
 package dev.codewizz.aop;
 
-public class Main {
+import dev.codewizz.engine.Window;
 
+public class Main {
+    public static void main(String[] args) {
+        Window window = Window.get();
+        window.run();
+    }
 }
