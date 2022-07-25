@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -253,5 +252,9 @@
 	<classpathentry kind="lib" path="lib/natives/lwjgl-xxhash-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/natives/lwjgl-yoga-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/natives/lwjgl-zstd-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-app-1.81.0.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-binding-1.81.0.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-lwjgl3-1.81.0.jar"/>
+	<classpathentry kind="lib" path="res"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

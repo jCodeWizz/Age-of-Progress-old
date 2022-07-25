@@ -7,13 +7,14 @@ import org.joml.Vector2f;
 
 import dev.codewizz.engine.object.GameObject;
 import dev.codewizz.engine.renderer.Camera;
+import dev.codewizz.engine.renderer.RenderBatch;
 import dev.codewizz.engine.renderer.Renderer;
 
 public abstract class Scene {
 
     protected Renderer renderer = new Renderer();
     protected Camera camera;
-    private boolean isRunning = false;
+    public boolean isRunning = false;
     protected List<GameObject> gameObjects = new CopyOnWriteArrayList<>();
 
     public Scene() {
@@ -63,6 +64,18 @@ public abstract class Scene {
     	}
     	
     	renderer.render();
+    }
+    
+    public void renderGameObjectUI() {
+    	for(GameObject b : gameObjects) {
+    		b.renderUI();
+    	}
+    	
+    	renderUI();
+    }
+
+    public void renderUI() {
+    	
     }
 
     public Camera getCamera() {

@@ -13,7 +13,7 @@ public class Renderer {
 	private List<SpriteRenderer> sprites;
 	
     private final int MAX_BATCH_SIZE = 1000;
-    private List<RenderBatch> batches;
+    public List<RenderBatch> batches;
 
     public Renderer() {
     	this.sprites = new CopyOnWriteArrayList<>();

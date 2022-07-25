@@ -6,6 +6,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 public class KeyListener {
     private static KeyListener instance;
     private boolean keyPressed[] = new boolean[350];
+    private boolean keyJustPressed[] = new boolean[350];
 
     private KeyListener() {
 
@@ -29,5 +30,21 @@ public class KeyListener {
 
     public static boolean isKeyPressed(int keyCode) {
         return get().keyPressed[keyCode];
+    }
+    
+    public static boolean isKeyUp(int keyCode) {
+    	return !get().keyPressed[keyCode];
+    }
+    
+    public static boolean isKeyDown(int keyCode) {
+    	if(isKeyPressed(keyCode) && !get().keyJustPressed[keyCode]) {
+    		get().keyJustPressed[keyCode] = true;
+    		return true;
+    	} else {
+    		if(isKeyUp(keyCode))
+    			get().keyJustPressed[keyCode] = false;
+    		
+    		return false;
+    	}
     }
 }

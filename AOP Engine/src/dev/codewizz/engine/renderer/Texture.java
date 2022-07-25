@@ -18,6 +18,7 @@ import static org.lwjgl.stb.STBImage.stbi_image_free;
 import static org.lwjgl.stb.STBImage.stbi_load_from_memory;
 import static org.lwjgl.stb.STBImage.stbi_set_flip_vertically_on_load;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -31,7 +32,7 @@ public class Texture {
     private int width, height;
 
     public Texture(String filepath) {
-    	this.filepath = ".//resources/" + filepath;
+    	this.filepath = filepath;
     	
     	
         // Generate texture on GPU
@@ -84,6 +85,43 @@ public class Texture {
         }
 
         stbi_image_free(image);
+    }
+    
+    public Texture(BufferedImage image) {
+    	int[] pixels = new int[image.getWidth() * image.getHeight()];
+        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+        ByteBuffer buffer = ByteBuffer.allocateDirect(image.getWidth() * image.getHeight() * 4);
+
+        for(int h = image.getHeight()-1; h > 0; h--) {
+            for(int w = 0; w < image.getWidth(); w++) {
+                int pixel = pixels[h * image.getWidth() + w];
+
+                buffer.put((byte) ((pixel >> 16) & 0xFF));
+                buffer.put((byte) ((pixel >> 8) & 0xFF));
+                buffer.put((byte) (pixel & 0xFF));
+                buffer.put((byte) ((pixel >> 24) & 0xFF));
+            }
+        }
+
+        buffer.flip();
+
+        texID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texID);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // When stretching the image, pixelate
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        // When shrinking an image, pixelate
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(),
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+    }
+    
+    public int getTextureID() {
+    	return texID;
     }
 
     public void bind() {

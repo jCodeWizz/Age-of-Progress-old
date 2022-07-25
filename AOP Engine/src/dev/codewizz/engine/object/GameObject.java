@@ -4,6 +4,7 @@ package dev.codewizz.engine.object;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.codewizz.engine.Window;
 import dev.codewizz.engine.object.component.Transform;
 
 public class GameObject {
@@ -42,19 +43,23 @@ public class GameObject {
         return null;
     }
 
-    public <T extends Component> void removeComponent(Class<T> componentClass) {
+    public <T extends Component> Component removeComponent(Class<T> componentClass) {
         for (int i=0; i < components.size(); i++) {
             Component c = components.get(i);
             if (componentClass.isAssignableFrom(c.getClass())) {
-                components.remove(i);
-                return;
+            	components.remove(i);
+                return c;
             }
         }
+        
+        return null;
     }
 
     public GameObject addComponent(Component c) {
         this.components.add(c);
         c.gameObject = this;
+        if(Window.getScene().isRunning)
+        	c.start();
         return this;
     }
 
@@ -62,6 +67,12 @@ public class GameObject {
         for (int i=0; i < components.size(); i++) {
             components.get(i).update(dt);
         }
+    }
+    
+    public void renderUI() {
+    	for(Component c : components) {
+    		c.renderUI();
+    	}
     }
 
     public void start() {

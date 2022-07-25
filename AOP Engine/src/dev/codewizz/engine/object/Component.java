@@ -14,6 +14,10 @@ public abstract class Component {
     	return enabled;
     }
     
+    public void renderUI() {
+    	
+    }
+    
     public void enable() {
     	this.enabled = true;
     }

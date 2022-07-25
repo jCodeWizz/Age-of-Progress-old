@@ -1,6 +1,7 @@
 package dev.codewizz.engine;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MINOR;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_MAXIMIZED;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
@@ -36,13 +37,21 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import org.lwjgl.Version;
+import org.lwjgl.glfw.Callbacks;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import dev.codewizz.aop.scene.WorldScene;
 import dev.codewizz.engine.input.KeyListener;
 import dev.codewizz.engine.input.MouseListener;
+import dev.codewizz.engine.scene.ImGuiLayer;
 import dev.codewizz.engine.scene.Scene;
+import imgui.ImGui;
+import imgui.ImGuiIO;
+import imgui.flag.ImGuiConfigFlags;
+import imgui.gl3.ImGuiImplGl3;
+import imgui.glfw.ImGuiImplGlfw;
 
 public class Window {
     private int width, height;
@@ -55,6 +64,13 @@ public class Window {
 
     private static Scene currentScene;
 
+    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+
+    private String glslVersion = null;
+    private ImGuiLayer imguiLayer;
+    
+    
     private Window() {
         this.width = 1920;
         this.height = 1080;
@@ -63,6 +79,8 @@ public class Window {
 		this.r = 0.23137254900196078f;
 		this.g = 0.2549019607843137f;
 		this.b = 0.2901960784313725f;
+		
+		imguiLayer = new ImGuiLayer();
     }
 
     public static void changeScene(int newScene) {
@@ -94,6 +112,7 @@ public class Window {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
+        initImGui();
         loop();
 
         // Free the memory
@@ -104,6 +123,15 @@ public class Window {
         glfwTerminate();
         glfwSetErrorCallback(null).free();
     }
+    
+    public void destroy() {
+        imGuiGl3.dispose();
+        imGuiGlfw.dispose();
+        ImGui.destroyContext();
+        Callbacks.glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+        glfwTerminate();
+    }
 
     public void init() {
         // Setup an error callback
@@ -113,7 +141,12 @@ public class Window {
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW.");
         }
+        
+        glslVersion = "#version 130";
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
+        
         // Configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -171,6 +204,14 @@ public class Window {
     public static void setHeight(int newHeight) {
         get().height = newHeight;
     }
+    
+    public void initImGui() {
+    	ImGui.createContext();
+        ImGuiIO io = ImGui.getIO();
+        io.addConfigFlags(ImGuiConfigFlags.ViewportsEnable);
+        imGuiGlfw.init(glfwWindow, true);
+        imGuiGl3.init(glslVersion);
+    }
 
     public void loop() {
         float beginTime = (float)glfwGetTime();
@@ -184,9 +225,26 @@ public class Window {
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            imGuiGlfw.newFrame();
+            ImGui.newFrame();
+            
             if (dt >= 0) {
                 currentScene.update(dt);
             }
+            
+            imguiLayer.imgui(currentScene);
+
+            ImGui.render();
+            imGuiGl3.renderDrawData(ImGui.getDrawData());
+            
+            if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
+                final long backupWindowPtr = org.lwjgl.glfw.GLFW.glfwGetCurrentContext();
+                ImGui.updatePlatformWindows();
+                ImGui.renderPlatformWindowsDefault();
+                GLFW.glfwMakeContextCurrent(backupWindowPtr);
+            }
+            
+            ImGui.endFrame();
 
             glfwSwapBuffers(glfwWindow);
 

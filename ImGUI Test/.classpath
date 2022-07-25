@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/joml-1.10.4.jar" sourcepath="lib/sources/joml-1.10.4-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/tomhe/Desktop/Java%20Coding/Eclipse/Age-of-Progress/AOP%20Engine/lib/javadocs/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl.jar" sourcepath="lib/jar/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-assimp.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-bgfx.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-cuda.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-egl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-glfw.jar" sourcepath="lib/sources/lwjgl-glfw-sources.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-jawt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-jemalloc.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-libdivide.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-llvm.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-lmdb.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-lz4.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-meow.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-meshoptimizer.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-nanovg.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-nfd.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-nuklear.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-odbc.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-openal.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-opencl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-opengl.jar" sourcepath="lib/sources/lwjgl-opengl-sources.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-opengles.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-openvr.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-openxr.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-opus.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-ovr.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-par.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-remotery.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-rpmalloc.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-shaderc.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-spvc.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-sse.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-stb.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-tinyexr.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-tinyfd.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-tootle.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-vma.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-vulkan.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-xxhash.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-yoga.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jar/lwjgl-zstd.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AOP Engine/lib/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-bgfx-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-jemalloc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-libdivide-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-llvm-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-lmdb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-lz4-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-meow-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-meshoptimizer-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-nanovg-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-nfd-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-nuklear-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-opengles-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-openvr-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-openxr-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-opus-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-ovr-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-par-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-remotery-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-rpmalloc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-shaderc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-spvc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-sse-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-tinyexr-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-tinyfd-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-tootle-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-vma-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-xxhash-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-yoga-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/natives/lwjgl-zstd-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-app-1.81.0.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-binding-1.81.0.jar"/>
+	<classpathentry kind="lib" path="lib/jar/imgui-lwjgl3-1.81.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
