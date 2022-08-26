@@ -7,7 +7,6 @@ import org.joml.Vector2f;
 
 import dev.codewizz.engine.object.GameObject;
 import dev.codewizz.engine.renderer.Camera;
-import dev.codewizz.engine.renderer.RenderBatch;
 import dev.codewizz.engine.renderer.Renderer;
 
 public abstract class Scene {

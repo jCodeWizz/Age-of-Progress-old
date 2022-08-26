@@ -87,6 +87,10 @@ public abstract class PathTile extends Tile {
 			}
 		}
 		
+		/** 
+		 * save image for debugging purposes 
+		 */
+		
 		File output = new File("output.png");
 		try {
 			output.createNewFile();
@@ -95,8 +99,10 @@ public abstract class PathTile extends Tile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Texture t = AssetPool.getTextureFromBufferedImage(r);
+		Texture t = AssetPool.getTextureFromBufferedImage(r); // converts r (BufferedImage) to OpenGL Texture
 		AssetPool.textures.put(this.getClass().getName() + connections[0] + connections[1] + connections[2] + connections[3], t);
-		gameObject.getComponent(SpriteRenderer.class).setSprite(new Sprite(t));
+		// ^^^^^saves texture to assetpool so I don't have to generate it again
+		gameObject.getComponent(SpriteRenderer.class).setSprite(new Sprite(t)); // sets the new texture 
+		
 	}
 }
