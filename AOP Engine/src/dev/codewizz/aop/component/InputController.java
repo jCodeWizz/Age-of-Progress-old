@@ -2,13 +2,12 @@ package dev.codewizz.aop.component;
 
 import org.joml.Vector2f;
 
-import dev.codewizz.aop.component.tiles.DirtPath;
+import dev.codewizz.aop.component.tiles.DirtTile;
 import dev.codewizz.aop.world.Cell;
 import dev.codewizz.engine.Window;
 import dev.codewizz.engine.input.MouseListener;
 import dev.codewizz.engine.object.Component;
 import dev.codewizz.engine.object.component.Collider;
-import dev.codewizz.engine.object.component.SpriteRenderer;
 
 public class InputController extends Component {
 
@@ -40,7 +39,7 @@ public class InputController extends Component {
 			return;
 
 		if (MouseListener.mouseButtonDown(0)) {
-			currentCell.setTile(new DirtPath(currentCell.gridX, currentCell.gridY, currentCell));
+			currentCell.setTile(new DirtTile(currentCell.gridX, currentCell.gridY, currentCell));
 		}
 	}
 }
