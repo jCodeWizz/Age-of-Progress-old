@@ -2,6 +2,7 @@ package dev.codewizz.main;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -22,6 +23,10 @@ public class Main extends ApplicationAdapter {
 		world = new World();
 		
 		tileBatch = new SpriteBatch();
+		
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(camera);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
