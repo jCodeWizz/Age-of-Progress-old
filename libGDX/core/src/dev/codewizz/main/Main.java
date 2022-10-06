@@ -3,29 +3,41 @@ package dev.codewizz.main;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 
+import dev.codewizz.gfx.Renderer;
+import dev.codewizz.input.KeyInput;
+import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.world.World;
 
 public class Main extends ApplicationAdapter {
 	
-	private World world;
-	private Camera camera;
-	private SpriteBatch tileBatch;
+	public static Main inst;
+
+	public Renderer renderer;
+	public Camera camera;
+
+	public World world;
+	public MouseInput mouseInput;
+	public KeyInput keyInput;
+	
 	
 	@Override
 	public void create () {
+		inst = this;
 		Assets.create();
 		
+		renderer = new Renderer();
 		camera = new Camera();
-		world = new World();
 		
-		tileBatch = new SpriteBatch();
+		world = new World();
+		mouseInput = new MouseInput();
+		keyInput = new KeyInput();
+		
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(camera);
+		inputMultiplexer.addProcessor(keyInput);
+		inputMultiplexer.addProcessor(mouseInput);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
@@ -41,18 +53,12 @@ public class Main extends ApplicationAdapter {
 		
 		camera.update(Gdx.graphics.getDeltaTime());
 		
-		
 		/*
 		 * render game
 		 */
 		
-		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		tileBatch.begin();
+		renderer.render();
 		
-		world.render(tileBatch);
-		
-		tileBatch.setProjectionMatrix(camera.cam.combined);
-		tileBatch.end();
 	}
 	
 	
@@ -60,6 +66,6 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		Assets.dispose();
-		tileBatch.dispose();
+		renderer.dispose();
 	}
 }
