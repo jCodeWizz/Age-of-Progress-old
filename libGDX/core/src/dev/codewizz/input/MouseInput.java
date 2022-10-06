@@ -1,5 +1,6 @@
 package dev.codewizz.input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 import com.dongbat.jbump.util.MathUtils;
@@ -10,26 +11,37 @@ import dev.codewizz.world.Cell;
 import dev.codewizz.world.tiles.DirtTile;
 
 public class MouseInput implements InputProcessor {
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+	
+	public static boolean dragging = false;
+	
+	public static Vector3 coords = new Vector3();
+	
+	public void update(float d) {
+		coords = Main.inst.camera.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
-		Vector3 worldSpace = Main.inst.camera.cam.unproject(new Vector3(screenX, screenY, 0));
-		Cell[][] grid = Main.inst.world.grid;
-		
-		for(int i = 0; i < grid.length; i++) {
-			for(int j = 0; j < grid[i].length; j++) {
-				if(grid[i][j].tile.getHitbox().contains(worldSpace.x, worldSpace.y)) {
-					grid[i][j].setTile(new DirtTile(grid[i][j]));
+		if(dragging) {
+			Cell[][] grid = Main.inst.world.grid;
+			
+			for(int i = 0; i < grid.length; i++) {
+				for(int j = 0; j < grid[i].length; j++) {
+					if(grid[i][j].tile.getHitbox().contains(coords.x, coords.y)) {
+						grid[i][j].setTile(new DirtTile(grid[i][j]));
+					}
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		dragging = true;
 		
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		dragging = false;
 		return false;
 	}
 

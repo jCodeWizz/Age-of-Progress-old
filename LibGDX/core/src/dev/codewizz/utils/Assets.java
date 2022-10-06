@@ -14,6 +14,7 @@ public class Assets {
 	
 	public static void create() {
 		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("packs/tiles.atlas")));
+		atlasses.put("ui", new TextureAtlas(Gdx.files.internal("packs/ui.atlas")));
 
 		sprites.put("base-tile", atlasses.get("tiles").createSprite("base-tile"));
 		sprites.put("dirt-path-tile", atlasses.get("tiles").createSprite("dirt-path-tile"));
@@ -21,14 +22,28 @@ public class Assets {
 		sprites.put("empty-tile", atlasses.get("tiles").createSprite("empty-tile"));
 		sprites.put("tiled-tile", atlasses.get("tiles").createSprite("tiled-tile"));
 		
+		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
+		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));
+		sprites.put("build-icon", atlasses.get("ui").createSprite("build-icon"));
+		sprites.put("close-icon", atlasses.get("ui").createSprite("close-icon"));
+		sprites.put("icon-board", atlasses.get("ui").createSprite("icon-board"));
+		sprites.put("manage-icon", atlasses.get("ui").createSprite("manage-icon"));
+		sprites.put("path-icon", atlasses.get("ui").createSprite("path-icon"));
+		sprites.put("people-icon", atlasses.get("ui").createSprite("people-icon"));
+		sprites.put("tool-icon", atlasses.get("ui").createSprite("tool-icon"));
 		
 	}
 	
 	
 	
 	
-	
-	
+	public static TextureAtlas getAtlas(String s) {
+		if(atlasses.containsKey(s)) {
+			return atlasses.get(s);
+		} else {
+			return null;
+		}
+	}
 	
 	public static void addSprite(String s, Sprite sprite) {
 		sprites.put(s, sprite);
@@ -47,9 +62,6 @@ public class Assets {
 	}
 	
 	public static void dispose() {
-		for(Sprite s : sprites.values()) {
-			s.getTexture().dispose();
-		}
 		for(TextureAtlas ta : atlasses.values()) {
 			ta.dispose();
 		}

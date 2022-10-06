@@ -3,7 +3,9 @@ package dev.codewizz.world;
 import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
+import dev.codewizz.gfx.Renderer;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.world.tiles.BaseTile;
 
@@ -89,12 +91,19 @@ public class Cell {
 		return data;
 	}
 	
+	public void drawBorders() {
+		Renderer.drawDebugLine(new Vector2(getXPoints()[0], getYPoints()[0]), new Vector2(getXPoints()[1], getYPoints()[1]));
+		Renderer.drawDebugLine(new Vector2(getXPoints()[1], getYPoints()[1]), new Vector2(getXPoints()[2], getYPoints()[2]));
+		Renderer.drawDebugLine(new Vector2(getXPoints()[2], getYPoints()[2]), new Vector2(getXPoints()[3], getYPoints()[3]));
+		Renderer.drawDebugLine(new Vector2(getXPoints()[3], getYPoints()[3]), new Vector2(getXPoints()[0], getYPoints()[0]));
+	}
+	
 	public int[] getXPoints() {
-		return new int[] { (int)x - 33, (int)x - 1, (int)x + 31, (int)x - 1 };
+		return new int[] { (int)x, (int)x + 32, (int)x + 64, (int)x + 32};
 	}
 	
 	public int[] getYPoints() {
-		return new int[] { (int)y - 8, (int)y - 24, (int)y - 8, (int)y + 8 };
+		return new int[] { (int)y + 32, (int)y + 48, (int)y + 32, (int)y + 16};
 	}
 	
 	public Rectangle getBounds() {

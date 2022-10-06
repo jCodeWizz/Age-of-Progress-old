@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
+import dev.codewizz.main.Main;
+
 public class KeyInput implements InputProcessor {
 
 	@Override
@@ -13,12 +15,20 @@ public class KeyInput implements InputProcessor {
 			Gdx.app.exit();
 			return true;
 		}
+		if(key == Input.Keys.TAB) {
+			Main.DEBUG = true;
+			return true;
+		}
 		
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int key) {
+		if(key == Input.Keys.TAB) {
+			Main.DEBUG = false;
+			return true;
+		}
 		return false;
 	}
 

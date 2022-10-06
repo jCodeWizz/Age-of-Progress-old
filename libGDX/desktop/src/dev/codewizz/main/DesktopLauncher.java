@@ -25,5 +25,6 @@ public class DesktopLauncher {
 		settings.maxWidth = 512;
 		settings.maxHeight = 512;
 		TexturePacker.process(settings, "../assets/textures/tiles", "../assets/packs", "tiles");
+		TexturePacker.process(settings, "../assets/textures/ui/icons", "../assets/packs", "ui");
 	}
 }

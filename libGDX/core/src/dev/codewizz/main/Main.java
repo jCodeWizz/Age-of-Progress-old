@@ -12,15 +12,17 @@ import dev.codewizz.world.World;
 
 public class Main extends ApplicationAdapter {
 	
+	public static boolean DEBUG = false;
+	
 	public static Main inst;
 
 	public Renderer renderer;
 	public Camera camera;
+	public InputMultiplexer inputMultiplexer;
 
 	public World world;
 	public MouseInput mouseInput;
 	public KeyInput keyInput;
-	
 	
 	@Override
 	public void create () {
@@ -35,16 +37,18 @@ public class Main extends ApplicationAdapter {
 		keyInput = new KeyInput();
 		
 		
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(renderer.ui);
 		inputMultiplexer.addProcessor(keyInput);
 		inputMultiplexer.addProcessor(mouseInput);
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
 	}
 
 	@Override
 	public void render () {
 		
-		Gdx.graphics.setTitle("Age of Progress | HPG | FPS: "+Gdx.graphics.getFramesPerSecond());
+		Gdx.graphics.setTitle("Age of Progress | HPG | FPS: " + Gdx.graphics.getFramesPerSecond());
 		
 		
 		/*
@@ -52,13 +56,16 @@ public class Main extends ApplicationAdapter {
 		 */
 		
 		camera.update(Gdx.graphics.getDeltaTime());
+		mouseInput.update(Gdx.graphics.getDeltaTime());
 		
 		/*
 		 * render game
 		 */
 		
-		renderer.render();
-		
+		renderer.render(world, camera.cam);
+		if(DEBUG) {
+			renderer.renderDebug(world, camera.cam);
+		}
 	}
 	
 	
