@@ -1,124 +1,60 @@
 package dev.codewizz.main;
 
-import java.util.Iterator;
-
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 
-public class Main extends Game {
+import dev.codewizz.utils.Assets;
+import dev.codewizz.world.World;
 
-	private Texture dropImage;
-	private Array<Rectangle> raindrops;
-	private long lastDropTime;
+public class Main extends ApplicationAdapter {
 	
-	private Texture bucketImage;
-	private Rectangle bucket;
-	
-	private Sound dropSound;
-	private Music rainMusic;
-	
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-
+	private World world;
+	private Camera camera;
+	private SpriteBatch tileBatch;
 	
 	@Override
 	public void create () {
-		dropImage = new Texture(Gdx.files.internal("droplet.png"));
-		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+		Assets.create();
 		
-		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+		camera = new Camera();
+		world = new World();
 		
-		rainMusic.setLooping(true);
-		rainMusic.play();
-		
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
-		
-		batch = new SpriteBatch();
-		   
-		bucket = new Rectangle();
-		bucket.x = 800 / 2 - 64 / 2;
-		bucket.y = 20;
-		bucket.width = 64;
-		bucket.height = 64;
-		
-		raindrops = new Array<Rectangle>();
-		spawnRaindrop();
-
+		tileBatch = new SpriteBatch();
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0f, 0f, 0f, 1f);
 		
-		camera.update();
+		Gdx.graphics.setTitle("Age of Progress | HPG | FPS: "+Gdx.graphics.getFramesPerSecond());
 		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(bucketImage, bucket.x, bucket.y);
-		for(Rectangle raindrop: raindrops) {
-			batch.draw(dropImage, raindrop.x, raindrop.y);
-		}
-		batch.end();
-
-		// TOUCH AND CLICK INPUT
-		if (Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			bucket.x = touchPos.x - 64 / 2;
-		}
 		
-		// KEYBOARD INPUT
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
-			bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+		/*
+		 * update game
+		 */
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) 
-			bucket.x += 200 * Gdx.graphics.getDeltaTime();   
+		camera.update(Gdx.graphics.getDeltaTime());
 		
-		if(bucket.x < 0) bucket.x = 0;
-		if(bucket.x > 800 - 64) bucket.x = 800 - 64;
-
-		if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
 		
-		for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext();) {
-			Rectangle raindrop = iter.next();
-			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + 64 < 0)
-				iter.remove();
-			
-			if(raindrop.overlaps(bucket)) {
-				dropSound.play();
-				iter.remove();
-		    }
-		}
+		/*
+		 * render game
+		 */
+		
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
+		tileBatch.begin();
+		
+		world.render(tileBatch);
+		
+		tileBatch.setProjectionMatrix(camera.cam.combined);
+		tileBatch.end();
 	}
 	
-	private void spawnRaindrop() {
-		Rectangle raindrop = new Rectangle();
-		raindrop.x = MathUtils.random(0, 800 - 64);
-		raindrop.y = 480;
-		raindrop.width = 64;
-		raindrop.height = 64;
-		raindrops.add(raindrop);
-		lastDropTime = TimeUtils.nanoTime();
-	}
+	
 	
 	@Override
 	public void dispose () {
-		dropImage.dispose();
-		bucketImage.dispose();
+		Assets.dispose();
+		tileBatch.dispose();
 	}
 }

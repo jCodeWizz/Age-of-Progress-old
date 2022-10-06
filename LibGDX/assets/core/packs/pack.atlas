@@ -1,0 +1,104 @@
+
+pack.png
+size: 512, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+base-tile
+  rotate: false
+  xy: 2, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+dirt-path-tile
+  rotate: false
+  xy: 2, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+dirt-tile
+  rotate: false
+  xy: 68, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+empty-tile
+  rotate: false
+  xy: 398, 18
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+path-tile
+  rotate: false
+  xy: 68, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+path-tile-BL
+  rotate: false
+  xy: 134, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+path-tile-BR
+  rotate: false
+  xy: 134, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+path-tile-TL
+  rotate: false
+  xy: 200, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+path-tile-TR
+  rotate: false
+  xy: 200, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tile-down
+  rotate: false
+  xy: 266, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tile-left
+  rotate: false
+  xy: 266, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tile-right
+  rotate: false
+  xy: 332, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tile-up
+  rotate: false
+  xy: 332, 2
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile
+  rotate: false
+  xy: 398, 52
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
