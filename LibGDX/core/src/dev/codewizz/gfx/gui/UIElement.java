@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class UIElement {
 
 	protected int x, y, w, h;
-	protected boolean hovering = false, pressed = false;
+	protected boolean hovering = false, pressed = false, enabled = true, available = true;
 	
 	public UIElement(int x, int y, int w, int h) {
 		this.x = x;
@@ -55,6 +55,54 @@ public abstract class UIElement {
 	
 	public boolean isPressed() {
 		return pressed;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getW() {
+		return w;
+	}
+
+	public void setW(int w) {
+		this.w = w;
+	}
+
+	public int getH() {
+		return h;
+	}
+
+	public void setH(int h) {
+		this.h = h;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 	
 	

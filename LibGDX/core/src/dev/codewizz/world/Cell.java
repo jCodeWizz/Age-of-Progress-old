@@ -29,8 +29,13 @@ public class Cell {
 	}
 
 	public void setTile(Tile tile) {
-		this.tile = tile;
-		this.tile.cell = this;
+		if(this.tile.type != tile.type) {
+			this.tile.onDestroy();
+			this.tile = tile;
+			this.tile.cell = this;
+			this.tile.place();
+		} else {
+		}
 	}
 
 	public void render(SpriteBatch b) {
@@ -83,10 +88,10 @@ public class Cell {
 	public Cell[] getNeighbours() {
 		Cell[] data = new Cell[] { null, null, null, null };
 
-		data[0] = getNeighbour(Direction.North, Direction.West);
-		data[1] = getNeighbour(Direction.North, Direction.East);
-		data[2] = getNeighbour(Direction.South, Direction.East);
-		data[3] = getNeighbour(Direction.South, Direction.West);
+		data[0] = getNeighbour(Direction.South, Direction.West);
+		data[1] = getNeighbour(Direction.South, Direction.East);
+		data[2] = getNeighbour(Direction.North, Direction.East);
+		data[3] = getNeighbour(Direction.North, Direction.West);
 
 		return data;
 	}
@@ -96,6 +101,10 @@ public class Cell {
 		Renderer.drawDebugLine(new Vector2(getXPoints()[1], getYPoints()[1]), new Vector2(getXPoints()[2], getYPoints()[2]));
 		Renderer.drawDebugLine(new Vector2(getXPoints()[2], getYPoints()[2]), new Vector2(getXPoints()[3], getYPoints()[3]));
 		Renderer.drawDebugLine(new Vector2(getXPoints()[3], getYPoints()[3]), new Vector2(getXPoints()[0], getYPoints()[0]));
+	}
+	
+	public Tile getTile() {
+		return tile;
 	}
 	
 	public int[] getXPoints() {

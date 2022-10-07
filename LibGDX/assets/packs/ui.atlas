@@ -39,30 +39,37 @@ icon-pressed
   orig: 22, 24
   offset: 0, 0
   index: -1
-manage-icon
+icon-unavailable
   rotate: false
   xy: 50, 2
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
-path-icon
+manage-icon
   rotate: false
   xy: 198, 34
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
-people-icon
+path-icon
   rotate: false
   xy: 74, 2
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
-tool-icon
+people-icon
   rotate: false
   xy: 222, 34
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+tool-icon
+  rotate: false
+  xy: 98, 2
   size: 22, 24
   orig: 22, 24
   offset: 0, 0

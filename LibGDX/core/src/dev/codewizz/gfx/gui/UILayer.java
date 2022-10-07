@@ -11,7 +11,7 @@ import dev.codewizz.input.MouseInput;
 
 public class UILayer implements InputProcessor {
 
-	public static int SCALE = 4, WIDTH = 1920, HEIGHT = 1080;
+	public static int SCALE = 3, WIDTH = 1920, HEIGHT = 1080;
 	
 	private UIElement current;
 	public List<UIElement> elements = new CopyOnWriteArrayList<>();
@@ -21,19 +21,19 @@ public class UILayer implements InputProcessor {
 		HEIGHT = Gdx.graphics.getHeight();
 		
 		// MANAGE ICON
-		elements.add(new UIIcon((WIDTH/2)-(134*SCALE)/2, 24, 22, 24, "icon", "icon-pressed", "manage-icon"));
+		elements.add(new UIIcon((WIDTH/2)-(134*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "manage-icon"));
 		
 		// PATH ICON
-		elements.add(new UIIcon((WIDTH/2)-(78*SCALE)/2, 24, 22, 24, "icon", "icon-pressed", "path-icon"));
+		elements.add(new UIIcon((WIDTH/2)-(78*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "path-icon"));
 		
 		// BUILD ICON
-		elements.add(new UIIcon((WIDTH/2)-(22*SCALE)/2, 24, 22, 24, "icon", "icon-pressed", "build-icon"));
+		elements.add(new UIIcon((WIDTH/2)-(22*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "build-icon"));
 		
 		// PEOPLE ICON
-		elements.add(new UIIcon((WIDTH/2)-(-34*SCALE)/2, 24, 22, 24, "icon", "icon-pressed", "people-icon"));
+		elements.add(new UIIcon((WIDTH/2)-(-34*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "people-icon"));
 		
 		// TOOL ICON
-		elements.add(new UIIcon((WIDTH/2)-(-90*SCALE)/2, 24, 22, 24, "icon", "icon-pressed", "tool-icon"));
+		elements.add(new UIIcon((WIDTH/2)-(-90*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "tool-icon"));
 		
 		// BACKGROUND
 		
@@ -43,7 +43,7 @@ public class UILayer implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		for(UIElement e : elements) {
-			if(e.getBounds().contains(screenX, screenY)) {
+			if(e.getBounds().contains(screenX, screenY) && e.isAvailable() && e.isEnabled()) {
 				current = e;
 				e.click();
 				return true;
@@ -56,14 +56,16 @@ public class UILayer implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		MouseInput.dragging = false;
+		MouseInput.dragging[button] = false;
+
 		for(UIElement e : elements) {
-			if(e.getBounds().contains(screenX, screenY) && e.equals(current)) {
+			if(e.getBounds().contains(screenX, screenY) && e.equals(current) && e.isAvailable() && e.isEnabled()) {
 				current.deClick();
 				return true;
 			}
 			e.pressed = false;
 		}
+		
 		return false;
 	}
 	
@@ -79,7 +81,9 @@ public class UILayer implements InputProcessor {
 	
 	public void render(SpriteBatch b) {
 		for(int i = elements.size() - 1; i >= 0; i--) {
-			elements.get(i).render(b);
+			if(elements.get(i).isEnabled()) {
+				elements.get(i).render(b);
+			}
 		}
 	}
 

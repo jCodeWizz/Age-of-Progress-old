@@ -6,33 +6,48 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class Camera {
 
-	public static final float speed = 550f, zoomSpeed = 0.05f;
+	public static final float speed = 550f, zoomSpeed = 0.05f, minZoom = 0.3f, maxZoom = 2f;
 	
 	public OrthographicCamera cam;
-	public float x, y, zoom;
 	
 	public Camera() {
 		cam = new OrthographicCamera(1920, 1080);
-		zoom = cam.zoom;
 	}
 	
 	public void update(float d) {
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			x -= d * speed;
+			move(d * -speed, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			x += d * speed;
+			move(d * speed, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			y -= d * speed;
+			move(0, d * -speed);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			y += d * speed;
+			move(0, d * speed);
 		}
 
-		cam.zoom = zoom;
-		
-		cam.position.set(x, y, 0);
+		//cam.position.set(x, y, 0);
 		cam.update();
+	}
+	
+	public void move(float x, float y) {
+		cam.translate(x, y);
+	}
+	
+	public void zoom(float amount, float toX, float toY) {
+        float oldZ = cam.zoom;
+        cam.zoom += amount;
+        // If zooming still has effect then we need translate map towards cursor
+        if (cam.zoom < minZoom) {
+        	cam.zoom = minZoom;
+        } else if (cam.zoom > maxZoom) {
+        	cam.zoom = maxZoom;
+        } else {
+        	float a = (toX - (float) (Gdx.graphics.getWidth()/2f)) * (oldZ - cam.zoom);
+        	float b = (-toY + (float) (Gdx.graphics.getHeight()/2f)) * (oldZ - cam.zoom);
+        	cam.translate(a, b, 0);
+        }
 	}
 }
