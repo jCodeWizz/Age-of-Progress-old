@@ -11,8 +11,10 @@ public class TiledTile extends PathTile {
 
 		this.type = TileType.Tiled;
 		this.texture = Assets.getSprite("tiled-tile");
-		this.template = Assets.getSprite("tiled-tile");
-		this.templateGround = Assets.getSprite("base-tile");
+		this.template = TileType.Tiled;
+		this.templateGround = TileType.Base;
+		
+		this.name = "Tiled Path Tile";
 	}
 
 }

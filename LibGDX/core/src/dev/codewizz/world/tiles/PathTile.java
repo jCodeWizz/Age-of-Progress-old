@@ -12,18 +12,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.Tile;
+import dev.codewizz.world.TileType;
 
 public abstract class PathTile extends Tile {
 
 	private boolean[] neighbours = new boolean[] { false, false, false, false };
-	protected Sprite template;
-	protected Sprite templateGround;
 
 	private static BufferedImage t = Assets.getImage("t");
 	private static BufferedImage tTL = Assets.getImage("tTL");
 	private static BufferedImage tTR = Assets.getImage("tTR");
 	private static BufferedImage tBR = Assets.getImage("tBR");
 	private static BufferedImage tBL = Assets.getImage("tBL");
+
+	protected TileType template;
+	protected TileType templateGround;
 	
 	public PathTile(Cell cell) {
 		super(cell);
@@ -42,14 +44,14 @@ public abstract class PathTile extends Tile {
 		
 		BufferedImage b = new BufferedImage(t.getWidth(), t.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
-		Texture t1 = Assets.procuderal.get("grass");
+		Texture t1 = Assets.procuderal.get(templateGround.toString());
 		if (!t1.getTextureData().isPrepared()) {
 		    t1.getTextureData().prepare();
 		}
 		Pixmap grass = t1.getTextureData().consumePixmap();
 		grass.setBlending(Blending.None);
 		
-		Texture t2 = Assets.procuderal.get("tiled");
+		Texture t2 = Assets.procuderal.get(template.toString());
 		if (!t2.getTextureData().isPrepared()) {
 		    t2.getTextureData().prepare();
 		}
@@ -82,9 +84,9 @@ public abstract class PathTile extends Tile {
 			}
 		}
 		Sprite s = new Sprite(new Texture(r));
-		Assets.atlasses.get("paths").addRegion(getName(), s);
+		Assets.atlasses.get("paths").addRegion(getSavedName(), s);
 		
-		texture = Assets.atlasses.get("paths").createSprite(getName());
+		texture = Assets.atlasses.get("paths").createSprite(getSavedName());
 	}
 	
 	@Override
@@ -93,7 +95,7 @@ public abstract class PathTile extends Tile {
 		redrawTexture();
 	}
 	
-	private String getName() {
+	private String getSavedName() {
 		return type.toString() + "-" + neighbours[0] + neighbours[1] + neighbours[2] + neighbours[3];
 	}
 }

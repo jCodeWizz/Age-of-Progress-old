@@ -9,8 +9,8 @@ public class UIButton extends UIElement {
 
 	private Sprite button, buttonPressed;
 	
-	public UIButton(int x, int y, int w, int h, String buttonName, String buttonPressedName) {
-		super(x, y, w, h);
+	public UIButton(String id, int x, int y, int w, int h, String buttonName, String buttonPressedName) {
+		super(id, x, y, w, h);
 		
 		this.button = Assets.getSprite(buttonName);
 		this.buttonPressed = Assets.getSprite(buttonPressedName);

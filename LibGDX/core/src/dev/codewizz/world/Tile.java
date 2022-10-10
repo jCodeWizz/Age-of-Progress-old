@@ -1,21 +1,32 @@
 package dev.codewizz.world;
 
 import java.awt.Polygon;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import dev.codewizz.utils.Assets;
+import dev.codewizz.world.tiles.BaseTile;
+import dev.codewizz.world.tiles.DirtPathTile;
+import dev.codewizz.world.tiles.DirtTile;
+import dev.codewizz.world.tiles.EmptyTile;
+import dev.codewizz.world.tiles.TiledTile;
 
 public abstract class Tile {
 	
 	protected Cell cell;
 	protected Sprite texture;
 	protected TileType type;
+	protected String name;
+	
+	protected List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
 	public Tile(Cell cell) {
 		this.cell = cell;
 		this.type = TileType.Base;
 		this.texture = Assets.getSprite("base-tile");
+		this.name = "Grass Tile";
 	}
 	
 	public void onPlace() {};
@@ -25,15 +36,33 @@ public abstract class Tile {
 	public void place() {
 		Cell[] cells = this.cell.getNeighbours();
 		for(int i = 0; i < cells.length; i++) {
-			cells[i].tile.update();
+			if(cells[i] != null) {
+				cells[i].tile.update();				
+			}
 		}
 		onPlace();
+	}
+	
+	public List<GameObject> getObjects() {
+		return objects;
+	}
+	
+	public void addObject(GameObject g) {
+		objects.add(g);
+	}
+	
+	public void removeObject(GameObject g) {
+		objects.add(g);
 	}
 	
 	public Sprite getCurrentSprite() {
 		return texture;
 	}
 	
+	public String getName() {
+		return name;
+	}
+ 	
 	public Polygon getHitbox() {
 		return new Polygon(cell.getXPoints(), cell.getYPoints(), 4);
 	}
@@ -64,6 +93,22 @@ public abstract class Tile {
 			}
 		}
 		return data;
+	}
+	
+	public static Tile getTileFromType(TileType type, Cell cell) {
+		if(type == TileType.Empty) {
+			return new EmptyTile(cell);
+		} else if(type == TileType.Base) {
+			return new BaseTile(cell);
+		} else if(type == TileType.Dirt) {
+			return new DirtTile(cell);
+		} else if(type == TileType.DirtPath) {
+			return new DirtPathTile(cell);
+		} else if(type == TileType.Tiled) {
+			return new TiledTile(cell);
+		}
+		
+		return null;
 	}
 	
 	public TileType getType() {

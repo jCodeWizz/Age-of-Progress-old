@@ -1,75 +1,110 @@
 
 ui.png
-size: 256, 64
+size: 512, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 build-icon
   rotate: false
-  xy: 2, 2
+  xy: 150, 84
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 close-icon
   rotate: false
-  xy: 150, 34
+  xy: 260, 384
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 icon
   rotate: false
-  xy: 26, 2
+  xy: 326, 434
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 icon-board
   rotate: false
-  xy: 2, 28
+  xy: 2, 78
   size: 146, 30
   orig: 146, 30
   offset: 0, 0
   index: -1
 icon-pressed
   rotate: false
-  xy: 174, 34
+  xy: 2, 2
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 icon-unavailable
   rotate: false
-  xy: 50, 2
+  xy: 68, 52
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 manage-icon
   rotate: false
-  xy: 198, 34
+  xy: 174, 84
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 path-icon
   rotate: false
-  xy: 74, 2
+  xy: 260, 358
   size: 22, 24
   orig: 22, 24
+  offset: 0, 0
+  index: -1
+path-menu
+  rotate: false
+  xy: 2, 110
+  size: 256, 520
+  orig: 256, 520
   offset: 0, 0
   index: -1
 people-icon
   rotate: false
-  xy: 222, 34
+  xy: 284, 384
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
+tile-background-buyslot
+  rotate: false
+  xy: 260, 546
+  size: 250, 84
+  orig: 250, 84
+  offset: 0, 0
+  index: -1
+tile-background-buyslot-pressed
+  rotate: false
+  xy: 260, 460
+  size: 250, 84
+  orig: 250, 84
+  offset: 0, 0
+  index: -1
+tile-highlight
+  rotate: false
+  xy: 260, 410
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tile-highlight2
+  rotate: false
+  xy: 2, 28
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
 tool-icon
   rotate: false
-  xy: 98, 2
+  xy: 350, 434
   size: 22, 24
   orig: 22, 24
   offset: 0, 0

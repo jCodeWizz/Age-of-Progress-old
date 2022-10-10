@@ -7,31 +7,43 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class UIElement {
 
 	protected int x, y, w, h;
-	protected boolean hovering = false, pressed = false, enabled = true, available = true;
+	protected boolean hovering = false, pressed = false, enabled = true, available = true, wantsClick = true;
+	protected String id;
 	
-	public UIElement(int x, int y, int w, int h) {
+	public UIElement(String id, int x, int y, int w, int h) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
 	}
 	
-	public void onClick() {
+	protected void onClick() {
 		
 	}
 	
-	public void onDeClick() {
+	protected void onDeClick() {
 		
 	}
 	
-	public void click() {
+	protected void onEnable() {
+		
+	}
+	
+	protected void onDisable() {
+		
+	}
+	
+	public UIElement click() {
 		pressed = true;
 		onClick();
+		return this;
 	}
 	
-	public void deClick() {
+	public UIElement deClick() {
 		pressed = false;
 		onDeClick();
+		return this;
 	}
 	
 	
@@ -39,6 +51,18 @@ public abstract class UIElement {
 	
 	public Rectangle getBounds() {
 		return new Rectangle(x, UILayer.HEIGHT - y - (h * UILayer.SCALE), w * UILayer.SCALE, h * UILayer.SCALE);
+	}
+	
+	public UIElement enable() {
+		this.enabled = true;
+		onEnable();
+		return this;
+	}
+	
+	public UIElement disable() {
+		this.enabled = false;
+		onDisable();
+		return this;
 	}
 	
 	public void setHovering(boolean hovering) {
@@ -91,10 +115,6 @@ public abstract class UIElement {
 
 	public boolean isEnabled() {
 		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public boolean isAvailable() {

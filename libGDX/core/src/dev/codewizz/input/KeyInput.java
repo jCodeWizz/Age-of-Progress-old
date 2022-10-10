@@ -1,8 +1,12 @@
 package dev.codewizz.input;
 
+import java.util.zip.Deflater;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 
 import dev.codewizz.main.Main;
 
@@ -17,6 +21,15 @@ public class KeyInput implements InputProcessor {
 		}
 		if(key == Input.Keys.TAB) {
 			Main.DEBUG = true;
+			return true;
+		}
+		
+		if(key == Input.Keys.C) {
+			Pixmap pixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\pixmap.png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
+			pixmap.dispose();
+
+
 			return true;
 		}
 		

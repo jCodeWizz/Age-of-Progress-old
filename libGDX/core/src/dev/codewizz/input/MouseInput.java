@@ -7,25 +7,33 @@ import com.badlogic.gdx.math.Vector3;
 import dev.codewizz.main.Camera;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
-import dev.codewizz.world.tiles.TiledTile;
+import dev.codewizz.world.Tile;
+import dev.codewizz.world.TileType;
 
 public class MouseInput implements InputProcessor {
 	
-	public static boolean[] dragging = new boolean[3];
+	public static boolean[] dragging = new boolean[5];
 	public static Vector3 coords = new Vector3();
+	public static Cell hoveringOverCell;
+	public static TileType currentlyDrawingType = TileType.Tiled;
 	
 	public void update(float d) {
+		Cell[][] grid = Main.inst.world.grid;
 		coords = Main.inst.camera.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
-		if(dragging[0]) {
-			Cell[][] grid = Main.inst.world.grid;
-			
-			for(int i = 0; i < grid.length; i++) {
-				for(int j = 0; j < grid[i].length; j++) {
-					if(grid[i][j].tile.getHitbox().contains(coords.x, coords.y)) {
-						grid[i][j].setTile(new TiledTile(grid[i][j]));
-					}
+		hoveringOverCell = null;
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid[i].length; j++) {
+				if(grid[i][j].tile.getHitbox().contains(coords.x, coords.y)) {
+					hoveringOverCell = grid[i][j];
 				}
+			}
+		}
+		
+		
+		if(dragging[0]) {
+			if(hoveringOverCell != null) {
+				hoveringOverCell.setTile(Tile.getTileFromType(currentlyDrawingType, hoveringOverCell));
 			}
 		}
 		

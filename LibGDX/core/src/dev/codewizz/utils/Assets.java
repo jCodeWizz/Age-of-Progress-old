@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
+import dev.codewizz.world.TileType;
+
 
 public class Assets {
 
@@ -21,7 +23,7 @@ public class Assets {
 	public static HashMap<String, Texture> procuderal = new HashMap<>();
 
 	public static void create() {
-		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("packs/tiles.atlas")));
+		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("../assets/packs/tiles.atlas")));
 		atlasses.put("ui", new TextureAtlas(Gdx.files.internal("packs/ui.atlas")));
 		atlasses.put("paths", new TextureAtlas());
 
@@ -30,6 +32,7 @@ public class Assets {
 		sprites.put("dirt-tile", atlasses.get("tiles").createSprite("dirt-tile"));
 		sprites.put("empty-tile", atlasses.get("tiles").createSprite("empty-tile"));
 		sprites.put("tiled-tile", atlasses.get("tiles").createSprite("tiled-tile"));
+		sprites.put("construction-tile", atlasses.get("tiles").createSprite("construction-tile"));
 		
 		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
 		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));
@@ -41,7 +44,12 @@ public class Assets {
 		sprites.put("path-icon", atlasses.get("ui").createSprite("path-icon"));
 		sprites.put("people-icon", atlasses.get("ui").createSprite("people-icon"));
 		sprites.put("tool-icon", atlasses.get("ui").createSprite("tool-icon"));
-		
+		sprites.put("tile-highlight", atlasses.get("ui").createSprite("tile-highlight"));
+		sprites.put("tile-highlight-red", atlasses.get("ui").createSprite("tile-highlight2"));
+		sprites.put("path-menu", atlasses.get("ui").createSprite("path-menu"));
+		sprites.put("buyslot", atlasses.get("ui").createSprite("tile-background-buyslot"));
+		sprites.put("buyslot-pressed", atlasses.get("ui").createSprite("tile-background-buyslot-pressed"));
+
 		addImage("../assets/textures/procuderal/path-tile.png", "t");
 		addImage("../assets/textures/procuderal/path-tile-TL.png", "tTL");
 		addImage("../assets/textures/procuderal/path-tile-TR.png", "tTR");
@@ -50,8 +58,9 @@ public class Assets {
 		addImage("../assets/textures/tiles/tiled-tile.png", "tiled");
 		addImage("../assets/textures/tiles/base-tile.png", "grass");
 		
-		procuderal.put("grass", new Texture(Gdx.files.internal("../assets/textures/tiles/base-tile.png")));
-		procuderal.put("tiled", new Texture(Gdx.files.internal("../assets/textures/tiles/tiled-tile.png")));
+		procuderal.put(TileType.Base.toString(), new Texture(Gdx.files.internal("../assets/textures/tiles/base-tile.png")));
+		procuderal.put(TileType.Tiled.toString(), new Texture(Gdx.files.internal("../assets/textures/tiles/tiled-tile.png")));
+		procuderal.put(TileType.Dirt.toString(), new Texture(Gdx.files.internal("../assets/textures/tiles/dirt-tile.png")));
 	}
 	
 	private static void addImage(String path, String name) {

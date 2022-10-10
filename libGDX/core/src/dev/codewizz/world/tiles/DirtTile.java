@@ -12,6 +12,8 @@ public class DirtTile extends Tile {
 
 		this.type = TileType.Dirt;
 		this.texture = Assets.getSprite("dirt-tile");
+	
+		this.name = "Dirt Tile";
 	}
 
 }

@@ -6,8 +6,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 
 import dev.codewizz.input.MouseInput;
+import dev.codewizz.main.Main;
 
 public class UILayer implements InputProcessor {
 
@@ -19,37 +23,56 @@ public class UILayer implements InputProcessor {
 	public UILayer() {
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+		// PATH MENU
+		elements.add(new UIMenu("menu", 0, 0, 128, 260, this).disable());
 		
 		// MANAGE ICON
-		elements.add(new UIIcon((WIDTH/2)-(134*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "manage-icon"));
+		elements.add(new UIIcon("manage-icon", (WIDTH/2)-(134*SCALE)/2, 6 * SCALE, 22, 24, "manage-icon"));
 		
 		// PATH ICON
-		elements.add(new UIIcon((WIDTH/2)-(78*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "path-icon"));
+		elements.add(new UIIcon("path-icon", (WIDTH/2)-(78*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "path-icon") {
+			@Override
+			protected void onDeClick() {
+				UIElement e = getElement("menu");
+				if(e.isEnabled())
+					e.disable();
+				else
+					e.enable();
+			}
+		});
 		
 		// BUILD ICON
-		elements.add(new UIIcon((WIDTH/2)-(22*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "build-icon"));
+		elements.add(new UIIcon("build-icon", (WIDTH/2)-(22*SCALE)/2, 6 * SCALE, 22, 24, "build-icon"));
 		
 		// PEOPLE ICON
-		elements.add(new UIIcon((WIDTH/2)-(-34*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "people-icon"));
+		elements.add(new UIIcon("people-icon", (WIDTH/2)-(-34*SCALE)/2, 6 * SCALE, 22, 24, "people-icon"));
 		
 		// TOOL ICON
-		elements.add(new UIIcon((WIDTH/2)-(-90*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "tool-icon"));
+		elements.add(new UIIcon("tool-icon", (WIDTH/2)-(-90*SCALE)/2, 6 * SCALE, 22, 24, "icon", "icon-pressed", "icon-unavailable", "tool-icon"));
 		
 		// BACKGROUND
-		
-		elements.add(new UIImage((WIDTH/2)-(146*SCALE)/2, 0, 146, 30, "icon-board"));
+		elements.add(new UIImage("icon-background", (WIDTH/2)-(146*SCALE)/2, 0, 146, 30, "icon-board"));
 	}
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		for(UIElement e : elements) {
-			if(e.getBounds().contains(screenX, screenY) && e.isAvailable() && e.isEnabled()) {
+			if(e.getBounds().contains(screenX, screenY) && e.isAvailable() && e.isEnabled() && e.wantsClick) {
 				current = e;
 				e.click();
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public UIElement getElement(String id) {
+		for(UIElement e : elements) {
+			if(e.id.equalsIgnoreCase(id)) {
+				return e;
+			}
+		}
+		return null;
 	}
 	
 	
@@ -59,7 +82,7 @@ public class UILayer implements InputProcessor {
 		MouseInput.dragging[button] = false;
 
 		for(UIElement e : elements) {
-			if(e.getBounds().contains(screenX, screenY) && e.equals(current) && e.isAvailable() && e.isEnabled()) {
+			if(e.getBounds().contains(screenX, screenY) && e.equals(current) && e.isAvailable() && e.isEnabled() && !(e instanceof UIImage)) {
 				current.deClick();
 				return true;
 			}
@@ -81,8 +104,19 @@ public class UILayer implements InputProcessor {
 	
 	public void render(SpriteBatch b) {
 		for(int i = elements.size() - 1; i >= 0; i--) {
-			if(elements.get(i).isEnabled()) {
-				elements.get(i).render(b);
+			UIElement e = elements.get(i);
+			if(e.isEnabled()) { // CHECK IF UI COMPONENT SHOULD BE RENDERED AT ALL
+				if(e.id.substring(0, 4).equals("slot")) { // CHECK IF UI COMPONENT IS A MOVEABLE SLOT
+					b.flush();
+					Rectangle scissors = ((UIMenu) getElement("menu")).getSlotArea(); // MAKE liBGDX RECTANGLE FROM SLOT VAlUES
+					if (ScissorStack.pushScissors(scissors)) {
+					    e.render(b);
+					    b.flush();
+						ScissorStack.popScissors();
+					}
+				} else {
+					e.render(b);
+				}
 			}
 		}
 	}

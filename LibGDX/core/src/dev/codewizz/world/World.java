@@ -3,6 +3,7 @@ package dev.codewizz.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.input.MouseInput;
+import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Utils;
 
 public class World {
@@ -28,9 +29,30 @@ public class World {
 	}
 	
 	public void render(SpriteBatch b) {
-		for (int i = grid[0].length - 1; i > 0; i--) {
-			for (int j = grid.length - 1; j > 0; j--) {
+		for (int i = grid[0].length - 1; i >= 0; i--) {
+			for (int j = grid.length - 1; j >= 0; j--) {
 				grid[j][i].render(b);
+			}
+		}
+		if(MouseInput.hoveringOverCell != null) {
+			b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
+			
+			/*
+			 * 
+			 * TODO: Need to add a good way to select a tile and place it. This will be great when starting to work on menus.
+			 * 
+			 */
+		}
+
+	}
+	
+	public void renderTileObjects(SpriteBatch objectBatch) {
+		for (int i = grid[0].length - 1; i >= 0; i--) {
+			for (int j = grid.length - 1; j >= 0; j--) {
+				Tile tile = grid[j][i].tile;
+				for(GameObject b : tile.getObjects()) {
+					b.render(objectBatch);
+				}
 			}
 		}
 	}
