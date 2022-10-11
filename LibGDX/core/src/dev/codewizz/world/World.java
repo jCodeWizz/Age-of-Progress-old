@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Utils;
-import dev.codewizz.world.objects.Agent;
 import dev.codewizz.world.pathfinding.CellGraph;
-import dev.codewizz.world.tiles.DirtTile;
 
 public class World {
 
@@ -24,7 +21,6 @@ public class World {
 	public List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
 	public CellGraph cellGraph;
-	public GraphPath<Cell> cellPath;
 	
 	public World() {
 		grid = new Cell[WORLD_SIZE_W][WORLD_SIZE_H];
@@ -49,16 +45,6 @@ public class World {
 				grid[i][j].init(cellGraph);
 			}
 		}
-		
-		
-		
-		cellPath = cellGraph.findPath(grid[24][48], grid[1][1]);
-
-		for(int i = 0; i < cellPath.getCount(); i++) {
-			cellPath.get(i).setTile(new DirtTile(cellPath.get(i)));
-		}
-		
-		objects.add(new Agent(100, 100));
 	}
 	
 	public void renderTiles(SpriteBatch b) {

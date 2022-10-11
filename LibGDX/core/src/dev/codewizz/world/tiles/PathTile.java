@@ -39,7 +39,7 @@ public abstract class PathTile extends Tile {
 		this.neighbours = this.checkNeighbours();
 		
 		for(Link l : Main.inst.world.cellGraph.getLinks(cell)) {
-			l.setCost(200);
+			l.setCost(10000);
 		}
 		
 		redrawTexture();
