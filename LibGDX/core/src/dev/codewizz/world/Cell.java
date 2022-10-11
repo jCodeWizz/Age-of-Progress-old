@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import dev.codewizz.gfx.Renderer;
 import dev.codewizz.utils.Direction;
+import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.tiles.BaseTile;
 
 public class Cell {
@@ -16,6 +17,7 @@ public class Cell {
 	public int indexX, indexY;
 	public boolean odd = false;
 	public World world;
+	public int index;
 
 	public Cell(float x, float y, int indexX, int indexY, boolean odd, World world) {
 		this.x = x;
@@ -26,6 +28,15 @@ public class Cell {
 
 		this.odd = odd;
 		this.world = world;
+	}
+	
+	public void init(CellGraph graph) {
+		Cell[] neighBours = getNeighbours();
+		for(int i = 0; i < neighBours.length; i++) {
+			if(neighBours[i] != null) {
+				graph.connectCells(this, neighBours[i]);
+			}
+		}
 	}
 
 	public void setTile(Tile tile) {
@@ -41,7 +52,7 @@ public class Cell {
 	public void render(SpriteBatch b) {
 		b.draw(tile.getCurrentSprite(), x, y);
 	}
-
+	
 	public Cell getNeighbour(Direction dir, Direction dir2) {
 
 		if (odd) {

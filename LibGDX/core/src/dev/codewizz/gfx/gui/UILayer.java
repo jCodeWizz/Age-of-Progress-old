@@ -6,12 +6,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 
 import dev.codewizz.input.MouseInput;
-import dev.codewizz.main.Main;
 
 public class UILayer implements InputProcessor {
 
@@ -99,6 +97,11 @@ public class UILayer implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
+		UIMenu menu = (UIMenu) getElement("menu");
+		if(menu.getBounds().contains(Gdx.input.getX(), Gdx.input.getY()) && menu.isAvailable() && menu.isEnabled()) {
+			menu.scroll(amountY);
+			return true;
+		}
 		return false;
 	}
 	

@@ -9,10 +9,12 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
+import dev.codewizz.world.pathfinding.Link;
 
 public abstract class PathTile extends Tile {
 
@@ -35,6 +37,11 @@ public abstract class PathTile extends Tile {
 	@Override
 	public void onPlace() {
 		this.neighbours = this.checkNeighbours();
+		
+		for(Link l : Main.inst.world.cellGraph.getLinks(cell)) {
+			l.setCost(200);
+		}
+		
 		redrawTexture();
 	}
 	

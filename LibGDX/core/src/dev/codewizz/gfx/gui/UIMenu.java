@@ -20,10 +20,14 @@ public class UIMenu extends UIElement {
 	public List<UIBuyslot> slots = new CopyOnWriteArrayList<>();
 	public Rectangle slotPort;
 	
+	public static float SCROLL_SPEED = 20f;
+	public int scroll = 0;
+	public int maxScroll = 0;
+	
 	public UIMenu(String id, int x, int y, int w, int h, UILayer layer) {
 		super(id, x, y, w, h);
 		
-		slotPort = new Rectangle( (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (326 * UILayer.SCALE), 160*UILayer.SCALE, 700 * UILayer.SCALE);
+		slotPort = new Rectangle( (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (329 * UILayer.SCALE), 160*UILayer.SCALE, 291 * UILayer.SCALE);
 		
 		this.layer = layer;
 		
@@ -36,20 +40,22 @@ public class UIMenu extends UIElement {
 		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1, 10, 10, "Pathing Menu", 8));
 		
 		this.wantsClick = false;
-		
+
 		slots.add(new UIBuyslot("slot", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
 		slots.add(new UIBuyslot("slot-2", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new TiledTile(null)));
 		slots.add(new UIBuyslot("slot-3", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (190 * UILayer.SCALE), 160 - 8, 52, new DirtPathTile(null)));
 		slots.add(new UIBuyslot("slot-4", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (240 * UILayer.SCALE), 160 - 8, 52, new DirtTile(null)));
-		slots.add(new UIBuyslot("slot-5", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (290 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
-		slots.add(new UIBuyslot("slot-6", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (340 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
-		slots.add(new UIBuyslot("slot-7", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (390 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
-		slots.add(new UIBuyslot("slot-8", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (440 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
 
+		maxScroll = (slots.size()) * 52;
 		
 		elements.addAll(slots);
 		
 		elements.add(new UIImage("background", 6 * UILayer.SCALE, Gdx.graphics.getHeight() - (331 * UILayer.SCALE), 160, 325, "path-menu"));
+	}
+	
+	@Override
+	public java.awt.Rectangle getBounds() {
+		return new java.awt.Rectangle(6 * UILayer.SCALE, Gdx.graphics.getHeight() - (331 * UILayer.SCALE), 160 * UILayer.SCALE, 325 * UILayer.SCALE);
 	}
 	
 	public void close() {
@@ -64,17 +70,38 @@ public class UIMenu extends UIElement {
 	protected void onEnable() {
 		for(UIElement e : elements) {
 			layer.elements.add(e);
-		}
-	}
-	
+		}	
+	}		
+			
 	@Override
 	protected void onDisable() {
 		for(UIElement e : elements) {
 			layer.elements.remove(e);
-		}
-	}
-	
+		}	
+	}		
+			
+	public void scroll(float a) {
+			
+			int amount = (int)(a * SCROLL_SPEED);
+			
+			if(scroll + amount > maxScroll) {
+				amount = maxScroll - scroll;
+			} else if (scroll + amount < 0){
+				amount = -scroll;
+			}
+			
+			for(UIBuyslot b : slots) {
+				b.setY(b.getY() + amount);
+			}
+			
+			scroll += amount;
+			
+			
+			
+	}		
+			
 	@Override
 	public void render(SpriteBatch b) {
-	}
-}
+	}		
+}				
+	

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import dev.codewizz.gfx.gui.UILayer;
@@ -35,7 +34,7 @@ public class Renderer {
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		
 		tileBatch.begin();
-		world.render(tileBatch);
+		world.renderTiles(tileBatch);
 		tileBatch.setProjectionMatrix(cam.combined);
 		tileBatch.end();
 		/*
@@ -44,9 +43,8 @@ public class Renderer {
 		 * 
 		 */
 		objectBatch.begin();
-		
 		world.renderTileObjects(objectBatch);
-		ScrollPane pane;
+		world.renderObjects(objectBatch);
 		objectBatch.setProjectionMatrix(cam.combined);
 		objectBatch.end();
 		/*
