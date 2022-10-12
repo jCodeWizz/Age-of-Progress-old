@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import dev.codewizz.world.tiles.BaseTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
+import dev.codewizz.world.tiles.EmptyTile;
 import dev.codewizz.world.tiles.TiledTile;
 
 public class UIMenu extends UIElement {
@@ -45,6 +46,7 @@ public class UIMenu extends UIElement {
 		slots.add(new UIBuyslot("slot-2", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new TiledTile(null)));
 		slots.add(new UIBuyslot("slot-3", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (190 * UILayer.SCALE), 160 - 8, 52, new DirtPathTile(null)));
 		slots.add(new UIBuyslot("slot-4", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (240 * UILayer.SCALE), 160 - 8, 52, new DirtTile(null)));
+		slots.add(new UIBuyslot("slot-5", (8) * UILayer.SCALE + 4, Gdx.graphics.getHeight() - (290 * UILayer.SCALE), 160 - 8, 52, new EmptyTile(null)));
 
 		maxScroll = (slots.size()) * 52;
 		

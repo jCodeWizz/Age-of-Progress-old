@@ -14,6 +14,8 @@ public class DirtTile extends Tile {
 		this.texture = Assets.getSprite("dirt-tile");
 	
 		this.name = "Dirt Tile";
+		
+		this.cost = 5;
 	}
 
 }

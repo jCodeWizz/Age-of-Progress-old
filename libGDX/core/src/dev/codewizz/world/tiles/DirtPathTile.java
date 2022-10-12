@@ -15,6 +15,8 @@ public class DirtPathTile extends PathTile {
 		this.templateGround = TileType.Base;
 		
 		this.name = "Dirt Path Tile";
+		
+		this.cost = 1;
 	}
 
 }

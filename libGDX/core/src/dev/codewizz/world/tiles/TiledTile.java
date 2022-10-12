@@ -15,6 +15,8 @@ public class TiledTile extends PathTile {
 		this.templateGround = TileType.Base;
 		
 		this.name = "Tiled Path Tile";
+		
+		this.cost = 1;
 	}
 
 }

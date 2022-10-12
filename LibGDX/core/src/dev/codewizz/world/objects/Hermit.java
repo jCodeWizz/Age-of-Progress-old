@@ -9,7 +9,6 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.pathfinding.Agent;
-import dev.codewizz.world.tiles.DirtTile;
 
 public class Hermit extends GameObject {
 
@@ -35,17 +34,6 @@ public class Hermit extends GameObject {
 			Cell cell = MouseInput.hoveringOverCell;
 			if(cell != null) {
 				agent.setGoal(cell, x, y);
-			
-				for(int i = 0; i < agent.path.size; i++) {
-					agent.path.get(i).setTile(new DirtTile(agent.path.get(i)));
-				}
-			}
-			
-			Cell[] e = cell.getCrossedNeighbours();
-			for(int i = 0; i < e.length; i++) {
-				if(e[i] != null) {
-					e[i].setTile(new DirtTile(e[i]));
-				}
 			}
 		}
 		

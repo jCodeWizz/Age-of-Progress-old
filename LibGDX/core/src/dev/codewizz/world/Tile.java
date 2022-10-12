@@ -6,7 +6,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
+import dev.codewizz.world.pathfinding.CellGraph;
+import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
@@ -19,6 +22,7 @@ public abstract class Tile {
 	protected Sprite texture;
 	protected TileType type;
 	protected String name;
+	protected int cost = 1;
 	
 	protected List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
@@ -34,12 +38,31 @@ public abstract class Tile {
 	public void update() {};
 	
 	public void place() {
-		Cell[] cells = this.cell.getNeighbours();
-		for(int i = 0; i < cells.length; i++) {
+		Cell[] cells = this.cell.getCrossedNeighbours();
+		for(int i = 0; i < 4; i++) {
 			if(cells[i] != null) {
 				cells[i].tile.update();				
 			}
 		}
+		
+		CellGraph c = Main.inst.world.cellGraph;
+		if(cost != -1) {
+			if(c.containsCell(cell)) {
+				for(Link link : c.getLinks(cell)) {
+					link.setCost(cost);
+				}
+			} else {
+				Cell[] neighBours = cell.getCrossedNeighbours();
+				for(int i = 0; i < neighBours.length; i++) {
+					if(neighBours[i] != null) {
+						c.connectCells(cell, neighBours[i]);
+					}
+				}
+			}
+		} else {
+			c.removeConnections(cell);
+		}
+		
 		onPlace();
 	}
 	

@@ -10,6 +10,8 @@ public class BaseTile extends Tile {
 		super(cell);
 
 		this.texture = Assets.getSprite("base-tile");
+		
+		this.cost = 5;
 	}
 
 }

@@ -38,6 +38,10 @@ public class CellGraph implements IndexedGraph<Cell> {
 		links.add(link);
 	}
 	
+	public boolean containsCell(Cell cell) {
+		return linkMap.containsKey(cell);
+	}
+	
 	public GraphPath<Cell> findPath(Cell startCell, Cell goalCell) {
 		GraphPath<Cell> cellPath = new DefaultGraphPath<>();
 		new IndexedAStarPathFinder<>(this).searchNodePath(startCell, goalCell, heuristic, cellPath);

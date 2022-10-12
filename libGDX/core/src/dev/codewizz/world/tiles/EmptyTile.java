@@ -11,7 +11,10 @@ public class EmptyTile extends Tile {
 		super(cell);
 
 		this.type = TileType.Empty;
-		this.texture = Assets.getSprite("construction-tile");
+		this.texture = Assets.getSprite("empty-tile");
+		this.name = "Empty Tile";
+		
+		this.cost = -1;
 	}
 
 }
