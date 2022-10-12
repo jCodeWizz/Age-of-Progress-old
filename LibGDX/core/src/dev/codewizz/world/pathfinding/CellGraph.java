@@ -25,6 +25,10 @@ public class CellGraph implements IndexedGraph<Cell> {
 		cells.add(cell);
 	}
 	
+
+	
+	
+	
 	public void connectCells(Cell fromCell, Cell toCell) {
 		Link link = new Link(fromCell, toCell);
 		if(!linkMap.containsKey(fromCell)) {
@@ -51,6 +55,9 @@ public class CellGraph implements IndexedGraph<Cell> {
 		return a;
 	}
 	
+	public void removeConnections(Cell fromNode) {
+		linkMap.remove(fromNode);
+	}
 	
 	@Override
 	public Array<Connection<Cell>> getConnections(Cell fromNode) {

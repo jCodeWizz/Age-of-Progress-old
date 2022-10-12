@@ -14,7 +14,6 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
-import dev.codewizz.world.pathfinding.Link;
 
 public abstract class PathTile extends Tile {
 
@@ -31,16 +30,13 @@ public abstract class PathTile extends Tile {
 	
 	public PathTile(Cell cell) {
 		super(cell);
-		
 	}
 	
 	@Override
 	public void onPlace() {
 		this.neighbours = this.checkNeighbours();
 		
-		for(Link l : Main.inst.world.cellGraph.getLinks(cell)) {
-			l.setCost(10000);
-		}
+		Main.inst.world.cellGraph.removeConnections(cell);
 		
 		redrawTexture();
 	}

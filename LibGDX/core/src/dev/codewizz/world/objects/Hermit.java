@@ -8,6 +8,7 @@ import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
+import dev.codewizz.world.pathfinding.Agent;
 import dev.codewizz.world.tiles.DirtTile;
 
 public class Hermit extends GameObject {
@@ -30,7 +31,7 @@ public class Hermit extends GameObject {
 		
 		agent.update(d, x, y);
 		
-		if(Gdx.input.isButtonJustPressed(0) && Gdx.input.isKeyPressed(Input.Keys.TAB)) {
+		if(Gdx.input.isButtonPressed(0) && Gdx.input.isKeyPressed(Input.Keys.TAB) && !agent.moving) {
 			Cell cell = MouseInput.hoveringOverCell;
 			if(cell != null) {
 				agent.setGoal(cell, x, y);

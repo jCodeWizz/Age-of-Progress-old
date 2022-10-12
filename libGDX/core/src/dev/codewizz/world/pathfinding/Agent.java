@@ -1,4 +1,4 @@
-package dev.codewizz.world.objects;
+package dev.codewizz.world.pathfinding;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.math.MathUtils;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Queue;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
-import dev.codewizz.world.pathfinding.CellGraph;
 
 public class Agent {
 
@@ -76,8 +75,10 @@ public class Agent {
 	    for (int i = 1; i < graphPath.getCount(); i++) {
 	      path.addLast(graphPath.get(i));
 	    }
-	    setSpeedToNextCell(x, y);
-	    moving = true;
+	    if(!path.isEmpty()) {
+	    	setSpeedToNextCell(x, y);
+		    moving = true;
+	    }
 	  }
 
 	
