@@ -116,7 +116,6 @@ public class Cell {
 			data[7] = world.grid[indexX][indexY+2];
 		}
 		
-		
 		return data;
 	}
 
