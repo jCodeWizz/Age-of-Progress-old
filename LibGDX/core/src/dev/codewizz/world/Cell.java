@@ -31,7 +31,7 @@ public class Cell {
 	}
 	
 	public void init(CellGraph graph) {
-		Cell[] neighBours = getNeighbours();
+		Cell[] neighBours = getCrossedNeighbours();
 		for(int i = 0; i < neighBours.length; i++) {
 			if(neighBours[i] != null) {
 				graph.connectCells(this, neighBours[i]);
@@ -94,6 +94,30 @@ public class Cell {
 		}
 
 		return null;
+	}
+	
+	public Cell[] getCrossedNeighbours() {
+		Cell[] data = new Cell[] { null, null, null, null , null, null, null, null };
+		
+		data[0] = getNeighbour(Direction.South, Direction.West);
+		data[1] = getNeighbour(Direction.South, Direction.East);
+		data[2] = getNeighbour(Direction.North, Direction.East);
+		data[3] = getNeighbour(Direction.North, Direction.West);
+		if(indexX > 0) {
+			data[4] = world.grid[indexX-1][indexY];
+		}
+		if(indexX < World.WORLD_SIZE_W-1) {
+			data[5] = world.grid[indexX+1][indexY];
+		}
+		if(indexY > 1) {
+			data[6] = world.grid[indexX][indexY-2];
+		}
+		if(indexY < World.WORLD_SIZE_H-2) {
+			data[7] = world.grid[indexX][indexY+2];
+		}
+		
+		
+		return data;
 	}
 
 	public Cell[] getNeighbours() {

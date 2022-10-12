@@ -43,6 +43,7 @@ public class Main extends ApplicationAdapter {
 		inputMultiplexer.addProcessor(mouseInput);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
+		world.init();
 	}
 
 	@Override

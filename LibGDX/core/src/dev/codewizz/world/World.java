@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Utils;
+import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.pathfinding.CellGraph;
 
 public class World {
@@ -45,6 +46,12 @@ public class World {
 				grid[i][j].init(cellGraph);
 			}
 		}
+		
+		
+	}
+	
+	public void init() {
+		objects.add(new Hermit(0, 0));
 	}
 	
 	public void renderTiles(SpriteBatch b) {
