@@ -10,6 +10,7 @@ import dev.codewizz.world.Cell;
 
 public class Agent {
 
+	
 	private Cell previousCell;
 	public Queue<Cell> path = new Queue<Cell>();
 	public boolean moving = false;
@@ -31,7 +32,7 @@ public class Agent {
 
 	private void checkDistance(float x, float y) {
 		if (path.size > 0) {
-			Cell target = path.first();
+			Vector2 target = path.first().getMiddlePoint();
 			if (Vector2.dst(x, y, target.x, target.y) < 30) {
 				reachGoal(x, y);
 			}
@@ -62,6 +63,10 @@ public class Agent {
 		moving = false;
 	}
 	
+	public void onReach() {
+		
+	}
+	
 	public void setGoal(Cell goal, float x, float y) {
 		Cell[][] grid = Main.inst.world.grid;
 		for(int i = 0; i < grid.length; i++) {
@@ -84,7 +89,7 @@ public class Agent {
 	
 	private void setSpeedToNextCell(float x, float y) {
 		Cell nextCell = path.first();
-	    float angle = MathUtils.atan2(nextCell.y - y, nextCell.x - x);
+	    float angle = MathUtils.atan2(nextCell.getMiddlePoint().y - y, nextCell.getMiddlePoint().x - x);
 	    dir.x = MathUtils.cos(angle);
 	    dir.y = MathUtils.sin(angle);
 	}

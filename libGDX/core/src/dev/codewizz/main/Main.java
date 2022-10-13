@@ -12,7 +12,7 @@ import dev.codewizz.world.World;
 
 public class Main extends ApplicationAdapter {
 	
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	
 	public static Main inst;
 
@@ -35,7 +35,6 @@ public class Main extends ApplicationAdapter {
 		world = new World();
 		mouseInput = new MouseInput();
 		keyInput = new KeyInput();
-		
 		
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(renderer.ui);

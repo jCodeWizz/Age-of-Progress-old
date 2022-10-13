@@ -19,10 +19,19 @@ public class Hermit extends GameObject {
 	public Hermit(float x, float y) {
 		super(x, y);
 
-		agent = new Agent();
+		agent = new Agent() {
+			@Override
+			public void onReach() {
+				reachCell();
+			}
+		};
 		
 		this.w = 32;
 		this.h = 32;
+	}
+	
+	public void reachCell() {
+		
 	}
 	
 	@Override
