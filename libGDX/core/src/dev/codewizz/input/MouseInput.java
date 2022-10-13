@@ -16,6 +16,7 @@ public class MouseInput implements InputProcessor {
 	public static Vector3 coords = new Vector3();
 	public static Cell hoveringOverCell;
 	public static TileType currentlyDrawingType = TileType.Tiled;
+	public static AreaSelector area = new AreaSelector();
 	
 	public void update(float d) {
 		Cell[][] grid = Main.inst.world.grid;
@@ -34,7 +35,25 @@ public class MouseInput implements InputProcessor {
 		if(dragging[0]) {
 			if(hoveringOverCell != null) {
 				hoveringOverCell.setTile(Tile.getTileFromType(currentlyDrawingType, hoveringOverCell));
+				//if(area.selected) {
+				//	area.start = null;
+				//	area.stop = null;
+				//	area.area.clear();
+				//	area.selected = false;
+				//} else if(area.start == null){
+				//	area.start = hoveringOverCell;
+				//}
 			}
+		} else if(area.start != null && area.stop == null) {
+			//if(area.start.index != hoveringOverCell.index) {
+				//area.stop = hoveringOverCell;
+				//area.selected = true;
+				//area.setArea(grid);
+				
+				//for(Cell cell : area.area) {
+				//	cell.setTile(Tile.getTileFromType(currentlyDrawingType, cell));
+				//}
+			//}
 		}
 		
 		if(dragging[2]) {

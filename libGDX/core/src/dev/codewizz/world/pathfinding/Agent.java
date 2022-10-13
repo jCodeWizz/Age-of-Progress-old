@@ -10,20 +10,15 @@ import dev.codewizz.world.Cell;
 
 public class Agent {
 
-	
 	private Cell previousCell;
 	public Queue<Cell> path = new Queue<Cell>();
 	public boolean moving = false;
 	private CellGraph graph;
 	private Vector2 dir;
 
-
 	public Agent() {
-
 		dir = new Vector2();
-
 		graph = Main.inst.world.cellGraph;
-
 	}
 
 	public void update(float d, float x, float y) {
@@ -38,11 +33,14 @@ public class Agent {
 			}
 		}
 	}
+	
+	public Vector2 getMiddlePoint() {
+		return new Vector2();
+	}
 
 	private void reachGoal(float x, float y) {
 		Cell nextCell = path.first();
 
-		// Set the position to keep the Agent in the middle of the path
 		this.previousCell = nextCell;
 		path.removeFirst();
 
@@ -58,6 +56,15 @@ public class Agent {
 	}
 	
 	private void reach() {
+		path.clear();
+		dir.x = 0;
+		dir.y = 0;
+		moving = false;
+		onReach();
+	}
+	
+	public void stop() {
+		path.clear();
 		dir.x = 0;
 		dir.y = 0;
 		moving = false;

@@ -29,8 +29,9 @@ public class CellGraph implements IndexedGraph<Cell> {
 	
 	
 	
-	public void connectCells(Cell fromCell, Cell toCell) {
+	public void connectCells(Cell fromCell, Cell toCell, int cost) {
 		Link link = new Link(fromCell, toCell);
+		link.setCost(cost);
 		if(!linkMap.containsKey(fromCell)) {
 			linkMap.put(fromCell, new Array<Connection<Cell>>());
 		}

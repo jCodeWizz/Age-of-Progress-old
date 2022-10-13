@@ -34,7 +34,7 @@ public class Cell {
 		Cell[] neighBours = getCrossedNeighbours();
 		for(int i = 0; i < neighBours.length; i++) {
 			if(neighBours[i] != null) {
-				graph.connectCells(this, neighBours[i]);
+				graph.connectCells(this, neighBours[i], tile.cost);
 			}
 		}
 	}

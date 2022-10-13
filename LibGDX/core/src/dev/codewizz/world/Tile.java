@@ -55,7 +55,7 @@ public abstract class Tile {
 				Cell[] neighBours = cell.getCrossedNeighbours();
 				for(int i = 0; i < neighBours.length; i++) {
 					if(neighBours[i] != null) {
-						c.connectCells(cell, neighBours[i]);
+						c.connectCells(cell, neighBours[i], this.cost);
 					}
 				}
 			}
