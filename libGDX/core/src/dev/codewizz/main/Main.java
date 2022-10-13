@@ -12,7 +12,7 @@ import dev.codewizz.world.World;
 
 public class Main extends ApplicationAdapter {
 	
-	public static boolean DEBUG = false;
+	public static boolean DEBUG = true;
 	
 	public static Main inst;
 

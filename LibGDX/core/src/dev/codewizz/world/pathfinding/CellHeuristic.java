@@ -9,6 +9,6 @@ public class CellHeuristic implements Heuristic<Cell> {
 
 	@Override
 	public float estimate(Cell node, Cell endNode) {
-		return Vector2.dst(node.x, node.y, endNode.x, endNode.y);
+		return Vector2.dst(node.getMiddlePoint().x, node.getMiddlePoint().y, endNode.getMiddlePoint().x, endNode.getMiddlePoint().y);
 	}
 }

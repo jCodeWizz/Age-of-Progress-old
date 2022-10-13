@@ -152,4 +152,8 @@ public class Cell {
 	public Rectangle getBounds() {
 		return new Rectangle((int)x-32, (int)y-24, 64, 48);
 	}
+	
+	public Vector2 getMiddlePoint() {
+		return new Vector2(x+32, y+32);
+	}
 }
