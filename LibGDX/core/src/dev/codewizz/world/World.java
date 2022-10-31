@@ -7,9 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.input.MouseInput;
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Utils;
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.Cow;
 import dev.codewizz.world.pathfinding.CellGraph;
 
 public class World {
@@ -51,7 +52,11 @@ public class World {
 	}
 	
 	public void init() {
-		objects.add(new Hermit(0, 0));
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				objects.add(new Cow(i*40, j*40));
+			}
+		}
 	}
 	
 	public void renderTiles(SpriteBatch b) {
@@ -60,21 +65,26 @@ public class World {
 				grid[j][i].render(b);
 			}
 		}
-		if(MouseInput.hoveringOverCell != null) {
-			b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
-			
-			/*
-			 * 
-			 * TODO: Need to add a good way to select a tile and place it. This will be great when starting to work on menus.
-			 * 
-			 */
+		
+		if(!Main.PAUSED) {
+			if(MouseInput.hoveringOverCell != null) {
+				b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
+				
+				/*
+				 * 
+				 * TODO: Need to add a good way to select a tile and place it. This will be great when starting to work on menus.
+				 * 
+				 */
+			}
 		}
 
 	}
 	
 	public void renderObjects(SpriteBatch b) {
-		for(GameObject object : objects) {
-			object.update(Gdx.graphics.getDeltaTime());
+		if(!Main.PAUSED) {
+			for(GameObject object : objects) {
+				object.update(Gdx.graphics.getDeltaTime());
+			}
 		}
 		for(GameObject object : objects) {
 			object.render(b);
@@ -90,6 +100,18 @@ public class World {
 				}
 			}
 		}
+	}
+	
+	public Cell getCell(float x, float y) {
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid[i].length; j++) {
+				if(grid[i][j].tile.getHitbox().contains(x, y)) {
+					return grid[i][j];
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	public void renderDebug() {

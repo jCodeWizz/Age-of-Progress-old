@@ -1,6 +1,6 @@
 package dev.codewizz.world.objects.tasks;
 
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.TaskableObject;
 
 public abstract class Task {
 	
@@ -13,7 +13,7 @@ public abstract class Task {
 	
 	public abstract void finish();
 	public abstract void stop();
-	public abstract void start(Hermit hermit);
+	public abstract void start(TaskableObject object);
 	public abstract void reach();
 	public abstract void update(float d);
 

@@ -24,10 +24,11 @@ public class UIBuyslot extends UIElement {
 		this.tile = tile;
 		
 		
-		int size = 4 * UILayer.SCALE;
+		
 		background = Assets.getSprite("buyslot");
 		backgroundPressed = Assets.getSprite("buyslot-pressed");
 		
+		int size = 12;
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size * UILayer.SCALE;
 		parameter.characters = UIText.FONT_CHARACTERS;

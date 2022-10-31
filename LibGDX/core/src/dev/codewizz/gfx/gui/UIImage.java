@@ -22,6 +22,7 @@ public class UIImage extends UIElement {
 		super(id, x, y, w, h);
 
 		this.scale = scale;
+		this.wantsClick = false;
 		
 		sprite = Assets.getSprite(spriteName);
 	}

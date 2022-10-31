@@ -15,17 +15,19 @@ public class Camera {
 	}
 	
 	public void update(float d) {
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			move(d * -speed, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			move(d * speed, 0);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			move(0, d * -speed);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			move(0, d * speed);
+		if(Main.PLAYING && !Main.PAUSED) {
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+				move(d * -speed, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+				move(d * speed, 0);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+				move(0, d * -speed);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+				move(0, d * speed);
+			}
 		}
 
 		//cam.position.set(x, y, 0);

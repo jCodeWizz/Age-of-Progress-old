@@ -3,8 +3,11 @@ package dev.codewizz.main;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import dev.codewizz.gfx.Renderer;
+import dev.codewizz.gfx.gui.layers.GameLayer;
+import dev.codewizz.gfx.gui.layers.MainMenuLayer;
 import dev.codewizz.input.KeyInput;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
@@ -13,6 +16,8 @@ import dev.codewizz.world.World;
 public class Main extends ApplicationAdapter {
 	
 	public static boolean DEBUG = false;
+	public static boolean PLAYING = false;
+	public static boolean PAUSED = false;
 	
 	public static Main inst;
 
@@ -32,22 +37,23 @@ public class Main extends ApplicationAdapter {
 		renderer = new Renderer();
 		camera = new Camera();
 		
-		world = new World();
 		mouseInput = new MouseInput();
 		keyInput = new KeyInput();
 		
+		setInputMultiplexer();
+	}
+	
+	public void setInputMultiplexer() {
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(renderer.ui);
 		inputMultiplexer.addProcessor(keyInput);
 		inputMultiplexer.addProcessor(mouseInput);
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		
-		world.init();
 	}
 
 	@Override
 	public void render () {
-		
+		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
 		Gdx.graphics.setTitle("Age of Progress | HPG | FPS: " + Gdx.graphics.getFramesPerSecond());
 		
 		
@@ -62,10 +68,36 @@ public class Main extends ApplicationAdapter {
 		 * render game
 		 */
 		
-		renderer.render(world, camera.cam);
-		if(DEBUG) {
+		if(PLAYING) {
+			renderer.render(world, camera.cam);
+		}
+		renderer.renderUI();
+		
+		if(DEBUG && PLAYING) {
 			renderer.renderDebug(world, camera.cam);
 		}
+	}
+	
+	public void openWorld(World world) {
+		this.world = world;
+		this.world.init();
+		PLAYING = true;
+		
+		renderer.ui = new GameLayer();
+		setInputMultiplexer();
+	}
+	
+	public void closeWorld() {
+		PLAYING = false;
+		this.world = null;
+		
+		renderer.ui = new MainMenuLayer();
+		setInputMultiplexer();
+	}
+	
+	public static void exit() {
+		
+		Gdx.app.exit();
 	}
 	
 	@Override

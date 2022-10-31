@@ -1,24 +1,15 @@
 package dev.codewizz.world.objects.tasks;
 
 import dev.codewizz.world.Cell;
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.TaskableObject;
 
 public class MoveTask extends Task {
 
 	private Cell cell;
-	private Hermit hermit;
+	private TaskableObject object;
 	
 	public MoveTask(Cell cell) {
 		this.cell = cell;
-	}
-	
-	@Override
-	public void start(Hermit hermit) {
-		this.hermit = hermit;
-		hermit.agent.setGoal(cell, hermit.getX(), hermit.getY());
-		if(hermit.agent.path.isEmpty())
-			reach();
-		started = true;
 	}
 	
 	@Override
@@ -28,7 +19,7 @@ public class MoveTask extends Task {
 	
 	@Override
 	public void finish() {
-		hermit.finishCurrentTask();
+		object.finishCurrentTask();
 	}
 
 	@Override
@@ -36,12 +27,22 @@ public class MoveTask extends Task {
 		
 		// TODO: re-add the task back to the pool (Tree would not be handy ig)
 		
-		hermit.agent.stop();
-		hermit.finishCurrentTask();
+		object.getAgent().stop();
+		object.finishCurrentTask();
 	}
 
 	@Override
 	public void update(float d) {
+		
+	}
+
+	@Override
+	public void start(TaskableObject object) {
+		this.object = object;
+		object.getAgent().setGoal(cell, object.getX(), object.getY());
+		if(object.getAgent().path.isEmpty())
+			reach();
+		started = true;
 		
 	}
 }

@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 import dev.codewizz.gfx.gui.UILayer;
+import dev.codewizz.gfx.gui.layers.MainMenuLayer;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.World;
 
@@ -27,12 +27,10 @@ public class Renderer {
 		objectBatch = new SpriteBatch();
 		uiBatch = new SpriteBatch();
 		
-		ui = new UILayer();
+		ui = new MainMenuLayer();
 	}
 	
 	public void render(World world, OrthographicCamera cam) {
-		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);
-		
 		tileBatch.begin();
 		world.renderTiles(tileBatch);
 		tileBatch.setProjectionMatrix(cam.combined);
@@ -52,6 +50,9 @@ public class Renderer {
 		 * OBJECT PART DONE CONTINUE TO UI
 		 * 
 		 */
+	}
+	
+	public void renderUI() {
 		uiBatch.begin();
 		ui.render(uiBatch);
 		uiBatch.end();

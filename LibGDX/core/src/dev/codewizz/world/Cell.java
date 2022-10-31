@@ -4,10 +4,13 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import dev.codewizz.gfx.Renderer;
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.world.pathfinding.CellGraph;
+import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
 
 public class Cell {
@@ -135,6 +138,21 @@ public class Cell {
 		Renderer.drawDebugLine(new Vector2(getXPoints()[1], getYPoints()[1]), new Vector2(getXPoints()[2], getYPoints()[2]));
 		Renderer.drawDebugLine(new Vector2(getXPoints()[2], getYPoints()[2]), new Vector2(getXPoints()[3], getYPoints()[3]));
 		Renderer.drawDebugLine(new Vector2(getXPoints()[3], getYPoints()[3]), new Vector2(getXPoints()[0], getYPoints()[0]));
+	}
+	
+	public static void printDebugInfo(Cell cell) {
+		System.out.println("CELL: [" + cell.indexX + "][" + cell.indexY + "]");
+		System.out.println(" - X: " + cell.x + " Y: " + cell.y);
+		System.out.println(" - ODD: " + cell.odd + " INDEX: " + cell.index);
+		
+		Array<Link> links = Main.inst.world.cellGraph.getLinks(cell);
+		
+		for(int i = 0; i < links.size; i++) {
+			System.out.println(" - Link[" + i + "] " + links.get(i).getCost());
+		}
+		
+		System.out.println("TILE: [" + cell.tile.getName() + "]");
+		System.out.println(" - COST: " + cell.tile.cost);
 	}
 	
 	public Tile getTile() {

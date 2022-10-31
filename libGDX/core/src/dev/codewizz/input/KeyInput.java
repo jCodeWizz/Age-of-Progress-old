@@ -16,7 +16,20 @@ public class KeyInput implements InputProcessor {
 	public boolean keyDown(int key) {
 		
 		if(key == Input.Keys.ESCAPE) {
-			Gdx.app.exit();
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+				Main.exit();
+			}
+			
+			
+			
+			if(Main.PLAYING) {
+				if(!Main.inst.renderer.ui.closeMenus()) {
+					Main.inst.renderer.ui.getElement("pauseMenu").enable();
+				}
+			}
+			
+			
 			return true;
 		}
 		if(key == Input.Keys.TAB) {

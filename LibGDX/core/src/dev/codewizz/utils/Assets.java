@@ -24,6 +24,7 @@ public class Assets {
 
 	public static void create() {
 		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("../assets/packs/tiles.atlas")));
+		atlasses.put("entities", new TextureAtlas(Gdx.files.internal("../assets/packs/entities.atlas")));
 		atlasses.put("ui", new TextureAtlas(Gdx.files.internal("packs/ui.atlas")));
 		atlasses.put("paths", new TextureAtlas());
 
@@ -34,9 +35,17 @@ public class Assets {
 		sprites.put("tiled-tile", atlasses.get("tiles").createSprite("tiled-tile"));
 		sprites.put("construction-tile", atlasses.get("tiles").createSprite("construction-tile"));
 		
+		sprites.put("cow-move-1", atlasses.get("entities").createSprite("cow-move-1"));
+		sprites.put("cow-move-2", atlasses.get("entities").createSprite("cow-move-2"));
+		sprites.put("cow-move-3", atlasses.get("entities").createSprite("cow-move-3"));
+		sprites.put("cow-idle", atlasses.get("entities").createSprite("cow-idle"));
+		
 		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
 		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));
 		sprites.put("icon-unavailable", atlasses.get("ui").createSprite("icon-unavailable"));
+		sprites.put("button", atlasses.get("ui").createSprite("button"));
+		sprites.put("button-pressed", atlasses.get("ui").createSprite("button-pressed"));
+		sprites.put("button-unavailable", atlasses.get("ui").createSprite("button-unavailable"));
 		sprites.put("build-icon", atlasses.get("ui").createSprite("build-icon"));
 		sprites.put("close-icon", atlasses.get("ui").createSprite("close-icon"));
 		sprites.put("icon-board", atlasses.get("ui").createSprite("icon-board"));
@@ -49,6 +58,8 @@ public class Assets {
 		sprites.put("path-menu", atlasses.get("ui").createSprite("path-menu"));
 		sprites.put("buyslot", atlasses.get("ui").createSprite("tile-background-buyslot"));
 		sprites.put("buyslot-pressed", atlasses.get("ui").createSprite("tile-background-buyslot-pressed"));
+		sprites.put("fade", atlasses.get("ui").createSprite("fade"));
+		sprites.put("main-menu-logo", new Sprite(new Texture(Gdx.files.internal("../assets/textures/ui/icons/main-menu.png"))));
 
 		addImage("../assets/textures/procuderal/path-tile.png", "t");
 		addImage("../assets/textures/procuderal/path-tile-TL.png", "tTL");
