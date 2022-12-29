@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class GameObject {
+public abstract class GameObject implements Comparable<GameObject> {
 
 	protected float x, y;
 	protected int w, h;
@@ -56,6 +56,14 @@ public abstract class GameObject {
 
 	public void setH(int h) {
 		this.h = h;
+	}
+	
+	public int compareTo(GameObject other) {
+		if(other.y < this.y) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 	
 }

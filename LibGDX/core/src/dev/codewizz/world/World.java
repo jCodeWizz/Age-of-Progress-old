@@ -1,16 +1,22 @@
 package dev.codewizz.world;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dongbat.jbump.util.MathUtils;
 
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Utils;
+import dev.codewizz.utils.WNoise;
 import dev.codewizz.world.objects.Cow;
+import dev.codewizz.world.objects.Herd;
+import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.pathfinding.CellGraph;
 
 public class World {
@@ -23,6 +29,8 @@ public class World {
 	public List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
 	public CellGraph cellGraph;
+	
+	public WNoise noise = new WNoise(0);
 	
 	public World() {
 		grid = new Cell[WORLD_SIZE_W][WORLD_SIZE_H];
@@ -47,14 +55,36 @@ public class World {
 				grid[i][j].init(cellGraph);
 			}
 		}
-		
-		
 	}
 	
 	public void init() {
-		for(int i = 0; i < 8; i++) {
-			for(int j = 0; j < 8; j++) {
-				objects.add(new Cow(i*40, j*40));
+		Herd herd = new Herd();
+		Random RANDOM = new Random();
+		
+		for(int i = 0; i < 7; i++) {
+			herd.addMember(new Cow(RANDOM.nextInt(100), RANDOM.nextInt(100), herd));
+		}
+	
+		herd.setLeader();
+	
+		this.objects.addAll(herd.getMembers());
+
+		
+		spawnTree();
+	}
+	
+	private void spawnTree() {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				Cell cell = grid[i][j];
+				
+				float e = 5f;
+				float n = (float) noise.noise(i * e, j * e);
+				
+				if(n > 0.4f) {
+					this.objects.add(new Tree(cell.x, cell.y));
+				}
+				
 			}
 		}
 	}
@@ -81,6 +111,8 @@ public class World {
 	}
 	
 	public void renderObjects(SpriteBatch b) {
+		Collections.sort(objects);
+		
 		if(!Main.PAUSED) {
 			for(GameObject object : objects) {
 				object.update(Gdx.graphics.getDeltaTime());
@@ -112,6 +144,13 @@ public class World {
 		}
 		
 		return null;
+	}
+	
+	public Cell getCellIndex(int x, int y) {
+		x = MathUtils.clamp(x, 0, WORLD_SIZE_W-1);
+		y = MathUtils.clamp(y, 0, WORLD_SIZE_H-1);
+		
+		return grid[x][y];
 	}
 	
 	public void renderDebug() {

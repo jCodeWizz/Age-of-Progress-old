@@ -25,6 +25,7 @@ public class Assets {
 	public static void create() {
 		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("../assets/packs/tiles.atlas")));
 		atlasses.put("entities", new TextureAtlas(Gdx.files.internal("../assets/packs/entities.atlas")));
+		atlasses.put("objects", new TextureAtlas(Gdx.files.internal("../assets/packs/objects.atlas")));
 		atlasses.put("ui", new TextureAtlas(Gdx.files.internal("packs/ui.atlas")));
 		atlasses.put("paths", new TextureAtlas());
 
@@ -39,7 +40,9 @@ public class Assets {
 		sprites.put("cow-move-2", atlasses.get("entities").createSprite("cow-move-2"));
 		sprites.put("cow-move-3", atlasses.get("entities").createSprite("cow-move-3"));
 		sprites.put("cow-idle", atlasses.get("entities").createSprite("cow-idle"));
-		
+
+		sprites.put("tree", atlasses.get("objects").createSprite("tree"));
+
 		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
 		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));
 		sprites.put("icon-unavailable", atlasses.get("ui").createSprite("icon-unavailable"));

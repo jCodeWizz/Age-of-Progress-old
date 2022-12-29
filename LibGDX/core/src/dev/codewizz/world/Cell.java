@@ -2,6 +2,7 @@ package dev.codewizz.world;
 
 import java.awt.Rectangle;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -31,6 +32,8 @@ public class Cell {
 
 		this.odd = odd;
 		this.world = world;
+		
+		Animation ani;
 	}
 	
 	public void init(CellGraph graph) {

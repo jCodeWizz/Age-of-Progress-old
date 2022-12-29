@@ -12,6 +12,9 @@ public abstract class TaskableObject extends GameObject {
 
 	protected Queue<Task> tree = new Queue<>();
 	protected Task currentTask;
+	protected boolean facingRight = true;
+	protected Vector2 vel = new Vector2();
+	
 	
 	protected float speed = 400f;
 	protected Agent agent;
@@ -59,8 +62,11 @@ public abstract class TaskableObject extends GameObject {
 		}
 		agent.update(d, x, y);
 		
-		x += agent.getDir().x * d * speed;
-		y += agent.getDir().y * d * speed;
+		vel.x = agent.getDir().x * d * speed;
+		vel.y = agent.getDir().y * d * speed;
+		
+		x += vel.x;
+		y += vel.y;
 	}
 
 	public Vector2 getCenter() {

@@ -27,6 +27,7 @@ public class DesktopLauncher {
 		TexturePacker.process(settings, "../assets/textures/tiles", "../assets/packs", "tiles");
 		TexturePacker.process(settings, "../assets/textures/ui/icons", "../assets/packs", "ui");
 		TexturePacker.process(settings, "../assets/textures/entities", "../assets/packs", "entities");
+		TexturePacker.process(settings, "../assets/textures/objects", "../assets/packs", "objects");
 
 	}
 }

@@ -16,6 +16,8 @@ public class Agent {
 	private CellGraph graph;
 	private Vector2 dir;
 
+	public Cell goal;
+	
 	public Agent() {
 		dir = new Vector2();
 		graph = Main.inst.world.cellGraph;
@@ -75,6 +77,8 @@ public class Agent {
 	}
 	
 	public void setGoal(Cell goal, float x, float y) {
+		this.goal = goal;
+		
 		Cell[][] grid = Main.inst.world.grid;
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
