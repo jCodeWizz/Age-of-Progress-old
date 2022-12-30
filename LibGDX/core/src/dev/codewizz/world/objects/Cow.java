@@ -18,6 +18,8 @@ public class Cow extends Animal {
 	public Cow(float x, float y) {
 		super(x, y);
 		
+		this.id = ID.Cow;
+		
 		speed = 10f;
 	}
 	

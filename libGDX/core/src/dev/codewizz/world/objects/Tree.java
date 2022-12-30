@@ -13,6 +13,10 @@ public class Tree extends GameObject {
 	public Tree(float x, float y) {
 		super(x, y);
 
+		this.x += 5;
+		this.y += 30;
+		
+		this.id = ID.Tree;
 	}
 
 	@Override

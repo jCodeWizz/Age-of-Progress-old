@@ -5,15 +5,15 @@ import dev.codewizz.world.Cell;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
 
-public class BaseTile extends Tile {
+public class WaterTile extends Tile {
 
-	public BaseTile(Cell cell) {
+	public WaterTile(Cell cell) {
 		super(cell);
 
-		this.name = "Base Tile";
-		this.texture = Assets.getSprite("base-tile");
-		this.type = TileType.Base;
-		this.cost = 5;
+		this.type = TileType.Water;
+		this.texture = Assets.getSprite("water-tile");
+		this.name = "Water";
+		this.cost = -1;
 	}
 
 }

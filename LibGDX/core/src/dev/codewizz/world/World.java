@@ -18,6 +18,7 @@ import dev.codewizz.world.objects.Cow;
 import dev.codewizz.world.objects.Herd;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.pathfinding.CellGraph;
+import dev.codewizz.world.tiles.WaterTile;
 
 public class World {
 
@@ -30,7 +31,8 @@ public class World {
 	
 	public CellGraph cellGraph;
 	
-	public WNoise noise = new WNoise(0);
+	public WNoise noise = new WNoise();
+	public WNoise terrainNoise = new WNoise();
 	
 	public World() {
 		grid = new Cell[WORLD_SIZE_W][WORLD_SIZE_H];
@@ -69,8 +71,26 @@ public class World {
 	
 		this.objects.addAll(herd.getMembers());
 
-		
+		spawnRivers();
 		spawnTree();
+	}
+	
+	private void spawnRivers() {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				Cell cell = grid[i][j];
+				
+				float e = 5f;
+				float n = (float) terrainNoise.noise(i * e, j * e);
+				
+				float d = Math.abs((n*2)-1);
+				
+				if(d > -0.1f && d < 0.5f) {
+					cell.setTile(new WaterTile(cell));
+				}
+				
+			}
+		}
 	}
 	
 	private void spawnTree() {
@@ -78,11 +98,13 @@ public class World {
 			for (int j = 0; j < grid[i].length; j++) {
 				Cell cell = grid[i][j];
 				
-				float e = 5f;
-				float n = (float) noise.noise(i * e, j * e);
-				
-				if(n > 0.4f) {
-					this.objects.add(new Tree(cell.x, cell.y));
+				if(cell.tile.getType() == TileType.Base) {
+					float e = 5f;
+					float n = (float) noise.noise(i * e, j * e);
+					
+					if(n > 0.4f) {
+						cell.tile.addObject(new Tree(cell.x, cell.y));
+					}
 				}
 				
 			}
@@ -98,7 +120,12 @@ public class World {
 		
 		if(!Main.PAUSED) {
 			if(MouseInput.hoveringOverCell != null) {
-				b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
+				if(MouseInput.clear) {
+					b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
+				} else {
+					b.draw(Assets.getSprite("tile-highlight-red"), MouseInput.hoveringOverCell.x, MouseInput.hoveringOverCell.y);
+				}
+				
 				
 				/*
 				 * 

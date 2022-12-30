@@ -30,6 +30,7 @@ public class Assets {
 		atlasses.put("paths", new TextureAtlas());
 
 		sprites.put("base-tile", atlasses.get("tiles").createSprite("base-tile"));
+		sprites.put("water-tile", atlasses.get("tiles").createSprite("water-tile"));
 		sprites.put("dirt-path-tile", atlasses.get("tiles").createSprite("dirt-path-tile"));
 		sprites.put("dirt-tile", atlasses.get("tiles").createSprite("dirt-tile"));
 		sprites.put("empty-tile", atlasses.get("tiles").createSprite("empty-tile"));

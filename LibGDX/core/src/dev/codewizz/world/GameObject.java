@@ -4,10 +4,13 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.codewizz.world.objects.ID;
+
 public abstract class GameObject implements Comparable<GameObject> {
 
 	protected float x, y;
 	protected int w, h;
+	protected ID id;
 	
 	public GameObject(float x, float y) {
 		this.x = x;
@@ -56,6 +59,14 @@ public abstract class GameObject implements Comparable<GameObject> {
 
 	public void setH(int h) {
 		this.h = h;
+	}
+	
+	public ID getID() {
+		return id;
+	}
+	
+	public void setID(ID id) {
+		this.id = id;
 	}
 	
 	public int compareTo(GameObject other) {

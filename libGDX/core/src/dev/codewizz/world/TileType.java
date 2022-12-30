@@ -7,5 +7,6 @@ public enum TileType {
 	Stone(),
 	Tiled(),
 	DirtPath(),
+	Water(),
 	Dirt();
 }

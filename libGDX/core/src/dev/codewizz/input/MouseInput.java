@@ -7,16 +7,19 @@ import com.badlogic.gdx.math.Vector3;
 import dev.codewizz.main.Camera;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
+import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
+import dev.codewizz.world.objects.ID;
 
 public class MouseInput implements InputProcessor {
 	
 	public static boolean[] dragging = new boolean[5];
 	public static Vector3 coords = new Vector3();
 	public static Cell hoveringOverCell;
-	public static TileType currentlyDrawingType = TileType.Tiled;
+	public static TileType currentlyDrawingType = TileType.Water;
 	public static AreaSelector area = new AreaSelector();
+	public static boolean clear = false;
 	
 	public void update(float d) {
 		if(Main.PLAYING && !Main.PAUSED) {
@@ -28,6 +31,19 @@ public class MouseInput implements InputProcessor {
 				for(int j = 0; j < grid[i].length; j++) {
 					if(grid[i][j].tile.getHitbox().contains(coords.x, coords.y)) {
 						hoveringOverCell = grid[i][j];
+						clear = true;
+						
+						Tile tile = grid[i][j].tile;
+						
+						if(tile.getType() == currentlyDrawingType || tile.getType() == TileType.Empty) {
+							clear = false;
+						}
+						
+						for(GameObject object : tile.getObjects()) {
+							if(object.getID() == ID.Tree) {
+								clear = false;
+							}
+						}
 					}
 				}
 			}
@@ -35,7 +51,10 @@ public class MouseInput implements InputProcessor {
 			
 			if(dragging[0]) {
 				if(hoveringOverCell != null) {
-					hoveringOverCell.setTile(Tile.getTileFromType(currentlyDrawingType, hoveringOverCell));
+					Tile tile = Tile.getTileFromType(currentlyDrawingType, hoveringOverCell);
+					
+					
+					hoveringOverCell.setTile(tile);
 					if(Main.DEBUG) {
 						Cell.printDebugInfo(hoveringOverCell);
 					}

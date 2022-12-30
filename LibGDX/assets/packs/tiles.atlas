@@ -46,3 +46,10 @@ tiled-tile
   orig: 64, 48
   offset: 0, 0
   index: -1
+water-tile
+  rotate: false
+  xy: 332, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1

@@ -15,6 +15,7 @@ import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
 import dev.codewizz.world.tiles.EmptyTile;
 import dev.codewizz.world.tiles.TiledTile;
+import dev.codewizz.world.tiles.WaterTile;
 
 public abstract class Tile {
 	
@@ -129,6 +130,8 @@ public abstract class Tile {
 			return new DirtPathTile(cell);
 		} else if(type == TileType.Tiled) {
 			return new TiledTile(cell);
+		} else if(type == TileType.Water) {
+			return new WaterTile(cell);
 		}
 		
 		return null;

@@ -13,6 +13,7 @@ import dev.codewizz.utils.Direction;
 import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
+import dev.codewizz.world.tiles.WaterTile;
 
 public class Cell {
 
@@ -29,11 +30,9 @@ public class Cell {
 		this.indexX = indexX;
 		this.indexY = indexY;
 		this.tile = new BaseTile(this);
-
 		this.odd = odd;
 		this.world = world;
 		
-		Animation ani;
 	}
 	
 	public void init(CellGraph graph) {

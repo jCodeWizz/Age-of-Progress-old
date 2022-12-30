@@ -14,6 +14,8 @@ public class Hermit extends TaskableObject {
 	public Hermit(float x, float y) {
 		super(x, y);
 
+		this.id = ID.Hermit;
+		
 		this.w = 32;
 		this.h = 32;
 	}
