@@ -9,12 +9,12 @@ public class TiledTile extends PathTile {
 	public TiledTile(Cell cell) {
 		super(cell);
 
-		this.type = TileType.Tiled;
-		this.texture = Assets.getSprite("tiled-tile");
-		this.template = TileType.Tiled;
+		this.type = TileType.Tiled_1;
+		this.texture = Assets.getSprite("tiled-tile-1");
+		this.template = TileType.Tiled_1;
 		this.templateGround = TileType.Base;
 		
-		this.name = "Tiled Path Tile";
+		this.name = "Tiled Path Tile 1";
 		
 		this.cost = 1;
 	}

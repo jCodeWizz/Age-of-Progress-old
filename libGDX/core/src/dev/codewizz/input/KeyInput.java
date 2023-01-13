@@ -1,5 +1,6 @@
 package dev.codewizz.input;
 
+import java.nio.ByteBuffer;
 import java.util.zip.Deflater;
 
 import com.badlogic.gdx.Gdx;
@@ -21,8 +22,6 @@ public class KeyInput implements InputProcessor {
 				Main.exit();
 			}
 			
-			
-			
 			if(Main.PLAYING) {
 				if(!Main.inst.renderer.ui.closeMenus()) {
 					Main.inst.renderer.ui.getElement("pauseMenu").enable();
@@ -33,14 +32,26 @@ public class KeyInput implements InputProcessor {
 			return true;
 		}
 		if(key == Input.Keys.TAB) {
+			
 			Main.DEBUG = true;
 			return true;
 		}
 		
+		
+		
 		if(key == Input.Keys.C) {
-			Pixmap pixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\pixmap.png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
+			Pixmap pixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+			ByteBuffer pixels = pixmap.getPixels();
+
+			// This loop makes sure the whole screenshot is opaque and looks exactly like what the user is seeing
+			int size = Gdx.graphics.getBackBufferWidth() * Gdx.graphics.getBackBufferHeight() * 4;
+			for (int i = 3; i < size; i += 4) {
+				pixels.put(i, (byte) 255);
+			}
+
+			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\screenshot.png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
 			pixmap.dispose();
+
 
 
 			return true;

@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.codewizz.main.Main;
 import dev.codewizz.world.objects.ID;
 
 public abstract class GameObject implements Comparable<GameObject> {
@@ -24,6 +25,13 @@ public abstract class GameObject implements Comparable<GameObject> {
 	
 	public abstract void update(float d);
 	public abstract void render(SpriteBatch b);
+	
+	public void onDestroy() {};
+	
+	public void destroy() {
+		onDestroy();
+		Main.inst.world.objects.remove(this);
+	}
 	
 	public Rectangle getBounds() {
 		return new Rectangle((int)x, (int)y, w, h);

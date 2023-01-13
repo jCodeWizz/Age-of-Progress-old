@@ -28,6 +28,10 @@ public class UIText extends UIElement {
 		
 		this.text = text;
 	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	@Override
 	public void render(SpriteBatch b) {

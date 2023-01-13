@@ -4,5 +4,6 @@ public enum ID {
 
 	Cow(),
 	Hermit(),
-	Tree();
+	Tree(),
+	Wolf();
 }

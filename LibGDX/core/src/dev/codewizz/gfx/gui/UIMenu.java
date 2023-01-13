@@ -48,7 +48,11 @@ public abstract class UIMenu extends UIElement {
 		for(UIElement e : elements) {
 			if(e.id.contains("list")) {
 				UIScrollList list = (UIScrollList) e;
-				list.scroll(amount);
+				System.out.println(list.id);
+				if(list.isEnabled()) {
+					list.scroll(amount);
+					
+				}
 			}
 		}	
 	}

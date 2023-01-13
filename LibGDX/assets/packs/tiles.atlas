@@ -1,6 +1,6 @@
 
 tiles.png
-size: 512, 128
+size: 1024, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
@@ -11,18 +11,18 @@ base-tile
   orig: 64, 48
   offset: 0, 0
   index: -1
+clay-tile
+  rotate: false
+  xy: 134, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
 construction-tile
   rotate: false
   xy: 2, 2
   size: 64, 96
   orig: 64, 96
-  offset: 0, 0
-  index: -1
-dirt-path-tile
-  rotate: false
-  xy: 134, 50
-  size: 64, 48
-  orig: 64, 48
   offset: 0, 0
   index: -1
 dirt-tile
@@ -39,16 +39,79 @@ empty-tile
   orig: 64, 32
   offset: 0, 0
   index: -1
-tiled-tile
+flower-tile-1
   rotate: false
   xy: 266, 50
   size: 64, 48
   orig: 64, 48
   offset: 0, 0
   index: -1
-water-tile
+sand-tile
   rotate: false
   xy: 332, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-1
+  rotate: false
+  xy: 398, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-2
+  rotate: false
+  xy: 464, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-3
+  rotate: false
+  xy: 530, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-4
+  rotate: false
+  xy: 596, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-5
+  rotate: false
+  xy: 662, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-6
+  rotate: false
+  xy: 728, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-7
+  rotate: false
+  xy: 794, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+tiled-tile-8
+  rotate: false
+  xy: 860, 50
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
+water-tile
+  rotate: false
+  xy: 926, 50
   size: 64, 48
   orig: 64, 48
   offset: 0, 0

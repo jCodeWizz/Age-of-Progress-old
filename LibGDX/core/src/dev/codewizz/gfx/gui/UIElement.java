@@ -125,5 +125,9 @@ public abstract class UIElement {
 		this.available = available;
 	}
 	
+	public String getID() {
+		return id;
+	}
+	
 	
 }

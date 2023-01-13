@@ -1,18 +1,27 @@
 package dev.codewizz.gfx.gui.layers;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import dev.codewizz.gfx.gui.UIElement;
 import dev.codewizz.gfx.gui.UIIcon;
 import dev.codewizz.gfx.gui.UIImage;
 import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.menus.PathingMenu;
 import dev.codewizz.gfx.gui.menus.PauseMenu;
+import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.gfx.gui.menus.SettingsGameMenu;
+import dev.codewizz.main.Main;
+import dev.codewizz.world.World;
+import dev.codewizz.world.objects.Entity;
 
 public class GameLayer extends UILayer {
 
 	private PathingMenu pathingMenu;
 	private PauseMenu pauseMenu;
 	private SettingsGameMenu settingsMenu;
+	private SelectMenu selectMenu;
+	
+	public static Entity selectedEntity = null;
 
 	@Override
 	public void setup() {
@@ -34,7 +43,12 @@ public class GameLayer extends UILayer {
 		});
 
 		// BUILD ICON
-		elements.add(new UIIcon("build-icon", (WIDTH / 2) - (22 * SCALE) / 2, 6 * SCALE, 22, 24, "build-icon"));
+		elements.add(new UIIcon("build-icon", (WIDTH / 2) - (22 * SCALE) / 2, 6 * SCALE, 22, 24, "build-icon") {
+			@Override
+			protected void onDeClick() {
+				Main.inst.openWorld(new World());
+			}
+		});
 
 		// PEOPLE ICON
 		elements.add(new UIIcon("people-icon", (WIDTH / 2) - (-34 * SCALE) / 2, 6 * SCALE, 22, 24, "people-icon"));
@@ -59,5 +73,18 @@ public class GameLayer extends UILayer {
 		settingsMenu = new SettingsGameMenu("settingsMenu", 0, 0, 100, 100, this);
 		settingsMenu.disable();
 		elements.add(settingsMenu);
+		
+		// SELECTMENU
+		selectMenu = new SelectMenu("selectMenu", 6, 6, 160, 107, this);
+		selectMenu.disable();
+		elements.add(selectMenu);
+	}
+	
+	@Override
+	public void render(SpriteBatch b) {
+		if(selectedEntity != null) {
+			selectedEntity.renderUICard(b);
+		}
+		super.render(b);
 	}
 }

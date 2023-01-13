@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 
-import dev.codewizz.world.GameObject;
 import dev.codewizz.world.objects.tasks.Task;
 import dev.codewizz.world.pathfinding.Agent;
 
-public abstract class TaskableObject extends GameObject {
+public abstract class TaskableObject extends Entity {
 
 	protected Queue<Task> tree = new Queue<>();
 	protected Task currentTask;
@@ -45,9 +44,15 @@ public abstract class TaskableObject extends GameObject {
 			currentTask.reach();
 		}
 	}
+	
+	public void addTask(Task task) {
+		tree.addLast(task);
+	}
 
 	@Override
 	public void update(float d) {
+		super.update(d);
+		
 		if(currentTask == null) {
 			if(!tree.isEmpty()) {
 				currentTask = tree.first();

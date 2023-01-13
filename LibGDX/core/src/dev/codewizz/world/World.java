@@ -2,22 +2,26 @@ package dev.codewizz.world;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dongbat.jbump.util.MathUtils;
 
+import dev.codewizz.gfx.Shaders;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
+import dev.codewizz.utils.Direction;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.WNoise;
 import dev.codewizz.world.objects.Cow;
-import dev.codewizz.world.objects.Herd;
+import dev.codewizz.world.objects.Entity;
+import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.pathfinding.CellGraph;
+import dev.codewizz.world.tiles.ClayTile;
+import dev.codewizz.world.tiles.SandTile;
 import dev.codewizz.world.tiles.WaterTile;
 
 public class World {
@@ -25,6 +29,9 @@ public class World {
 	public static final int WORLD_SIZE_W = 48;
 	public static final int WORLD_SIZE_H = 96;
 	public static final int RADIUS = 2;
+	public static final int MAX_RIVER_LENGTH = 1000;
+	public static final float E = 0.5f;
+	
 	
 	public Cell[][] grid;
 	public List<GameObject> objects = new CopyOnWriteArrayList<>();
@@ -60,6 +67,7 @@ public class World {
 	}
 	
 	public void init() {
+		/*
 		Herd herd = new Herd();
 		Random RANDOM = new Random();
 		
@@ -70,26 +78,76 @@ public class World {
 		herd.setLeader();
 	
 		this.objects.addAll(herd.getMembers());
-
+		*/
+		
+		this.objects.add(new Cow(0, 0));
+		this.objects.add(new Hermit(60, 60));
+		
+		
+		
 		spawnRivers();
 		spawnTree();
+		spawnResources();
 	}
 	
-	private void spawnRivers() {
+	private void spawnResources() {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				Cell cell = grid[i][j];
 				
-				float e = 5f;
-				float n = (float) terrainNoise.noise(i * e, j * e);
-				
-				float d = Math.abs((n*2)-1);
-				
-				if(d > -0.1f && d < 0.5f) {
-					cell.setTile(new WaterTile(cell));
+				if(cell.tile.getType() == TileType.Sand) {
+					float e = 1f;
+					float n = (float) noise.noise(i * e, j * e);
+					
+					if(n > 0.2f) {
+						cell.setTile(new ClayTile(cell));
+					}
 				}
 				
 			}
+		}
+	}
+	
+	private void spawnRivers() {
+		Cell currentCell = grid[0][(int)(WORLD_SIZE_H/2)];
+		int length = 0;
+		boolean done = false;
+		
+		List<Cell> cells = new CopyOnWriteArrayList<>();
+		List<Cell> cellsSand = new CopyOnWriteArrayList<>();
+		
+		do {
+			float sizeNoise = (float)terrainNoise.noise(currentCell.indexX, currentCell.indexY);
+			int size = (int)(3 * ((sizeNoise + 1) / 2)) + 2;
+			currentCell.setTile(new WaterTile(grid[currentCell.indexX][currentCell.indexY]));
+			
+			cells.addAll(currentCell.getCellsInRadius((int) (size)));
+			cellsSand.addAll(currentCell.getCellsInRadius((int) (size*2)));
+			
+			float noise = (float)terrainNoise.noise(currentCell.indexX * E, currentCell.indexY * E);
+			int degrees = 90 + (int)(90 * noise);
+			
+			Direction dir = Direction.getDirFromDeg(degrees);
+			Cell newCell = currentCell.getNeighbourCrossed(dir);
+			if(newCell != null) {
+				currentCell = newCell;
+				length++;
+			} else {
+				if(length > 5) {
+					done = true;
+				}
+			}
+			
+			
+			
+		} while(length < MAX_RIVER_LENGTH && done == false);
+		
+		for(int i = 0; i < cellsSand.size(); i++) {
+			cellsSand.get(i).setTile(new SandTile(cellsSand.get(i)));
+		}
+		
+		for(int i = 0; i < cells.size(); i++) {
+			cells.get(i).setTile(new WaterTile(cells.get(i)));
 		}
 	}
 	
@@ -138,29 +196,27 @@ public class World {
 	}
 	
 	public void renderObjects(SpriteBatch b) {
-		Collections.sort(objects);
 		
 		if(!Main.PAUSED) {
 			for(GameObject object : objects) {
 				object.update(Gdx.graphics.getDeltaTime());
 			}
 		}
-		for(GameObject object : objects) {
+		
+		List<GameObject> o = getObjects();
+		Collections.sort(o);
+		
+		for(GameObject object : o) {
+			b.setShader(Shaders.defaultShader);
+			if(object instanceof Entity) {
+				if(((Entity) object).isSelected()) {
+					b.setShader(Shaders.outlineShader);
+				}
+			}
 			object.render(b);
 		}
 	}
-	
-	public void renderTileObjects(SpriteBatch objectBatch) {
-		for (int i = grid[0].length - 1; i >= 0; i--) {
-			for (int j = grid.length - 1; j >= 0; j--) {
-				Tile tile = grid[j][i].tile;
-				for(GameObject b : tile.getObjects()) {
-					b.render(objectBatch);
-				}
-			}
-		}
-	}
-	
+
 	public Cell getCell(float x, float y) {
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
@@ -178,6 +234,23 @@ public class World {
 		y = MathUtils.clamp(y, 0, WORLD_SIZE_H-1);
 		
 		return grid[x][y];
+	}
+	
+	public List<GameObject> getObjects() {
+		List<GameObject> list = new CopyOnWriteArrayList<>();
+		
+		for (int i = grid[0].length - 1; i >= 0; i--) {
+			for (int j = grid.length - 1; j >= 0; j--) {
+				Tile tile = grid[j][i].tile;
+				for(GameObject b : tile.getObjects()) {
+					list.add(b);
+				}
+			}
+		}
+		
+		list.addAll(objects);
+		
+		return list;
 	}
 	
 	public void renderDebug() {

@@ -1,8 +1,9 @@
 package dev.codewizz.world;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -13,7 +14,6 @@ import dev.codewizz.utils.Direction;
 import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
-import dev.codewizz.world.tiles.WaterTile;
 
 public class Cell {
 
@@ -32,7 +32,6 @@ public class Cell {
 		this.tile = new BaseTile(this);
 		this.odd = odd;
 		this.world = world;
-		
 	}
 	
 	public void init(CellGraph graph) {
@@ -56,6 +55,71 @@ public class Cell {
 
 	public void render(SpriteBatch b) {
 		b.draw(tile.getCurrentSprite(), x, y);
+	}
+	
+	public Cell getNeighbourCrossed(Direction dir) {
+		if (dir == Direction.West) {
+			if(indexX > 0) {
+				return world.grid[indexX-1][indexY];
+			}
+		}
+		
+		if (dir == Direction.East) {
+			if(indexX < World.WORLD_SIZE_W-1) {
+				return world.grid[indexX+1][indexY];
+			}
+		}
+		if (dir == Direction.North) {
+			if(indexY > 1) {
+				return world.grid[indexX][indexY-2];
+			}
+		}
+
+		if (dir == Direction.South) {
+			if(indexY < World.WORLD_SIZE_H-2) {
+				return world.grid[indexX][indexY+2];
+			}
+		}
+		
+		if (odd) {
+			if (dir == Direction.NorthWest) {
+				if (indexY > 0) {
+					return (world.grid[indexX][indexY - 1]);
+				}
+			} else if (dir == Direction.NorthEast) {
+				if (indexY > 0 && indexX < World.WORLD_SIZE_W - 1) {
+					return (world.grid[indexX + 1][indexY - 1]);
+				}
+			} else if (dir == Direction.SouthWest) {
+				if (indexY < World.WORLD_SIZE_H - 1) {
+					return (world.grid[indexX][indexY + 1]);
+				}
+			} else if (dir == Direction.SouthEast) {
+				if (indexY < World.WORLD_SIZE_H - 1 && indexX < World.WORLD_SIZE_W - 1) {
+					return (world.grid[indexX + 1][indexY + 1]);
+				}
+			}
+		} else {
+			if (dir == Direction.NorthWest) {
+				if (indexY > 0 && indexX > 0) {
+					return (world.grid[indexX - 1][indexY - 1]);
+				}
+			} else if (dir == Direction.NorthEast) {
+				if (indexY > 0) {
+					return (world.grid[indexX][indexY - 1]);
+				}
+			} else if (dir == Direction.SouthWest) {
+				if (indexY < World.WORLD_SIZE_H && indexX > 0) {
+					return (world.grid[indexX - 1][indexY + 1]);
+				}
+			} else if (dir == Direction.SouthEast) {
+				if (indexY < World.WORLD_SIZE_H) {
+					return (world.grid[indexX][indexY + 1]);
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	public Cell getNeighbour(Direction dir, Direction dir2) {
@@ -122,6 +186,42 @@ public class Cell {
 		}
 		
 		return data;
+	}
+	
+	public List<Cell> getCellsInRadius(int r) {
+		ArrayList<Cell> cells = new ArrayList<>();
+		
+		Cell[][] grid = Main.inst.world.grid;
+		
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid[i].length; j++) {
+				Cell cell = grid[i][j];
+				if(Vector2.dst(cell.x, cell.y, x, y) < r * 32) {
+					cells.add(cell);
+				}
+			}
+		}
+		
+		return cells;
+	}
+	
+	public List<Cell> getCellsInSquare(int r) {
+		ArrayList<Cell> cells = new ArrayList<>();
+		
+		Cell[][] grid = Main.inst.world.grid;
+		
+		for(int i = -r; i < r; i++) {
+			for(int j = -r; j < r; j++) {
+				int iX = i + indexX;
+				int jY = j + indexY;
+				
+				if(iX >= 0 && iX < World.WORLD_SIZE_W && jY >= 0 && jY < World.WORLD_SIZE_H) {
+					cells.add(grid[iX][jY]);
+				}
+			}
+		}
+		
+		return cells;
 	}
 
 	public Cell[] getNeighbours() {

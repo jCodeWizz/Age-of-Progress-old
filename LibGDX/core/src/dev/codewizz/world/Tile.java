@@ -14,7 +14,16 @@ import dev.codewizz.world.tiles.BaseTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
 import dev.codewizz.world.tiles.EmptyTile;
+import dev.codewizz.world.tiles.FlowerTile;
+import dev.codewizz.world.tiles.SandTile;
 import dev.codewizz.world.tiles.TiledTile;
+import dev.codewizz.world.tiles.TiledTile2;
+import dev.codewizz.world.tiles.TiledTile3;
+import dev.codewizz.world.tiles.TiledTile4;
+import dev.codewizz.world.tiles.TiledTile5;
+import dev.codewizz.world.tiles.TiledTile6;
+import dev.codewizz.world.tiles.TiledTile7;
+import dev.codewizz.world.tiles.TiledTile8;
 import dev.codewizz.world.tiles.WaterTile;
 
 public abstract class Tile {
@@ -128,10 +137,28 @@ public abstract class Tile {
 			return new DirtTile(cell);
 		} else if(type == TileType.DirtPath) {
 			return new DirtPathTile(cell);
-		} else if(type == TileType.Tiled) {
+		} else if(type == TileType.Tiled_1) {
 			return new TiledTile(cell);
+		} else if(type == TileType.Tiled_2) {
+			return new TiledTile2(cell);
+		} else if(type == TileType.Tiled_3) {
+			return new TiledTile3(cell);
+		} else if(type == TileType.Tiled_4) {
+			return new TiledTile4(cell);
+		} else if(type == TileType.Tiled_5) {
+			return new TiledTile5(cell);
+		} else if(type == TileType.Tiled_6) {
+			return new TiledTile6(cell);
+		} else if(type == TileType.Tiled_7) {
+			return new TiledTile7(cell);
+		} else if(type == TileType.Tiled_8) {
+			return new TiledTile8(cell);
 		} else if(type == TileType.Water) {
 			return new WaterTile(cell);
+		} else if(type == TileType.Sand) {
+			return new SandTile(cell);
+		} else if(type == TileType.Flower) {
+			return new FlowerTile(cell);
 		}
 		
 		return null;

@@ -15,6 +15,7 @@ public abstract class Animal extends TaskableObject {
 	private final static Random RANDOM = new Random();
 	private Herd herd;
 	private boolean inHerd = false;
+	protected int wanderDistance = 6;
 	
 	
 	public Animal(float x, float y, Herd herd) {
@@ -40,8 +41,8 @@ public abstract class Animal extends TaskableObject {
 					if(herd.getLeader().equals(this)) {
 						Cell currentCell = Main.inst.world.getCell(x, y);
 						
-						int offX = RANDOM.nextInt(12) - 6 + currentCell.indexX;
-						int offY = RANDOM.nextInt(12) - 6 + currentCell.indexY;
+						int offX = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexX;
+						int offY = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexY;
 						
 						offX = MathUtils.clamp(offX, 0, World.WORLD_SIZE_W-1);
 						offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
@@ -57,8 +58,8 @@ public abstract class Animal extends TaskableObject {
 				} else {
 					Cell currentCell = Main.inst.world.getCell(x, y);
 					
-					int offX = RANDOM.nextInt(12) - 6 + currentCell.indexX;
-					int offY = RANDOM.nextInt(12) - 6 + currentCell.indexY;
+					int offX = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexX;
+					int offY = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexY;
 					
 					offX = MathUtils.clamp(offX, 0, World.WORLD_SIZE_W-1);
 					offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
@@ -73,6 +74,10 @@ public abstract class Animal extends TaskableObject {
 	
 	public abstract void render(SpriteBatch b);
 
+	public int getWanderDistance() {
+		return wanderDistance;
+	}
+	
 	public boolean isInHerd() {
 		return inHerd;
 	}

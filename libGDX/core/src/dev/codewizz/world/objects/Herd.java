@@ -6,6 +6,7 @@ import java.util.Random;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
+import dev.codewizz.world.objects.tasks.MoveTask;
 
 public class Herd {
 
@@ -15,7 +16,6 @@ public class Herd {
 	private int offset;
 
 	public Herd() {
-		this.offset = 1;
 	}
 
 	public Herd(Animal... animals) {
@@ -24,6 +24,8 @@ public class Herd {
 		}
 
 		this.leader = members.get(RANDOM.nextInt(members.size()));
+		this.leader.setName(this.leader.getName() + " Alpha");
+		this.offset = this.leader.getWanderDistance();
 	}
 
 	public Herd(Animal leader, Animal... animals) {
@@ -32,6 +34,8 @@ public class Herd {
 		}
 
 		this.leader = leader;
+		this.leader.setName(this.leader.getName() + " Alpha");
+		this.offset = this.leader.getWanderDistance();
 	}
 
 	public Cell newPath() {
@@ -43,7 +47,7 @@ public class Herd {
 
 	public void attackHerd() {
 		for (Animal a : members) {
-			a.agent.setGoal(null, a.getX(), a.getY());
+			a.addTask(new MoveTask(newPath()));
 		}
 	}
 
@@ -61,6 +65,8 @@ public class Herd {
 
 	public void setLeader() {
 		this.leader = members.get(RANDOM.nextInt(members.size()));
+		this.leader.setName(this.leader.getName() + " Alpha");
+		this.offset = this.leader.getWanderDistance();
 	}
 
 	public Animal getLeader() {
@@ -68,12 +74,10 @@ public class Herd {
 	}
 
 	public void leaderMoved() {
-		Cell cell = Main.inst.world.getCell(leader.getX(), leader.getY());
 
 		for (Animal a : members) {
 			if (!a.equals(leader)) {
-				a.agent.setGoal(Main.inst.world.getCellIndex(cell.indexX + RANDOM.nextInt(offset + offset) - offset,
-						cell.indexY + RANDOM.nextInt(offset + offset) - offset), a.getX(), a.getY());
+				a.addTask(new MoveTask(newPath()));
 			}
 		}
 	}
