@@ -67,23 +67,9 @@ public class World {
 	}
 	
 	public void init() {
-		/*
-		Herd herd = new Herd();
-		Random RANDOM = new Random();
-		
-		for(int i = 0; i < 7; i++) {
-			herd.addMember(new Cow(RANDOM.nextInt(100), RANDOM.nextInt(100), herd));
-		}
-	
-		herd.setLeader();
-	
-		this.objects.addAll(herd.getMembers());
-		*/
 		
 		this.objects.add(new Cow(0, 0));
 		this.objects.add(new Hermit(60, 60));
-		
-		
 		
 		spawnRivers();
 		spawnTree();

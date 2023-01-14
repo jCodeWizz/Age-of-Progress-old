@@ -6,6 +6,12 @@ import dev.codewizz.world.GameObject;
 
 public class BuildingDaughter extends GameObject {
 
+	/*
+	 * This will be a placeholder
+	 * So that other cells know that
+	 * they are taken up by a multi-cell building
+	 */
+	
 	private Building mother;
 	
 	public BuildingDaughter(float x, float y, Building mother) {

@@ -14,7 +14,6 @@ import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
 import dev.codewizz.world.objects.Entity;
 import dev.codewizz.world.objects.ID;
-import dev.codewizz.world.objects.Wolf;
 
 public class MouseInput implements InputProcessor {
 

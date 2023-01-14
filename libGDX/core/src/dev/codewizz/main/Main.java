@@ -44,6 +44,13 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	public void setInputMultiplexer() {
+		
+		/*
+		 * 
+		 * Set all classes that need key/mouse inputs
+		 * 
+		 */
+		
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(renderer.ui);
 		inputMultiplexer.addProcessor(keyInput);
@@ -59,6 +66,7 @@ public class Main extends ApplicationAdapter {
 		
 		/*
 		 * update game
+		 * 
 		 */
 		
 		camera.update(Gdx.graphics.getDeltaTime());
@@ -66,6 +74,7 @@ public class Main extends ApplicationAdapter {
 		
 		/*
 		 * render game
+		 * 
 		 */
 		
 		if(PLAYING) {
@@ -79,6 +88,14 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	public void openWorld(World world) {
+		
+		/*
+		 * 
+		 * get the new world and set it
+		 * 
+		 */
+		
+		
 		this.world = world;
 		this.world.init();
 		PLAYING = true;
@@ -88,6 +105,14 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	public void closeWorld() {
+		
+		/*
+		 * 
+		 * set world to null
+		 *
+		 */
+		
+		
 		PLAYING = false;
 		this.world = null;
 		

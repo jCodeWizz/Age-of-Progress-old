@@ -15,6 +15,12 @@ public class Camera {
 	}
 	
 	public void update(float d) {
+		
+		/*
+		 *  camera movement 
+		 */
+		
+		
 		if(Main.PLAYING && !Main.PAUSED) {
 			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 				move(d * -speed, 0);

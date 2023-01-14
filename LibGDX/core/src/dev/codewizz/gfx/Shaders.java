@@ -5,6 +5,14 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class Shaders {
 
+	/*
+	 * 
+	 * This is a util class that holds all of the shaders.
+	 * 
+	 */
+	
+	
+	
 	public static ShaderProgram outlineShader;
 	public static ShaderProgram defaultShader;
 	

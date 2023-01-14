@@ -11,6 +11,14 @@ public class AreaSelector {
 	public List<Cell> area = new CopyOnWriteArrayList<>();
 	public Cell start, stop;
 	
+	
+	/*
+	 * 
+	 * Unfinished, might not be used.
+	 * 
+	 */
+	
+	
 	public void setArea(Cell[][] grid) {
 		if(start.indexX != stop.indexX && start.indexY != stop.indexY) {
 			int dirX = Math.abs(stop.indexX - start.indexX)/(stop.indexX - start.indexX);

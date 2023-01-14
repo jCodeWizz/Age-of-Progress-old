@@ -11,10 +11,19 @@ public abstract class Task {
 		
 	}
 	
+	// called when task is finished
 	public abstract void finish();
+	
+	// called when task is stopped withouit finishing
 	public abstract void stop();
+	
+	// called when task is started
 	public abstract void start(TaskableObject object);
+	
+	// called when cell of task is reached
 	public abstract void reach();
+	
+	// called every frame
 	public abstract void update(float d);
 
 	public boolean isTasking() {

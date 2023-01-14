@@ -15,6 +15,12 @@ public class Animation {
 
 		index = 0;
 	}
+	
+	/*
+	 * 
+	 * Tick animation and check if it needs to move to the next frame.
+	 * 
+	 */
 
 	public void tick(float d) {
 

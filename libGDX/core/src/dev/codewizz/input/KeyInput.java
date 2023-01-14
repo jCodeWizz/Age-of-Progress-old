@@ -13,15 +13,23 @@ import dev.codewizz.main.Main;
 
 public class KeyInput implements InputProcessor {
 
+	/*
+	 * 
+	 * Key Input handling class
+	 * 
+	 */
+	
+	
 	@Override
 	public boolean keyDown(int key) {
 		
 		if(key == Input.Keys.ESCAPE) {
-			
+			// if shift is also pressed just force-close the program
 			if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
 				Main.exit();
 			}
 			
+			// closes all menus before going to main menu
 			if(Main.PLAYING) {
 				if(!Main.inst.renderer.ui.closeMenus()) {
 					Main.inst.renderer.ui.getElement("pauseMenu").enable();
@@ -32,13 +40,13 @@ public class KeyInput implements InputProcessor {
 			return true;
 		}
 		if(key == Input.Keys.TAB) {
-			
+			// enter debug mode
 			Main.DEBUG = true;
 			return true;
 		}
 		
 		
-		
+		// create a screenshot
 		if(key == Input.Keys.C) {
 			Pixmap pixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 			ByteBuffer pixels = pixmap.getPixels();
@@ -62,6 +70,8 @@ public class KeyInput implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int key) {
+		
+		// exit debug mode
 		if(key == Input.Keys.TAB) {
 			Main.DEBUG = false;
 			return true;
