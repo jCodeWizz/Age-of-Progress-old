@@ -65,4 +65,8 @@ public class Utils {
 		}
 		return (r << 24) | (g << 16) | (b << 8) | 0x000000ff;
 	}
+	
+	public static float getDegreesFromVector(Vector2 v) {
+		return (float)(180.0d / Math.PI * Math.atan2(v.x, v.y));		
+	}
 }

@@ -11,12 +11,13 @@ import dev.codewizz.gfx.Animation;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
+import dev.codewizz.utils.Utils;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.objects.tasks.MoveTask;
 
 public class Hermit extends TaskableObject {
 
-	private float walkAnimSpeed = 0.23f;
+	private float walkAnimSpeed = 0.1f;
 	
 	private HashMap<Direction, Animation> animations = new HashMap<>();
 	private HashMap<Direction, Sprite> directions = new HashMap<>();
@@ -56,7 +57,7 @@ public class Hermit extends TaskableObject {
 		}
 		
 		if(this.getAgent().moving) {
-			double degrees = Math.toDegrees(Math.atan(vel.y/vel.x));
+			double degrees = Utils.getDegreesFromVector(vel);
 			dir = Direction.getDirFromDeg((float)degrees);
 			currentAnimation = animations.get(dir);
 		} else {
