@@ -57,8 +57,7 @@ public class Hermit extends TaskableObject {
 		}
 		
 		if(this.getAgent().moving) {
-			double degrees = Utils.getDegreesFromVector(vel);
-			dir = Direction.getDirFromDeg((float)degrees);
+			dir = Utils.getDirFromVector(vel);
 			currentAnimation = animations.get(dir);
 		} else {
 			currentDirection = directions.get(dir);

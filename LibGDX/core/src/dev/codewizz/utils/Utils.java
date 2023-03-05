@@ -69,4 +69,8 @@ public class Utils {
 	public static float getDegreesFromVector(Vector2 v) {
 		return (float)(180.0d / Math.PI * Math.atan2(v.x, v.y));		
 	}
+	
+	public static Direction getDirFromVector(Vector2 v) {
+		return Direction.getDirFromDeg(getDegreesFromVector(v));
+	}
 }
