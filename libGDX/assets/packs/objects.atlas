@@ -1,26 +1,40 @@
 
 objects.png
-size: 64, 256
+size: 256, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+flag
+  rotate: false
+  xy: 2, 2
+  size: 64, 96
+  orig: 64, 96
+  offset: 0, 0
+  index: -1
+icon_flag
+  rotate: false
+  xy: 68, 34
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 rock
   rotate: false
-  xy: 2, 36
+  xy: 190, 66
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 rock-broken
   rotate: false
-  xy: 2, 2
+  xy: 190, 32
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 tree
   rotate: false
-  xy: 2, 70
+  xy: 134, 31
   size: 54, 67
   orig: 54, 67
   offset: 0, 0

@@ -7,10 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import dev.codewizz.gfx.Animation;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
+import dev.codewizz.utils.serialization.RCField;
+import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.GameObject;
+import dev.codewizz.world.Serializable;
 import dev.codewizz.world.objects.tasks.HuntTask;
 
-public class Wolf extends Animal {
+public class Wolf extends Animal implements Serializable {
 
 	private Animation walkAnim;
 	private boolean moving = false;
@@ -62,14 +65,6 @@ public class Wolf extends Animal {
 	public void update(float d) {
 		super.update(d);
 
-		for (GameObject object : Main.inst.world.objects) {
-			if (object instanceof Entity) {
-				if (object.getID() == ID.Cow) {
-					System.out.println("DISTANCE TO COW: " + Vector2.dst(object.getX(), object.getY(), getX(), getY()));
-				}
-			}
-		}
-
 		if (vel.x > 0) {
 			facingRight = false;
 			moving = true;
@@ -86,7 +81,7 @@ public class Wolf extends Animal {
 		for (GameObject object : Main.inst.world.objects) {
 			if (object instanceof Entity) {
 				if (object.getID() == ID.Cow) {
-					if (Vector2.dst(object.getX(), object.getY(), getX(), getY()) < 120) {
+					if (Vector2.dst(object.getX(), object.getY(), getX(), getY()) < 400) {
 
 						this.addTask(new HuntTask((Entity) object, damage, attackSpeed));
 
@@ -117,5 +112,18 @@ public class Wolf extends Animal {
 	@Override
 	public void renderUICard(SpriteBatch b) {
 
+	}
+	
+	@Override
+	public RCObject save(RCObject object) {
+		object.addField(RCField.Float("health", health));
+		
+		return object;	
+	}
+
+	@Override
+	public void load(RCObject object) {
+		this.health = object.findField("health").getFloat();
+		Main.inst.world.objects.add(this);		
 	}
 }

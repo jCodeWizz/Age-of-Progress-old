@@ -10,7 +10,7 @@ import dev.codewizz.input.MouseInput;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.world.Tile;
 
-public class UIBuyslot extends UIElement {
+public class UIBuyslotTile extends UIElement {
 
 	private BitmapFont f;
 	private Sprite background;
@@ -19,7 +19,7 @@ public class UIBuyslot extends UIElement {
 	
 	private int tileScaleX, tileScaleY;
 	
-	public UIBuyslot(String id, int x, int y, int w, int h, Tile tile) {
+	public UIBuyslotTile(String id, int x, int y, int w, int h, Tile tile) {
 		super(id, x, y, w, h);
 		this.tile = tile;
 		
@@ -42,6 +42,7 @@ public class UIBuyslot extends UIElement {
 	
 	@Override
 	protected void onClick() {
+		MouseInput.object = false;
 		MouseInput.currentlyDrawingType = tile.getType();
 	}
 	
@@ -51,12 +52,19 @@ public class UIBuyslot extends UIElement {
 
 	@Override
 	public void render(SpriteBatch b) {
-		if(pressed) {
-			b.draw(backgroundPressed, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
+		if(available) {
+			if(pressed) {
+				b.draw(backgroundPressed, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
+			} else {
+				b.draw(background, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
+			}
+			f.draw(b, tile.getName(), x + (4) * UILayer.SCALE, y + (h-8) * UILayer.SCALE);
+			b.draw(tile.getCurrentSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (4 * UILayer.SCALE), tileScaleX, tileScaleY);
+
 		} else {
-			b.draw(background, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
+			b.draw(backgroundPressed, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
+			f.draw(b, tile.getName(), x + (4) * UILayer.SCALE, y + (h-8) * UILayer.SCALE);
+			b.draw(tile.getCurrentSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (4 * UILayer.SCALE), tileScaleX, tileScaleY);
 		}
-		f.draw(b, tile.getName(), x + (4) * UILayer.SCALE, y + (h-8) * UILayer.SCALE);
-		b.draw(tile.getCurrentSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (4 * UILayer.SCALE), tileScaleX, tileScaleY);
 	}
 }

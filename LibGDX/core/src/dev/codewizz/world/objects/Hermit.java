@@ -2,20 +2,20 @@ package dev.codewizz.world.objects;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.gfx.Animation;
-import dev.codewizz.input.MouseInput;
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.utils.Utils;
-import dev.codewizz.world.Cell;
-import dev.codewizz.world.objects.tasks.MoveTask;
+import dev.codewizz.utils.serialization.RCField;
+import dev.codewizz.utils.serialization.RCObject;
+import dev.codewizz.world.Serializable;
+import dev.codewizz.world.settlement.Settlement;
 
-public class Hermit extends TaskableObject {
+public class Hermit extends TaskableObject implements Serializable {
 
 	private float walkAnimSpeed = 0.1f;
 	
@@ -26,11 +26,28 @@ public class Hermit extends TaskableObject {
 	private Animation currentAnimation;
 	private Sprite currentDirection;
 	
+	private Settlement s;
+	
+	
+	public Hermit(float x, float y, Settlement s) {
+		super(x, y);
+		this.s = s;
+		this.id = ID.Hermit;
+		this.name= Utils.getRandomName();
+		
+		this.w = 32;
+		this.h = 32;
+		this.health = 10f;
+		
+		this.speed = 20f;
+		
+		createAnimations();
+	}
 	
 	public Hermit(float x, float y) {
 		super(x, y);
-
 		this.id = ID.Hermit;
+		this.name= Utils.getRandomName();
 		
 		this.w = 32;
 		this.h = 32;
@@ -45,15 +62,18 @@ public class Hermit extends TaskableObject {
 	public void update(float d) {
 		super.update(d);
 		
-		if(currentAnimation != null) {
-			currentAnimation.tick(d);
+		
+		//System.out.println("CTASK: " + (this.currentTask == null));
+		//System.out.println("STASK: " + s.getTasks().notEmpty());
+		//System.out.println();
+		
+		if(this.currentTask == null && s.getTasks().notEmpty()) {
+			this.addTask(s.getTasks().removeFirst());
 		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.TAB)) {
-			Cell cell = MouseInput.hoveringOverCell;
-			if(cell != null) {
-				tree.addLast(new MoveTask(cell));
-			}
+		
+		if(currentAnimation != null) {
+			currentAnimation.tick(d);
 		}
 		
 		if(this.getAgent().moving) {
@@ -62,7 +82,6 @@ public class Hermit extends TaskableObject {
 		} else {
 			currentDirection = directions.get(dir);
 		}
-		
 	}
 	
 	private void createAnimations() {
@@ -136,11 +155,33 @@ public class Hermit extends TaskableObject {
 				b.draw(currentDirection, x, y, 30, 45);
 			}
 		}
-			
 	}
 
 	@Override
 	public void renderUICard(SpriteBatch b) {
 		
+	}
+
+	public Settlement getSettlement() {
+		return s;
+	}
+
+	public void setSettlement(Settlement s) {
+		this.s = s;
+	}
+
+	@Override
+	public RCObject save(RCObject object) {
+		object.addField(RCField.Float("health", health));
+		
+		return object;
+	}
+
+	@Override
+	public void load(RCObject object) {
+		this.health = object.findField("health").getFloat();
+		
+		Main.inst.world.objects.add(this);
+		Main.inst.world.settlement.addHermit(this);
 	}
 }

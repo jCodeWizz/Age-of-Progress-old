@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import dev.codewizz.main.Main;
+import dev.codewizz.utils.Utils;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.objects.tasks.MoveTask;
 
@@ -13,7 +14,7 @@ public class Herd {
 	private final static Random RANDOM = new Random();
 	private List<Animal> members = new ArrayList<>();
 	private Animal leader;
-	private int offset;
+	private int offset = 2;
 
 	public Herd() {
 	}
@@ -41,8 +42,10 @@ public class Herd {
 	public Cell newPath() {
 		Cell cell = Main.inst.world.getCell(leader.getX(), leader.getY());
 
-		return Main.inst.world.getCellIndex(cell.indexX + RANDOM.nextInt(offset + offset) - offset,
-				cell.indexY + RANDOM.nextInt(offset + offset) - offset);
+		int indexX = cell.indexX + Utils.getRandom(-offset, offset);
+		int indexY = cell.indexY + Utils.getRandom(-offset, offset);
+		
+		return Main.inst.world.getCellIndex(indexX, indexY);
 	}
 
 	public void attackHerd() {
@@ -80,5 +83,9 @@ public class Herd {
 				a.addTask(new MoveTask(newPath()));
 			}
 		}
+	}
+	
+	public void removeMember(Animal member) {
+		this.members.remove(member);
 	}
 }

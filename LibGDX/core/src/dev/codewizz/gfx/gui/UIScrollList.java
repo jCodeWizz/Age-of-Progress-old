@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class UIScrollList extends UIElement {
 
-	public List<UIBuyslot> slots = new CopyOnWriteArrayList<>();
+	public List<UIElement> slots = new CopyOnWriteArrayList<>();
 	public Rectangle slotPort;
 	
 	public static float SCROLL_SPEED = 20f;
@@ -39,7 +39,7 @@ public class UIScrollList extends UIElement {
 			amount = -scroll;
 		}
 		
-		for(UIBuyslot b : slots) {
+		for(UIElement b : slots) {
 			b.setY(b.getY() + amount);
 		}
 		

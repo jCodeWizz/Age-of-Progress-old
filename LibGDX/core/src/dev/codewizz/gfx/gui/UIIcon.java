@@ -29,7 +29,6 @@ public class UIIcon extends UIElement {
 
 	@Override
 	public void render(SpriteBatch b) {
-		
 		if(!available) {
 			b.draw(buttonUnavailable, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
 			b.draw(icon, x, y, w * UILayer.SCALE, h * UILayer.SCALE);

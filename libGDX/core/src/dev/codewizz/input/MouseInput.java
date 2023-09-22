@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 
+import dev.codewizz.gfx.gui.UIElement;
 import dev.codewizz.main.Camera;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
@@ -13,16 +14,20 @@ import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
 import dev.codewizz.world.objects.Entity;
-import dev.codewizz.world.objects.ID;
+import dev.codewizz.world.objects.IBuy;
 
 public class MouseInput implements InputProcessor {
 
+	public static boolean object = true;
+	
 	public static boolean[] dragging = new boolean[5];
 	public static Vector3 coords = new Vector3();
 	public static Cell hoveringOverCell;
 	public static TileType currentlyDrawingType = TileType.Water;
+	public static GameObject currentlyDrawingObject = null;
 	public static AreaSelector area = new AreaSelector();
 	public static boolean clear = false;
+	public static UIElement lastClickedUIElement;
 
 	public void update(float d) {
 		if (Main.PLAYING && !Main.PAUSED) {
@@ -47,12 +52,6 @@ public class MouseInput implements InputProcessor {
 						if (tile.getType() == currentlyDrawingType || tile.getType() == TileType.Empty) {
 							clear = false;
 						}
-
-						for (GameObject object : tile.getObjects()) {
-							if (object.getID() == ID.Tree) {
-								clear = false;
-							}
-						}
 					}
 				}
 			}
@@ -66,8 +65,32 @@ public class MouseInput implements InputProcessor {
 			if (dragging[0]) {
 
 				if (hoveringOverCell != null) {
-					Tile tile = Tile.getTileFromType(currentlyDrawingType, hoveringOverCell);
-					hoveringOverCell.setTile(tile);
+					
+					if(object) {
+						if(currentlyDrawingObject != null) {
+							IBuy object = (IBuy) currentlyDrawingObject;
+							
+							Main.inst.world.objects.add(object.getCopy(hoveringOverCell.x, hoveringOverCell.y));
+							object.onPlace(hoveringOverCell);
+							
+							
+							
+							dragging[0] = object.conintues();
+							lastClickedUIElement.setAvailable(object.available());
+						}
+					} else {
+						Tile tile;
+						try {
+							tile = Tile.getTileFromType(currentlyDrawingType, hoveringOverCell);
+							hoveringOverCell.setTile(tile);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+					}
+					
+					
+					
 					if (Main.DEBUG) {
 						Cell.printDebugInfo(hoveringOverCell);
 					}

@@ -24,17 +24,18 @@ public class Cell {
 	public World world;
 	public int index;
 
-	public Cell(float x, float y, int indexX, int indexY, boolean odd, World world) {
+	public Cell(float x, float y, int indexX, int indexY, boolean odd) {
 		this.x = x;
 		this.y = y;
 		this.indexX = indexX;
 		this.indexY = indexY;
 		this.tile = new BaseTile(this);
 		this.odd = odd;
-		this.world = world;
 	}
 	
-	public void init(CellGraph graph) {
+	public void init(CellGraph graph, World world) {
+		this.world = world;
+		
 		Cell[] neighBours = getCrossedNeighbours();
 		for(int i = 0; i < neighBours.length; i++) {
 			if(neighBours[i] != null) {

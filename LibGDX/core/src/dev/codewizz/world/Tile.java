@@ -1,8 +1,6 @@
 package dev.codewizz.world;
 
 import java.awt.Polygon;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -11,6 +9,7 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
+import dev.codewizz.world.tiles.ClayTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
 import dev.codewizz.world.tiles.EmptyTile;
@@ -33,8 +32,6 @@ public abstract class Tile {
 	protected TileType type;
 	protected String name;
 	protected int cost = 1;
-	
-	protected List<GameObject> objects = new CopyOnWriteArrayList<>();
 	
 	public Tile(Cell cell) {
 		this.cell = cell;
@@ -74,18 +71,6 @@ public abstract class Tile {
 		}
 		
 		onPlace();
-	}
-	
-	public List<GameObject> getObjects() {
-		return objects;
-	}
-	
-	public void addObject(GameObject g) {
-		objects.add(g);
-	}
-	
-	public void removeObject(GameObject g) {
-		objects.add(g);
 	}
 	
 	public Sprite getCurrentSprite() {
@@ -128,7 +113,7 @@ public abstract class Tile {
 		return data;
 	}
 	
-	public static Tile getTileFromType(TileType type, Cell cell) {
+	public static Tile getTileFromType(TileType type, Cell cell) throws Exception {
 		if(type == TileType.Empty) {
 			return new EmptyTile(cell);
 		} else if(type == TileType.Base) {
@@ -159,9 +144,11 @@ public abstract class Tile {
 			return new SandTile(cell);
 		} else if(type == TileType.Flower) {
 			return new FlowerTile(cell);
+		} else if(type == TileType.Clay) {
+			return new ClayTile(cell);
 		}
 		
-		return null;
+		throw new Exception("TILE TYPE NOT FOUND [Tile.getTileFromType(TileType type)]");
 	}
 	
 	public TileType getType() {

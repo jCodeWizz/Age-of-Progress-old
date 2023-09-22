@@ -1,22 +1,19 @@
 package dev.codewizz.world.objects;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dongbat.jbump.util.MathUtils;
 
 import dev.codewizz.main.Main;
+import dev.codewizz.utils.Utils;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.World;
 import dev.codewizz.world.objects.tasks.MoveTask;
 
 public abstract class Animal extends TaskableObject {
 
-	private final static Random RANDOM = new Random();
 	private Herd herd;
 	private boolean inHerd = false;
 	protected int wanderDistance = 6;
-	
 	
 	public Animal(float x, float y, Herd herd) {
 		super(x, y);
@@ -36,13 +33,13 @@ public abstract class Animal extends TaskableObject {
 		super.update(d);
 		
 		if(!agent.moving) {
-			if(RANDOM.nextInt(1000) == 0) {
+			if(Utils.RANDOM.nextInt(1000) == 0) {
 				if(inHerd) {
 					if(herd.getLeader().equals(this)) {
 						Cell currentCell = Main.inst.world.getCell(x, y);
 						
-						int offX = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexX;
-						int offY = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexY;
+						int offX = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexX;
+						int offY = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexY;
 						
 						offX = MathUtils.clamp(offX, 0, World.WORLD_SIZE_W-1);
 						offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
@@ -58,8 +55,8 @@ public abstract class Animal extends TaskableObject {
 				} else {
 					Cell currentCell = Main.inst.world.getCell(x, y);
 					
-					int offX = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexX;
-					int offY = RANDOM.nextInt(wanderDistance) - wanderDistance + currentCell.indexY;
+					int offX = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexX;
+					int offY = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexY;
 					
 					offX = MathUtils.clamp(offX, 0, World.WORLD_SIZE_W-1);
 					offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
@@ -84,5 +81,9 @@ public abstract class Animal extends TaskableObject {
 	
 	public Herd getHerd() {
 		return herd;
+	}
+	
+	public void setIsInHerd(boolean herd) {
+		this.inHerd = herd;
 	}
 }

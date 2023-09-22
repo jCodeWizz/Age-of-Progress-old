@@ -14,21 +14,21 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.world.World;
 
 public class Main extends ApplicationAdapter {
-	
+		
 	public static boolean DEBUG = false;
 	public static boolean PLAYING = false;
 	public static boolean PAUSED = false;
-	
+		
 	public static Main inst;
-
+		
 	public Renderer renderer;
 	public Camera camera;
 	public InputMultiplexer inputMultiplexer;
-
+		
 	public World world;
 	public MouseInput mouseInput;
 	public KeyInput keyInput;
-	
+		
 	@Override
 	public void create () {
 		inst = this;
@@ -41,6 +41,7 @@ public class Main extends ApplicationAdapter {
 		keyInput = new KeyInput();
 		
 		setInputMultiplexer();
+		
 	}
 	
 	public void setInputMultiplexer() {
@@ -89,15 +90,7 @@ public class Main extends ApplicationAdapter {
 	
 	public void openWorld(World world) {
 		
-		/*
-		 * 
-		 * get the new world and set it
-		 * 
-		 */
-		
-		
 		this.world = world;
-		this.world.init();
 		PLAYING = true;
 		
 		renderer.ui = new GameLayer();
@@ -121,7 +114,6 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	public static void exit() {
-		
 		Gdx.app.exit();
 	}
 	

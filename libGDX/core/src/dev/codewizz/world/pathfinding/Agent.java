@@ -20,10 +20,13 @@ public class Agent {
 	
 	public Agent() {
 		dir = new Vector2();
-		graph = Main.inst.world.cellGraph;
 	}
 
 	public void update(float d, float x, float y) {
+		
+		if(graph == null) graph = Main.inst.world.cellGraph;
+		
+		
 		checkDistance(x, y);
 	}
 

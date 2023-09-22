@@ -47,9 +47,9 @@ public class HuntTask extends Task {
 	
 	private boolean inRange() {
 		if(hunter.getAgent().moving) {
-			return (Vector2.dst(huntable.getX(), huntable.getX(), hunter.getX(), hunter.getX()) < 30);
+			return (Vector2.dst(huntable.getX(), huntable.getY(), hunter.getX(), hunter.getY()) < 20);
 		} else {
-			return (Vector2.dst(huntable.getX(), huntable.getX(), hunter.getX(), hunter.getX()) < 60);
+			return (Vector2.dst(huntable.getX(), huntable.getY(), hunter.getX(), hunter.getY()) < 50);
 		}
 	}
 	
@@ -75,5 +75,10 @@ public class HuntTask extends Task {
 				hunter.getAgent().setGoal(Main.inst.world.getCell(huntable.getX(), huntable.getY()), hunter.getX(), hunter.getY());
 			}
 		}
+	}
+	
+	@Override
+	public String getName() {
+		return "Hunting";
 	}
 }

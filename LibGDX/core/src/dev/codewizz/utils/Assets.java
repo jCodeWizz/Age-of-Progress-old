@@ -84,6 +84,8 @@ public class Assets {
 		sprites.put("right-down-hermit-3", atlasses.get("entities").createSprite("right-down-hermit-3"));
 
 		sprites.put("tree", atlasses.get("objects").createSprite("tree"));
+		sprites.put("flag", atlasses.get("objects").createSprite("flag"));
+		sprites.put("icon_flag", atlasses.get("objects").createSprite("icon_flag"));
 		sprites.put("rock", atlasses.get("objects").createSprite("rock"));
 		sprites.put("broken-rock", atlasses.get("objects").createSprite("broken-rock"));
 
@@ -103,6 +105,7 @@ public class Assets {
 		sprites.put("tile-highlight", atlasses.get("ui").createSprite("tile-highlight"));
 		sprites.put("tile-highlight-red", atlasses.get("ui").createSprite("tile-highlight2"));
 		sprites.put("path-menu", atlasses.get("ui").createSprite("path-menu"));
+		sprites.put("info-menu", atlasses.get("ui").createSprite("info-menu"));
 		sprites.put("buyslot", atlasses.get("ui").createSprite("tile-background-buyslot"));
 		sprites.put("buyslot-pressed", atlasses.get("ui").createSprite("tile-background-buyslot-pressed"));
 		sprites.put("fade", atlasses.get("ui").createSprite("fade"));

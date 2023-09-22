@@ -3,7 +3,7 @@ package dev.codewizz.gfx.gui.menus;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
-import dev.codewizz.gfx.gui.UIBuyslot;
+import dev.codewizz.gfx.gui.UIBuyslotTile;
 import dev.codewizz.gfx.gui.UIIcon;
 import dev.codewizz.gfx.gui.UIImage;
 import dev.codewizz.gfx.gui.UILayer;
@@ -94,38 +94,38 @@ public class PathingMenu extends UIMenu {
 		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1,
 				10, 10, "Pathing Menu", 8));
 
-		terrainList.slots.add(new UIBuyslot("slot-1", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-2", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-2", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new FlowerTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-3", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-3", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (190 * UILayer.SCALE), 160 - 8, 52, new DirtTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-4", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-4", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (240 * UILayer.SCALE), 160 - 8, 52, new SandTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-5", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-5", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (290 * UILayer.SCALE), 160 - 8, 52, new ClayTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-6", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-6", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (340 * UILayer.SCALE), 160 - 8, 52, new WaterTile(null)));
-		terrainList.slots.add(new UIBuyslot("slot-7", (8) * UILayer.SCALE + 4,
+		terrainList.slots.add(new UIBuyslotTile("slot-7", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (390 * UILayer.SCALE), 160 - 8, 52, new EmptyTile(null)));
 
-		stonesList.slots.add(new UIBuyslot("slot-1", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new DirtPathTile(null)));
-		stonesList.slots.add(new UIBuyslot("slot-2", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-2", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new TiledTile(null)));
-		stonesList.slots.add(new UIBuyslot("slot-3", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-3", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (190 * UILayer.SCALE), 160 - 8, 52, new TiledTile2(null)));
-		stonesList.slots.add(new UIBuyslot("slot-4", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-4", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (240 * UILayer.SCALE), 160 - 8, 52, new TiledTile3(null)));
-		stonesList.slots.add(new UIBuyslot("slot-5", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-5", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (290 * UILayer.SCALE), 160 - 8, 52, new TiledTile4(null)));
-		stonesList.slots.add(new UIBuyslot("slot-6", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-6", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (340 * UILayer.SCALE), 160 - 8, 52, new TiledTile5(null)));
-		stonesList.slots.add(new UIBuyslot("slot-7", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-7", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (390 * UILayer.SCALE), 160 - 8, 52, new TiledTile6(null)));
-		stonesList.slots.add(new UIBuyslot("slot-8", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-8", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (440 * UILayer.SCALE), 160 - 8, 52, new TiledTile7(null)));
-		stonesList.slots.add(new UIBuyslot("slot-9", (8) * UILayer.SCALE + 4,
+		stonesList.slots.add(new UIBuyslotTile("slot-9", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (490 * UILayer.SCALE), 160 - 8, 52, new TiledTile8(null)));
 
 		terrainList.maxScroll = (terrainList.slots.size()) * 52;

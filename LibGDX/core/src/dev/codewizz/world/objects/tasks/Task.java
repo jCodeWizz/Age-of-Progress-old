@@ -25,6 +25,8 @@ public abstract class Task {
 	
 	// called every frame
 	public abstract void update(float d);
+	
+	public abstract String getName();
 
 	public boolean isTasking() {
 		return tasking;

@@ -11,6 +11,9 @@ import dev.codewizz.main.Main;
 
 public class SettingsGameMenu extends UIMenu {
 
+	private boolean[] states = null;
+	
+	
 	public SettingsGameMenu(String id, int x, int y, int w, int h, UILayer layer) {
 		super(id, x, y, w, h, layer);
 
@@ -36,21 +39,42 @@ public class SettingsGameMenu extends UIMenu {
 	public void onOpen() {
 		Main.PAUSED = true;
 		UILayer.FADE = true;
+		
+		setStates();
+		
 		layer.getElement("build-icon").setAvailable(false);
 		layer.getElement("tool-icon").setAvailable(false);
 		layer.getElement("people-icon").setAvailable(false);
 		layer.getElement("manage-icon").setAvailable(false);
 		layer.getElement("path-icon").setAvailable(false);
 	}
+	
+	private void setStates() {
+		
+		if(states == null) {
+			states = new boolean[5];
+		}
+		
+		states[0] = layer.getElement("build-icon").isAvailable();
+		states[1] = layer.getElement("tool-icon").isAvailable();
+		states[2] = layer.getElement("people-icon").isAvailable();
+		states[3] = layer.getElement("manage-icon").isAvailable();
+		states[4] = layer.getElement("path-icon").isAvailable();
+	}
 
 	@Override
 	public void onClose() {
 		Main.PAUSED = false;
 		UILayer.FADE = false;
-		layer.getElement("build-icon").setAvailable(true);
-		layer.getElement("tool-icon").setAvailable(true);
-		layer.getElement("people-icon").setAvailable(true);
-		layer.getElement("manage-icon").setAvailable(true);
-		layer.getElement("path-icon").setAvailable(true);
+		
+		if(states == null) {
+			setStates();
+		}
+		
+		layer.getElement("build-icon").setAvailable(states[0]);
+		layer.getElement("tool-icon").setAvailable(states[1]);
+		layer.getElement("people-icon").setAvailable(states[2]);
+		layer.getElement("manage-icon").setAvailable(states[3]);
+		layer.getElement("path-icon").setAvailable(states[4]);
 	}
 }

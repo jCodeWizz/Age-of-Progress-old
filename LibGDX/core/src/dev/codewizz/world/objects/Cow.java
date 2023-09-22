@@ -4,9 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.gfx.Animation;
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
+import dev.codewizz.utils.serialization.RCField;
+import dev.codewizz.utils.serialization.RCObject;
+import dev.codewizz.world.Serializable;
 
-public class Cow extends Animal {
+public class Cow extends Animal implements Serializable {
 	
 	/*
 	 * pTR1600:
@@ -30,7 +34,7 @@ public class Cow extends Animal {
 		this.h = 32;
 		this.wanderDistance = 6;
 		
-		speed = 10f;
+		this.speed = 10f;
 		this.health = 10f;
 		
 		createAnim();
@@ -46,7 +50,7 @@ public class Cow extends Animal {
 		this.h = 32;
 		this.wanderDistance = 6;
 		
-		speed = 10f;
+		this.speed = 10f;
 		this.health = 10f;
 		
 		createAnim();
@@ -108,5 +112,19 @@ public class Cow extends Animal {
 	@Override
 	public void renderUICard(SpriteBatch b) {
 		
+	}
+
+	@Override
+	public RCObject save(RCObject object) {
+		object.addField(RCField.Float("health", health));
+		
+		return object;	
+	}
+
+	@Override
+	public void load(RCObject object) {
+		this.health = object.findField("health").getFloat();
+		
+		Main.inst.world.objects.add(this);		
 	}
 }

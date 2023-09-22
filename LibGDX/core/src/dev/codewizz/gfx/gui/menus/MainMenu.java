@@ -25,14 +25,35 @@ public class MainMenu extends UIMenu {
 		
 		
 		
-		elements.add(new UIButton("start-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE + 120*UILayer.SCALE, 99, 36, "Create World") {
+		elements.add(new UIButton("start-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE + 120*UILayer.SCALE, 99, 36, "Load World") {
 			@Override
 			protected void onDeClick() {
-				Main.inst.openWorld(new World());
+				
+				Main.inst.openWorld(World.openWorld("../assets/data/world.save"));
+				
+				boolean hideButtons = !Main.inst.world.showInfoSartMenu;
+				
+				Main.inst.renderer.ui.getElement("manage-icon").setAvailable(hideButtons);;
+				Main.inst.renderer.ui.getElement("path-icon").setAvailable(hideButtons);;
+				Main.inst.renderer.ui.getElement("people-icon").setAvailable(hideButtons);;
+				Main.inst.renderer.ui.getElement("tool-icon").setAvailable(hideButtons);;
 			}
 		});
 		
-		elements.add(new UIButton("settings-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE + 60*UILayer.SCALE, 99, 36, "Settings") {
+		elements.add(new UIButton("start-new-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE + 60*UILayer.SCALE, 99, 36, "Create World") {
+			@Override
+			protected void onDeClick() {
+				
+				Main.inst.openWorld(new World());
+				
+				Main.inst.renderer.ui.getElement("manage-icon").setAvailable(false);;
+				Main.inst.renderer.ui.getElement("path-icon").setAvailable(false);;
+				Main.inst.renderer.ui.getElement("people-icon").setAvailable(false);;
+				Main.inst.renderer.ui.getElement("tool-icon").setAvailable(false);;
+			}
+		});
+		
+		elements.add(new UIButton("settings-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE, 99, 36, "Settings") {
 			@Override
 			protected void onDeClick() {
 				layer.getElement("main-menu-menu").disable();
@@ -40,7 +61,7 @@ public class MainMenu extends UIMenu {
 			}
 		});
 		
-		elements.add(new UIButton("quit-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE, 99, 36, "Quit Game") {
+		elements.add(new UIButton("quit-button", startX + w/2 - (99*UILayer.SCALE)/2, Gdx.graphics.getHeight()/2 - (36/2)*UILayer.SCALE - 60*UILayer.SCALE, 99, 36, "Quit Game") {
 			@Override
 			protected void onDeClick() {
 				Main.exit();

@@ -45,4 +45,9 @@ public class MoveTask extends Task {
 		started = true;
 		
 	}
+	
+	@Override
+	public String getName() {
+		return "Moving";
+	}
 }

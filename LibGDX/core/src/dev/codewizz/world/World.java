@@ -1,5 +1,6 @@
 package dev.codewizz.world;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,12 +16,15 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.WNoise;
-import dev.codewizz.world.objects.Cow;
+import dev.codewizz.utils.saving.GameObjectData;
+import dev.codewizz.utils.saving.WorldData;
+import dev.codewizz.utils.serialization.RCDatabase;
 import dev.codewizz.world.objects.Entity;
-import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.pathfinding.CellGraph;
+import dev.codewizz.world.settlement.Settlement;
 import dev.codewizz.world.tiles.ClayTile;
+import dev.codewizz.world.tiles.FlowerTile;
 import dev.codewizz.world.tiles.SandTile;
 import dev.codewizz.world.tiles.WaterTile;
 
@@ -32,27 +36,31 @@ public class World {
 	public static final int MAX_RIVER_LENGTH = 1000;
 	public static final float E = 0.5f;
 	
-	
 	public Cell[][] grid;
 	public List<GameObject> objects = new CopyOnWriteArrayList<>();
+	public Settlement settlement;
+	public Nature nature;
 	
 	public CellGraph cellGraph;
 	
 	public WNoise noise = new WNoise();
 	public WNoise terrainNoise = new WNoise();
 	
+	public boolean showInfoSartMenu = true;
+	
 	public World() {
 		grid = new Cell[WORLD_SIZE_W][WORLD_SIZE_H];
 		cellGraph = new CellGraph();
+		Main.inst.world = this;
 		
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (j % 2 == 0) {
-					Cell cell= new Cell((i-(WORLD_SIZE_W/2)) * 64, (j-(WORLD_SIZE_H/2)) * 16, i, j, false, this);
+					Cell cell= new Cell((i-(WORLD_SIZE_W/2)) * 64, (j-(WORLD_SIZE_H/2)) * 16, i, j, false);
 					grid[i][j] = cell;
 					cellGraph.addCell(cell);
 				} else {
-					Cell cell = new Cell((i-(WORLD_SIZE_W/2)) * 64 + 32, (j-(WORLD_SIZE_H/2)) * 16, i, j, true, this);
+					Cell cell = new Cell((i-(WORLD_SIZE_W/2)) * 64 + 32, (j-(WORLD_SIZE_H/2)) * 16, i, j, true);
 					grid[i][j] = cell;
 					cellGraph.addCell(cell);
 				}
@@ -61,19 +69,63 @@ public class World {
 		
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				grid[i][j].init(cellGraph);
+				grid[i][j].init(cellGraph, this);
+			}
+		}
+		init();
+	}
+	
+	public static World openWorld(String path) {
+		File file = Gdx.files.internal(path).file();
+		RCDatabase db = RCDatabase.DeserializeFromFile(file);		
+		
+		World world = new World(WorldData.load(db));
+		GameObjectData.load(db);
+		
+		return world;
+	}
+	
+	public World(WorldData data) {
+		Main.inst.world = this;
+		
+		this.grid = data.grid;
+		this.settlement = data.settlement;
+		this.objects = data.objects;
+		this.showInfoSartMenu = data.showStartInfo;
+		this.cellGraph = data.cellGraph;
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				grid[i][j].init(cellGraph, this);
+			}
+		}
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				try {
+					grid[i][j].setTile(Tile.getTileFromType(data.tileTypes[i + (j * World.WORLD_SIZE_W)], grid[i][j]));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
 	public void init() {
-		
-		this.objects.add(new Cow(0, 0));
-		this.objects.add(new Hermit(60, 60));
-		
 		spawnRivers();
 		spawnTree();
 		spawnResources();
+		
+		nature = new Nature(this);
+	}
+	
+	public void start(Settlement s) {
+		this.settlement = s;
+		this.showInfoSartMenu = false;
+		
+		for(int i = 0; i < 5; i++) {
+			this.settlement.addHermit(Utils.getRandom(-75, 75) + s.getX(), Utils.getRandom(-75, 75) + s.getY());
+		}
 	}
 	
 	private void spawnResources() {
@@ -88,7 +140,15 @@ public class World {
 					if(n > 0.2f) {
 						cell.setTile(new ClayTile(cell));
 					}
+				} else if(cell.tile.getType() == TileType.Base) {
+					float e = 20f;
+					float n = (float) noise.noise(i * e, j * e);
+					
+					if(n > 0.65f) {
+						cell.setTile(new FlowerTile(cell));
+					}
 				}
+				
 				
 			}
 		}
@@ -123,9 +183,6 @@ public class World {
 					done = true;
 				}
 			}
-			
-			
-			
 		} while(length < MAX_RIVER_LENGTH && done == false);
 		
 		for(int i = 0; i < cellsSand.size(); i++) {
@@ -147,7 +204,7 @@ public class World {
 					float n = (float) noise.noise(i * e, j * e);
 					
 					if(n > 0.4f) {
-						cell.tile.addObject(new Tree(cell.x, cell.y));
+						objects.add(new Tree(cell.x, cell.y));
 					}
 				}
 				
@@ -183,11 +240,15 @@ public class World {
 	
 	public void renderObjects(SpriteBatch b) {
 		
+		if(settlement != null) settlement.update(Gdx.graphics.getDeltaTime());
+		if(nature != null) nature.update(Gdx.graphics.getDeltaTime());
+		
 		if(!Main.PAUSED) {
 			for(GameObject object : objects) {
 				object.update(Gdx.graphics.getDeltaTime());
 			}
 		}
+		
 		
 		List<GameObject> o = getObjects();
 		Collections.sort(o);
@@ -202,7 +263,7 @@ public class World {
 			object.render(b);
 		}
 	}
-
+	
 	public Cell getCell(float x, float y) {
 		for(int i = 0; i < grid.length; i++) {
 			for(int j = 0; j < grid[i].length; j++) {
@@ -225,15 +286,6 @@ public class World {
 	public List<GameObject> getObjects() {
 		List<GameObject> list = new CopyOnWriteArrayList<>();
 		
-		for (int i = grid[0].length - 1; i >= 0; i--) {
-			for (int j = grid.length - 1; j >= 0; j--) {
-				Tile tile = grid[j][i].tile;
-				for(GameObject b : tile.getObjects()) {
-					list.add(b);
-				}
-			}
-		}
-		
 		list.addAll(objects);
 		
 		return list;
@@ -247,5 +299,9 @@ public class World {
 				}
 			}
 		}
+	}
+	
+	public Nature getNature() {
+		return this.nature;
 	}
 }
