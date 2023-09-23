@@ -1,6 +1,7 @@
 package dev.codewizz.world;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -299,6 +300,27 @@ public class World {
 				}
 			}
 		}
+	}
+	
+	public Cell findCell(float x, float y, boolean filter, TileType... types) {
+		ArrayList<TileType> t = new ArrayList<>();
+		for(int i = 0; i < types.length; i++) {t.add(types[i]);}
+		
+		Cell cell = getCell(x, y);
+		
+		
+		// if filter is on, tiletype should not be in list. if filer is off, tiletype should be in list
+		if((filter && t.contains(cell.tile.type)) || !filter && !t.contains(cell.tile.getType())) {
+			
+			for(int i = 0;)
+			
+			
+		} else {
+			return cell;
+		}
+		
+		// not found, return null
+		return null;
 	}
 	
 	public Nature getNature() {
