@@ -13,8 +13,8 @@ import dev.codewizz.gfx.gui.UIScrollList;
 import dev.codewizz.gfx.gui.UITabButton;
 import dev.codewizz.gfx.gui.UIText;
 import dev.codewizz.world.objects.Flag;
+import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.tiles.DirtPathTile;
-import dev.codewizz.world.tiles.FlowerTile;
 import dev.codewizz.world.tiles.TiledTile;
 
 public class BuildingMenu extends UIMenu {
@@ -85,8 +85,8 @@ public class BuildingMenu extends UIMenu {
 
 		settlementList.slots.add(new UIBuyslotObject("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new Flag(0, 0)));
-		settlementList.slots.add(new UIBuyslotTile("slot-2", (8) * UILayer.SCALE + 4,
-				Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new FlowerTile(null)));
+		settlementList.slots.add(new UIBuyslotObject("slot-2", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new Building(0, 0)));
 		
 		
 		housingList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,

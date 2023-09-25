@@ -80,8 +80,10 @@ public abstract class GameObject implements Comparable<GameObject> {
 	public int compareTo(GameObject other) {
 		if(other.y < this.y) {
 			return -1;
-		} else {
+		} else if(other.y > this.y){
 			return 1;
+		} else {
+			return 0;
 		}
 	}
 	

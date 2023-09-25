@@ -88,4 +88,8 @@ public class Herd {
 	public void removeMember(Animal member) {
 		this.members.remove(member);
 	}
+	
+	public void clear() {
+		this.members.clear();
+	}
 }

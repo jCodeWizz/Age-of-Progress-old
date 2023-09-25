@@ -1,9 +1,16 @@
 
 objects.png
-size: 256, 128
+size: 256, 256
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+building
+  rotate: false
+  xy: 2, 100
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 flag
   rotate: false
   xy: 2, 2
@@ -13,28 +20,28 @@ flag
   index: -1
 icon_flag
   rotate: false
-  xy: 68, 34
+  xy: 132, 164
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 rock
   rotate: false
-  xy: 190, 66
+  xy: 132, 130
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 rock-broken
   rotate: false
-  xy: 190, 32
+  xy: 198, 196
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 tree
   rotate: false
-  xy: 134, 31
+  xy: 68, 31
   size: 54, 67
   orig: 54, 67
   offset: 0, 0

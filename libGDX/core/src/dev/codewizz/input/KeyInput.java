@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 
 import dev.codewizz.main.Main;
+import dev.codewizz.world.Cell;
+import dev.codewizz.world.TileType;
+import dev.codewizz.world.tiles.EmptyTile;
 
 public class KeyInput implements InputProcessor {
 
@@ -63,6 +66,16 @@ public class KeyInput implements InputProcessor {
 
 
 			return true;
+		}
+		
+		if(key == Input.Keys.SPACE) {
+			Cell cell = Main.inst.world.findCell(MouseInput.coords.x, MouseInput.coords.y, 5, false, TileType.Base);
+			
+			if(cell != null) {
+				cell.setTile(new EmptyTile(cell));
+			}
+			
+			
 		}
 		
 		return false;

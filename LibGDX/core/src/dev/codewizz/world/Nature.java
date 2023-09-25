@@ -23,27 +23,15 @@ public class Nature {
 		this.world = world;
 	}
 	
-	public void spawnHerd() {
-		Herd herd = new Herd();
-		
-		int size = Utils.getRandom(3, 11);
-		
-		for(int i = 0; i < size; i++) {
-			Cow cow = new Cow(0, 0);
-			addAnimal(cow);
-			herd.addMember(cow);
-		}
-		
-		herd.setLeader();
-		
-		addHerd(herd);
-	}
-	
 	public void update(float dt) {
 		if(counter < 0) {
 			
 			if(animals.size() < ANIMAL_CAP) {
-				spawnHerd();
+				for(int i = 0; i < 5; i++) {
+					if(spawnHerd()) { 
+						break;
+					}
+				}
 			}
 			
 			counter = Utils.getRandom(100, 200);
@@ -52,10 +40,51 @@ public class Nature {
 		} 
 	}
 	
-	public Animal addAnimal(Animal a) {
+	public boolean spawnHerd() {
+		Herd herd = new Herd();
+		
+		int size = Utils.getRandom(3, 11);
+		Cell cell = world.getRandomCell();
+		
+		for(int i = 0; i < size; i++) {
+			
+			
+			
+			
+			Cow cow = new Cow(cell.x + Utils.getRandom(0, 256), cell.y + Utils.getRandom(0, 80));
+			if(addAnimal(cow)) {
+				herd.addMember(cow);
+			}
+		}
+		
+		if(herd.getMembers().size() > 1) {
+			herd.setLeader();
+			addHerd(herd);
+			
+			return true;
+		} else {
+			for(Animal a : herd.getMembers()) {
+				this.removeAnimal(a);
+			}
+			herd.clear();
+			
+			return false;
+		}
+	}
+	
+	public boolean addAnimal(Animal a) {
+		
+		Cell cell = world.findCell(a.getX(), a.getY(), 4, false, TileType.Base, TileType.Flower);
+		
+		if(cell == null) { return false; }
+		
+		a.setX(cell.x);
+		a.setY(cell.y);
+		
 		world.objects.add(a);
 		animals.add(a);
-		return a;
+		
+		return true;
 	}
 	
 	public Herd addHerd(Herd h) {

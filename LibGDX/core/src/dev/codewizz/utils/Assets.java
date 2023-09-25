@@ -88,6 +88,7 @@ public class Assets {
 		sprites.put("icon_flag", atlasses.get("objects").createSprite("icon_flag"));
 		sprites.put("rock", atlasses.get("objects").createSprite("rock"));
 		sprites.put("broken-rock", atlasses.get("objects").createSprite("broken-rock"));
+		sprites.put("building", atlasses.get("objects").createSprite("building"));
 
 		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
 		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));
