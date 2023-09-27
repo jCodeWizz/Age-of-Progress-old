@@ -316,6 +316,8 @@ public class World {
 
 		Cell cell = getCell(x, y);
 
+		if(cell == null) return null;
+		
 		// if filter is on, tiletype should not be in list. if filer is off, tiletype
 		// should be in list
 		if (!evaluateTile(cell, filter, t)) {

@@ -75,8 +75,12 @@ public class MouseInput implements InputProcessor {
 							
 							
 							
-							dragging[0] = object.conintues();
+							dragging[0] = object.conintues() && object.available();
 							lastClickedUIElement.setAvailable(object.available());
+							
+							if(!object.available()) {
+								currentlyDrawingObject = null;
+							}
 						}
 					} else {
 						Tile tile;

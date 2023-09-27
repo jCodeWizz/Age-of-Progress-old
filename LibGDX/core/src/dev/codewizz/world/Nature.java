@@ -17,7 +17,7 @@ public class Nature {
 	public List<Herd> herds = new CopyOnWriteArrayList<>();
 
 	// counter is decreased by 1 every second.
-	private float counter = 0;
+	public float counter = 0;
 	
 	public Nature(World world) {
 		this.world = world;

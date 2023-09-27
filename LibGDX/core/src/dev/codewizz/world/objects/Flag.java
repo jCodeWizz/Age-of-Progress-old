@@ -18,7 +18,6 @@ import dev.codewizz.world.settlement.Settlement;
 public class Flag extends GameObject implements IBuy, Serializable {
 
 	private static Sprite texture = Assets.getSprite("flag");
-	private static Sprite icon = Assets.getSprite("icon_flag");
 	
 	public Flag(float x, float y) {
 		super(x, y);
@@ -48,7 +47,7 @@ public class Flag extends GameObject implements IBuy, Serializable {
 
 	@Override
 	public Sprite getMenuSprite() {
-		return icon;
+		return texture;
 	}
 
 	@Override

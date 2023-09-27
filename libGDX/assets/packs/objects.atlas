@@ -6,42 +6,35 @@ filter: Nearest, Nearest
 repeat: none
 building
   rotate: false
-  xy: 2, 100
+  xy: 2, 105
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 flag
   rotate: false
-  xy: 2, 2
-  size: 64, 96
-  orig: 64, 96
-  offset: 0, 0
-  index: -1
-icon_flag
-  rotate: false
-  xy: 132, 164
-  size: 64, 64
-  orig: 64, 64
+  xy: 58, 71
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
 rock
   rotate: false
-  xy: 132, 130
+  xy: 132, 201
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 rock-broken
   rotate: false
-  xy: 198, 196
+  xy: 2, 2
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 tree
   rotate: false
-  xy: 68, 31
+  xy: 2, 36
   size: 54, 67
   orig: 54, 67
   offset: 0, 0

@@ -38,6 +38,8 @@ public abstract class Animal extends TaskableObject {
 					if(herd.getLeader().equals(this)) {
 						Cell currentCell = Main.inst.world.getCell(x, y);
 						
+						if(currentCell == null) return;
+						
 						int offX = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexX;
 						int offY = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexY;
 						
@@ -54,6 +56,8 @@ public abstract class Animal extends TaskableObject {
 					}
 				} else {
 					Cell currentCell = Main.inst.world.getCell(x, y);
+					
+					if(currentCell == null) return;
 					
 					int offX = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexX;
 					int offY = Utils.getRandom(-wanderDistance, wanderDistance) + currentCell.indexY;

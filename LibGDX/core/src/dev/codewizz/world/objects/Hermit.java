@@ -35,8 +35,8 @@ public class Hermit extends TaskableObject implements Serializable {
 		this.id = ID.Hermit;
 		this.name= Utils.getRandomName();
 		
-		this.w = 32;
-		this.h = 32;
+		this.w = 24;
+		this.h = 36;
 		this.health = 10f;
 		
 		this.speed = 20f;
@@ -49,8 +49,8 @@ public class Hermit extends TaskableObject implements Serializable {
 		this.id = ID.Hermit;
 		this.name= Utils.getRandomName();
 		
-		this.w = 32;
-		this.h = 32;
+		this.w = 24;
+		this.h = 36;
 		this.health = 10f;
 		
 		this.speed = 20f;
@@ -148,11 +148,11 @@ public class Hermit extends TaskableObject implements Serializable {
 	public void render(SpriteBatch b) {
 		if(this.getAgent().moving) {
 			if(currentAnimation != null) {
-				b.draw(currentAnimation.getFrame(), x, y, 30, 45);
+				b.draw(currentAnimation.getFrame(), x, y, w, h);
 			}
 		} else {
 			if(currentDirection != null) {
-				b.draw(currentDirection, x, y, 30, 45);
+				b.draw(currentDirection, x, y, w, h);
 			}
 		}
 	}

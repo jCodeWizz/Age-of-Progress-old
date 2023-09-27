@@ -85,7 +85,6 @@ public class Assets {
 
 		sprites.put("tree", atlasses.get("objects").createSprite("tree"));
 		sprites.put("flag", atlasses.get("objects").createSprite("flag"));
-		sprites.put("icon_flag", atlasses.get("objects").createSprite("icon_flag"));
 		sprites.put("rock", atlasses.get("objects").createSprite("rock"));
 		sprites.put("broken-rock", atlasses.get("objects").createSprite("broken-rock"));
 		sprites.put("building", atlasses.get("objects").createSprite("building"));
