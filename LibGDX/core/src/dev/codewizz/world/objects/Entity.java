@@ -12,7 +12,7 @@ public abstract class Entity extends GameObject {
 
 	protected boolean selected = false;
 	protected String name = "Object";
-	protected float health = 10f, damageCoolDown;
+	protected float health = 10f, damageCoolDown = 0.0f;
 	
 	public Entity(float x, float y) {
 		super(x, y);

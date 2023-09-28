@@ -1,5 +1,6 @@
 package dev.codewizz.world;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.dongbat.jbump.util.MathUtils;
 
 import dev.codewizz.gfx.Shaders;
@@ -31,8 +33,8 @@ import dev.codewizz.world.tiles.WaterTile;
 
 public class World {
 
-	public static final int WORLD_SIZE_W = 48;
-	public static final int WORLD_SIZE_H = 96;
+	public static final int WORLD_SIZE_W = 48*2;
+	public static final int WORLD_SIZE_H = 96*2;
 	public static final int WORLD_SIZE_WP = WORLD_SIZE_W * 64;
 	public static final int WORLD_SIZE_HP = WORLD_SIZE_H * 16;
 	public static final int RADIUS = 2;
@@ -215,9 +217,25 @@ public class World {
 	}
 
 	public void renderTiles(SpriteBatch b) {
+		
+		Vector3 p1 = Main.inst.camera.cam.unproject(new Vector3(0, 0, 0));
+		Vector3 p2 = Main.inst.camera.cam.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+		
+		int x = (int)p1.x;
+		int y = (int)p1.y;
+		int x2 = (int)p2.x;
+		int y2 = (int)p2.y;
+		
+		Rectangle screen = new Rectangle(x, y - (y - y2), (x2-x), (y-y2));
+		
 		for (int i = grid[0].length - 1; i >= 0; i--) {
 			for (int j = grid.length - 1; j >= 0; j--) {
-				grid[j][i].render(b);
+
+				if(screen.contains(grid[j][i].getMiddlePoint().x, grid[j][i].getMiddlePoint().y)) {
+					grid[j][i].render(b);
+				}
+				
+				
 			}
 		}
 

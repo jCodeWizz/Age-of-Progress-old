@@ -117,7 +117,7 @@ public abstract class UILayer implements InputProcessor {
 		for (UIElement e : elements) {
 			if (e instanceof UIMenu) {
 				UIMenu menu = (UIMenu) e;
-				if (menu.isEnabled()) {
+				if (menu.isEnabled() && !menu.id.equalsIgnoreCase("debugMenu")) {
 					menu.disable();
 					closed = true;
 				}
