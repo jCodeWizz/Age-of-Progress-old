@@ -6,6 +6,7 @@ import com.dongbat.jbump.util.MathUtils;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.world.Cell;
+import dev.codewizz.world.TileType;
 import dev.codewizz.world.World;
 import dev.codewizz.world.objects.tasks.MoveTask;
 
@@ -47,6 +48,10 @@ public abstract class Animal extends TaskableObject {
 						offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
 						
 						Cell goalCell = Main.inst.world.grid[offX][offY];
+						
+						if(goalCell.tile.getType() == TileType.Empty || goalCell.tile.getType() == TileType.Water) {
+							return;
+						}
 					
 						tree.addLast(new MoveTask(goalCell));
 						herd.leaderMoved();
