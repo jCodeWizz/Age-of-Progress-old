@@ -27,7 +27,17 @@ public class Hermit extends TaskableObject implements Serializable {
 	private Sprite currentDirection;
 	
 	private Settlement s;
-	
+
+	private float intelligence = 1f;
+	private float strength = 1f;
+	private float speed = 1f;
+	private float willpower = 1f;
+	private float sleep = 1f;
+	private float healthy = Utils.RANDOM.nextFloat();
+	private float body = Utils.RANDOM.nextFloat();
+	private float social = 1f;
+	private float hunger = 1f;
+	private float thirst = 1f;
 	
 	public Hermit(float x, float y, Settlement s) {
 		super(x, y);
@@ -42,6 +52,8 @@ public class Hermit extends TaskableObject implements Serializable {
 		this.speed = 20f;
 		
 		createAnimations();
+		
+		setMaxHealth(0f);
 	}
 	
 	public Hermit(float x, float y) {
@@ -56,21 +68,17 @@ public class Hermit extends TaskableObject implements Serializable {
 		this.speed = 20f;
 		
 		createAnimations();
+		
+		setMaxHealth(0f);
 	}
 	
 	@Override
 	public void update(float d) {
 		super.update(d);
 		
-		
-		//System.out.println("CTASK: " + (this.currentTask == null));
-		//System.out.println("STASK: " + s.getTasks().notEmpty());
-		//System.out.println();
-		
 		if(this.currentTask == null && s.getTasks().notEmpty()) {
 			this.addTask(s.getTasks().removeFirst());
 		}
-		
 		
 		if(currentAnimation != null) {
 			currentAnimation.tick(d);
@@ -183,5 +191,15 @@ public class Hermit extends TaskableObject implements Serializable {
 		
 		Main.inst.world.objects.add(this);
 		Main.inst.world.settlement.addHermit(this);
+	}
+	
+	@Override
+	public void setMaxHealth(float maxHealth) {
+		float a = this.getMaxHealth();
+		
+		this.maxHealth = 50f + ((healthy+0.5f) * 20f) + ((body + 0.1f) * 50f);
+		
+		float d = this.getMaxHealth() / a;
+		this.setHealth(this.getHealth() * d);
 	}
 }

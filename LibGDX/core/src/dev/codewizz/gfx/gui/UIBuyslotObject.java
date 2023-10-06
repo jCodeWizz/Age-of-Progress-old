@@ -46,8 +46,10 @@ public class UIBuyslotObject extends UIElement {
 		parameter.minFilter = Texture.TextureFilter.Nearest;
 		f2 = UIText.generator.generateFont(parameter2);
 		
-		tileScaleX = UILayer.SCALE * 48;
 		tileScaleY = UILayer.SCALE * 48;
+		float r = objectInfo.getMenuSprite().getWidth()/objectInfo.getMenuSprite().getHeight();
+		
+		tileScaleX = (int)((float)UILayer.SCALE * 48f * r);
 		
 	}
 	
@@ -72,12 +74,12 @@ public class UIBuyslotObject extends UIElement {
 			}
 			f.draw(b, objectInfo.getMenuName(), x + (4) * UILayer.SCALE, y + (h-8) * UILayer.SCALE);
 			f2.draw(b, objectInfo.getMenuDescription(), x + (4) * UILayer.SCALE, y + (h - 20) * UILayer.SCALE);
-			b.draw(objectInfo.getMenuSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (4 * UILayer.SCALE), tileScaleX, tileScaleY);
+			b.draw(objectInfo.getMenuSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (3 * UILayer.SCALE), tileScaleX, tileScaleY);
 		} else {
 			b.draw(backgroundPressed, x, y, w * UILayer.SCALE, h * UILayer.SCALE);
 			f.draw(b, objectInfo.getMenuName(), x + (4) * UILayer.SCALE, y + (h-8) * UILayer.SCALE);
 			f2.draw(b, objectInfo.getMenuDescription(), x + (4) * UILayer.SCALE, y + (h - 20) * UILayer.SCALE);
-			b.draw(objectInfo.getMenuSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (4 * UILayer.SCALE), tileScaleX, tileScaleY);
+			b.draw(objectInfo.getMenuSprite(), x+(w) * UILayer.SCALE - tileScaleX, y + (3 * UILayer.SCALE), tileScaleX, tileScaleY);
 		}
 	}
 }

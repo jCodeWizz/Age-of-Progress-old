@@ -11,13 +11,16 @@ import dev.codewizz.world.objects.ID;
 
 public class Building extends GameObject implements IBuy {
 	
-	private static Sprite texture = Assets.getSprite("building");
-	private static Sprite icon = Assets.getSprite("building");
+	private static Sprite texture = Assets.getSprite("tent");
+	private static Sprite icon = Assets.getSprite("tent");
 
 	public Building(float x, float y) {
 		super(x, y);
 
 		this.id = ID.Building;
+		
+		this.x += 17 - 32;
+		this.y += 16;
 		
 	}
 

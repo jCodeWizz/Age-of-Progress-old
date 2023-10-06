@@ -122,6 +122,9 @@ public class World {
 		spawnResources();
 
 		nature = new Nature(this);
+		
+		grid[20][20].setTile(new WaterTile(grid[20][20]));
+		objects.add(new Tree(grid[20][20].x, grid[20][20].y));
 	}
 
 	public void start(Settlement s) {
@@ -208,10 +211,9 @@ public class World {
 					float n = (float) noise.noise(i * e, j * e);
 
 					if (n > 0.4f) {
-						objects.add(new Tree(cell.x, cell.y));
+						objects.add(new Tree(cell.x, cell.y + Utils.RANDOM.nextFloat()));
 					}
 				}
-
 			}
 		}
 	}

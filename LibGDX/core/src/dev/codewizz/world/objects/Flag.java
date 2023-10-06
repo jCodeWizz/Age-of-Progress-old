@@ -24,8 +24,8 @@ public class Flag extends GameObject implements IBuy, Serializable {
 
 		this.id = ID.Flag;
 		
-		this.x -= 6;
-		this.y -= 3;
+		this.x += 15;
+		this.y += 26;
 	}
 
 	@Override

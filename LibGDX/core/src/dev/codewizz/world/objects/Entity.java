@@ -12,7 +12,7 @@ public abstract class Entity extends GameObject {
 
 	protected boolean selected = false;
 	protected String name = "Object";
-	protected float health = 10f, damageCoolDown = 0.0f;
+	protected float maxHealth = 10f, health = maxHealth, damageCoolDown = 0.0f;
 	
 	public Entity(float x, float y) {
 		super(x, y);
@@ -74,5 +74,13 @@ public abstract class Entity extends GameObject {
 
 	public void setHealth(float health) {
 		this.health = health;
+	}
+
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 }

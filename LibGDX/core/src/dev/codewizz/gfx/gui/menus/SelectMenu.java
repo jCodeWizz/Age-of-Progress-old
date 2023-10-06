@@ -59,7 +59,7 @@ public class SelectMenu extends UIMenu {
 	
 	public void updateData() {
 		nameText.setText("" + entity.getName());
-		healthText.setText(entity.getHealth() + " HP");
+		healthText.setText((int)entity.getHealth() + " / " + (int)entity.getMaxHealth() + " HP");
 		
 		descriptionText.setText("Idle");
 		

@@ -16,8 +16,8 @@ public class Tree extends GameObject implements Serializable {
 	public Tree(float x, float y) {
 		super(x, y);
 
-		this.x += 5;
-		this.y += 30;
+		this.x -= 32;
+		this.y += 25;
 		
 		this.id = ID.Tree;
 	}
