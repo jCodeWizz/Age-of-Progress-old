@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import dev.codewizz.gfx.Animation;
+import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.serialization.RCField;
@@ -83,7 +84,7 @@ public class Wolf extends Animal implements Serializable {
 				if (object.getID() == ID.Cow) {
 					if (Vector2.dst(object.getX(), object.getY(), getX(), getY()) < 400) {
 
-						this.addTask(new HuntTask((Entity) object, damage, attackSpeed));
+						this.addTask(new HuntTask((Entity) object, damage, attackSpeed), true);
 
 						break;
 					}
@@ -110,7 +111,12 @@ public class Wolf extends Animal implements Serializable {
 	}
 
 	@Override
-	public void renderUICard(SpriteBatch b) {
+	public void renderUICard(SelectMenu m) {
+
+	}
+	
+	@Override
+	public void updateUICard() {
 
 	}
 	

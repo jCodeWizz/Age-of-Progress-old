@@ -1,11 +1,15 @@
 package dev.codewizz.world.objects;
 
+import java.awt.Polygon;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.gfx.Animation;
+import dev.codewizz.gfx.gui.UILayer;
+import dev.codewizz.gfx.gui.UIText;
+import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
@@ -13,6 +17,7 @@ import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.serialization.RCField;
 import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.Serializable;
+import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.settlement.Settlement;
 
 public class Hermit extends TaskableObject implements Serializable {
@@ -23,14 +28,16 @@ public class Hermit extends TaskableObject implements Serializable {
 	private HashMap<Direction, Sprite> directions = new HashMap<>();
 	private Direction dir = Direction.South;
 
+	private Animation taskAnimation;
 	private Animation currentAnimation;
 	private Sprite currentDirection;
 	
 	private Settlement s;
-
+	private Building home;
+	
 	private float intelligence = 1f;
 	private float strength = 1f;
-	private float speed = 1f;
+	//private float speed = 1f;
 	private float willpower = 1f;
 	private float sleep = 1f;
 	private float healthy = Utils.RANDOM.nextFloat();
@@ -39,22 +46,9 @@ public class Hermit extends TaskableObject implements Serializable {
 	private float hunger = 1f;
 	private float thirst = 1f;
 	
-	public Hermit(float x, float y, Settlement s) {
-		super(x, y);
-		this.s = s;
-		this.id = ID.Hermit;
-		this.name= Utils.getRandomName();
-		
-		this.w = 24;
-		this.h = 36;
-		this.health = 10f;
-		
-		this.speed = 20f;
-		
-		createAnimations();
-		
-		setMaxHealth(0f);
-	}
+	private float sleepNeed = 10f;
+	
+	private int age = 10;
 	
 	public Hermit(float x, float y) {
 		super(x, y);
@@ -70,6 +64,7 @@ public class Hermit extends TaskableObject implements Serializable {
 		createAnimations();
 		
 		setMaxHealth(0f);
+		setSleepNeed();
 	}
 	
 	@Override
@@ -77,11 +72,15 @@ public class Hermit extends TaskableObject implements Serializable {
 		super.update(d);
 		
 		if(this.currentTask == null && s.getTasks().notEmpty()) {
-			this.addTask(s.getTasks().removeFirst());
+			this.addTask(s.getTasks().removeFirst(), false);
 		}
 		
 		if(currentAnimation != null) {
 			currentAnimation.tick(d);
+		}
+		
+		if(taskAnimation != null) {
+			taskAnimation.tick(d);
 		}
 		
 		if(this.getAgent().moving) {
@@ -90,6 +89,125 @@ public class Hermit extends TaskableObject implements Serializable {
 		} else {
 			currentDirection = directions.get(dir);
 		}
+	}
+	
+	
+
+	@Override
+	public void render(SpriteBatch b) {
+		
+		if(this.taskAnimation != null) {
+			b.draw(this.taskAnimation.getFrame(), x + this.taskAnimation.getX(), y + this.taskAnimation.getY(), this.taskAnimation.getFrame().getWidth()*0.6f, this.taskAnimation.getFrame().getHeight()*0.6f);
+		} else {
+			if(this.getAgent().moving) {
+				if(currentAnimation != null) {
+					b.draw(currentAnimation.getFrame(), x, y, w, h);
+				}
+			} else {
+				if(currentDirection != null) {
+					b.draw(currentDirection, x, y, w, h);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public Polygon getHitBox() {
+		return new Polygon( new int[] {(int)x+7, (int)x+7, (int)x + 17, (int)x + 17}, 
+							new int[] {(int)y + 3, (int)y + 24, (int)y + 24, (int)y + 3}, 4) ;
+	}
+
+	private SelectMenu m;
+	private UIText nameText;
+	private UIText taskText = new UIText("task-text", (6 + 3) * UILayer.SCALE,  (6+50) * UILayer.SCALE, 10, 10, "", 8);
+	private UIText moodText = new UIText("mood-text", (6 + 3) * UILayer.SCALE,  (6+80) * UILayer.SCALE, 10, 10, "", 8);
+	
+	
+	@Override
+	public void renderUICard(SelectMenu m) {
+		this.m = m;
+		nameText = (UIText)m.layer.getElement("name-text");
+		m.elements.add(moodText);
+		m.elements.add(taskText);
+	}
+	
+	@Override
+	public void updateUICard() {
+		if(nameText != null) nameText.setText(name + "   ( " + age + " )");
+		else nameText = (UIText) m.layer.getElement("name-text");
+		moodText.setText("mood");
+		
+		if(this.getCurrentTask() == null) {
+			taskText.setText("Task >> Idle");
+		} else {
+			taskText.setText("Task >> " + this.getCurrentTask().getName());
+		}
+	}
+
+	public Settlement getSettlement() {
+		return s;
+	}
+
+	public void setSettlement(Settlement s) {
+		this.s = s;
+	}
+
+	@Override
+	public RCObject save(RCObject object) {
+		object.addField(RCField.Float("health", health));
+		
+		return object;
+	}
+
+	@Override
+	public void load(RCObject object) {
+		this.health = object.findField("health").getFloat();
+		
+		Main.inst.world.objects.add(this);
+		Main.inst.world.settlement.addHermit(this);
+	}
+	
+	@Override
+	public void setMaxHealth(float maxHealth) {
+		float a = this.getMaxHealth();
+		
+		this.maxHealth = 50f + ((healthy+0.5f) * 20f) + ((body + 0.1f) * 50f);
+		
+		float d = this.getMaxHealth() / a;
+		this.setHealth(this.getHealth() * d);
+	}
+	
+	public void setSleepNeed() {
+		this.sleepNeed = sleep * 100f;
+	}
+
+	public float getSleepNeed() {
+		return sleepNeed;
+	}
+
+	public void setSleepNeed(float sleepNeed) {
+		this.sleepNeed = sleepNeed;
+	}
+
+	public Building getHome() {
+		
+		if(this.home == null) {
+			
+			for(Building b : s.homes) {
+				if(!b.isFull()) {
+					b.owned.add(this);
+					this.home = b;
+					return b;
+				}
+			}
+			return null;
+		} else {
+			return home;
+		}
+	}
+
+	public void setHome(Building home) {
+		this.home = home;
 	}
 	
 	private void createAnimations() {
@@ -151,55 +269,16 @@ public class Hermit extends TaskableObject implements Serializable {
 		directions.put(Direction.East, Assets.getSprite("right-hermit-2"));
 		directions.put(Direction.SouthEast, Assets.getSprite("right-down-hermit-2"));
 	}
-
-	@Override
-	public void render(SpriteBatch b) {
-		if(this.getAgent().moving) {
-			if(currentAnimation != null) {
-				b.draw(currentAnimation.getFrame(), x, y, w, h);
-			}
-		} else {
-			if(currentDirection != null) {
-				b.draw(currentDirection, x, y, w, h);
-			}
-		}
-	}
-
-	@Override
-	public void renderUICard(SpriteBatch b) {
-		
-	}
-
-	public Settlement getSettlement() {
-		return s;
-	}
-
-	public void setSettlement(Settlement s) {
-		this.s = s;
-	}
-
-	@Override
-	public RCObject save(RCObject object) {
-		object.addField(RCField.Float("health", health));
-		
-		return object;
-	}
-
-	@Override
-	public void load(RCObject object) {
-		this.health = object.findField("health").getFloat();
-		
-		Main.inst.world.objects.add(this);
-		Main.inst.world.settlement.addHermit(this);
-	}
 	
-	@Override
-	public void setMaxHealth(float maxHealth) {
-		float a = this.getMaxHealth();
-		
-		this.maxHealth = 50f + ((healthy+0.5f) * 20f) + ((body + 0.1f) * 50f);
-		
-		float d = this.getMaxHealth() / a;
-		this.setHealth(this.getHealth() * d);
+	public void setFacing(Direction dir) {
+		this.dir = dir;
+	}
+
+	public Animation getTaskAnimation() {
+		return taskAnimation;
+	}
+
+	public void setTaskAnimation(Animation taskAnimation) {
+		this.taskAnimation = taskAnimation;
 	}
 }

@@ -147,18 +147,31 @@ public abstract class UILayer implements InputProcessor {
 		if (FADE) {
 			b.draw(fadeTex, 0, 0, WIDTH, HEIGHT);
 		}
+		
 		for (int i = elements.size() - 1; i >= 0; i--) {
 			UIElement e = elements.get(i);
-			if (e.isEnabled()) { // CHECK IF UI COMPONENT SHOULD BE RENDERED AT ALL
-				if (e.id.substring(0, 4).equals("slot")) { // CHECK IF UI COMPONENT IS A MOVEABLE SLOT
-					b.flush();
-					if (ScissorStack.pushScissors(scissors)) {
-						e.render(b);
+		
+			if(e instanceof UIImage) {
+				e.render(b);
+			}
+		
+		}
+		
+		for (int i = elements.size() - 1; i >= 0; i--) {
+			UIElement e = elements.get(i);
+			
+			if(!(e instanceof UIImage)) {
+				if (e.isEnabled()) { // CHECK IF UI COMPONENT SHOULD BE RENDERED AT ALL
+					if (e instanceof UIBuyslotTile || e instanceof UIBuyslotObject) { // CHECK IF UI COMPONENT IS A MOVEABLE SLOT
 						b.flush();
-						ScissorStack.popScissors();
+						if (ScissorStack.pushScissors(scissors)) {
+							e.render(b);
+							b.flush();
+							ScissorStack.popScissors();
+						}
+					} else {
+						e.render(b);
 					}
-				} else {
-					e.render(b);
 				}
 			}
 		}

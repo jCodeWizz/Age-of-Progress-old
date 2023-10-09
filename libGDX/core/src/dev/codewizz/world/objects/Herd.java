@@ -50,7 +50,7 @@ public class Herd {
 
 	public void attackHerd() {
 		for (Animal a : members) {
-			a.addTask(new MoveTask(newPath()));
+			a.addTask(new MoveTask(newPath()), false);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class Herd {
 
 		for (Animal a : members) {
 			if (!a.equals(leader)) {
-				a.addTask(new MoveTask(newPath()));
+				a.addTask(new MoveTask(newPath()), false);
 			}
 		}
 	}

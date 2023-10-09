@@ -11,6 +11,7 @@ import dev.codewizz.gfx.gui.UIMenu;
 import dev.codewizz.gfx.gui.UIScrollList;
 import dev.codewizz.gfx.gui.UITabButton;
 import dev.codewizz.gfx.gui.UIText;
+import dev.codewizz.input.MouseInput;
 import dev.codewizz.world.tiles.BaseTile;
 import dev.codewizz.world.tiles.ClayTile;
 import dev.codewizz.world.tiles.DirtPathTile;
@@ -62,6 +63,8 @@ public class PathingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (7 + 15) * UILayer.SCALE + 1, 14, 15, "close-icon") {
 			@Override
 			protected void onDeClick() {
+				MouseInput.object = true;
+				MouseInput.currentlyDrawingObject = null;
 				closeAllTabs();
 				close();
 			}

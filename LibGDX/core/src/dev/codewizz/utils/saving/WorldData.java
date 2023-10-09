@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 
+import dev.codewizz.utils.quadtree.QuadTree;
 import dev.codewizz.utils.serialization.RCDatabase;
 import dev.codewizz.utils.serialization.RCField;
 import dev.codewizz.utils.serialization.RCObject;
@@ -21,6 +22,7 @@ import dev.codewizz.world.settlement.Settlement;
 public class WorldData {
 
 	public Cell[][] grid;
+	public QuadTree<Cell> tree;
 	public CellGraph cellGraph;
 	public Settlement settlement;
 	public List<GameObject> objects;
@@ -48,20 +50,21 @@ public class WorldData {
 		}
 
 		data.grid = new Cell[World.WORLD_SIZE_W][World.WORLD_SIZE_H];
+		data.tree = new QuadTree<Cell>(-World.WORLD_SIZE_WP / 2, -World.WORLD_SIZE_HP / 2, World.WORLD_SIZE_WP / 2, World.WORLD_SIZE_HP / 2);
 		data.cellGraph = new CellGraph();
 		data.tileTypes = tileTypes;
 		data.objects = new CopyOnWriteArrayList<GameObject>();
 
-		for (int i = 0; i < data.grid.length; i++) {
-			for (int j = 0; j < data.grid[i].length; j++) {
+		for (int i = 0; i < World.WORLD_SIZE_W; i++) {
+			for (int j = 0; j < World.WORLD_SIZE_H; j++) {
 				if (j % 2 == 0) {
-					Cell cell = new Cell((i - (World.WORLD_SIZE_W / 2)) * 64, (j - (World.WORLD_SIZE_H / 2)) * 16, i, j,
-							false);
+					Cell cell = new Cell((i - (World.WORLD_SIZE_W / 2)) * 64, (j - (World.WORLD_SIZE_H / 2)) * 16, i, j, false);
+					data.tree.set(cell.x, cell.y, cell);
 					data.grid[i][j] = cell;
 					data.cellGraph.addCell(cell);
 				} else {
-					Cell cell = new Cell((i - (World.WORLD_SIZE_W / 2)) * 64 + 32, (j - (World.WORLD_SIZE_H / 2)) * 16,
-							i, j, true);
+					Cell cell = new Cell((i - (World.WORLD_SIZE_W / 2)) * 64 + 32, (j - (World.WORLD_SIZE_H / 2)) * 16, i, j, true);
+					data.tree.set(cell.x, cell.y, cell);
 					data.grid[i][j] = cell;
 					data.cellGraph.addCell(cell);
 				}
@@ -86,11 +89,9 @@ public class WorldData {
 		db.addObject(settlementData);
 
 		RCObject tiles = new RCObject("tiles");
-
-		for (int i = 0; i < world.grid.length; i++) {
-			for (int j = 0; j < world.grid[i].length; j++) {
-				tiles.addString(RCString.Create("" + (int) (i + (j * World.WORLD_SIZE_W)),
-						world.grid[i][j].tile.getType().toString()));
+		for (int i = 0; i < World.WORLD_SIZE_W; i++) {
+			for (int j = 0; j < World.WORLD_SIZE_H; j++) {
+				tiles.addString(RCString.Create("" + (int) (world.grid[i][j].indexX + (world.grid[i][j].indexY * World.WORLD_SIZE_W)), world.grid[i][j].tile.getType().toString()));
 			}
 		}
 		

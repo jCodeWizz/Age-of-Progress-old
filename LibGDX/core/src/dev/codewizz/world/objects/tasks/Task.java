@@ -14,7 +14,7 @@ public abstract class Task {
 	// called when task is finished
 	public abstract void finish();
 	
-	// called when task is stopped withouit finishing
+	// called when task is stopped without it finishing
 	public abstract void stop();
 	
 	// called when task is started
@@ -22,6 +22,9 @@ public abstract class Task {
 	
 	// called when cell of task is reached
 	public abstract void reach();
+	
+	// called when more import task should be done first, and this task should be restarted later
+	public abstract void reset();
 	
 	// called every frame
 	public abstract void update(float d);

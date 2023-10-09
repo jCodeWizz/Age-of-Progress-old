@@ -13,9 +13,13 @@ import dev.codewizz.gfx.gui.menus.PauseMenu;
 import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.gfx.gui.menus.SettingsGameMenu;
 import dev.codewizz.gfx.gui.menus.StartInfoMenu;
+import dev.codewizz.input.AreaSelector;
+import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
+import dev.codewizz.world.GameObject;
 import dev.codewizz.world.World;
-import dev.codewizz.world.objects.Entity;
+import dev.codewizz.world.objects.ID;
+import dev.codewizz.world.objects.tasks.GatherTask;
 
 public class GameLayer extends UILayer {
 
@@ -27,7 +31,7 @@ public class GameLayer extends UILayer {
 	private StartInfoMenu startInfoMenu;
 	private DebugMenu debugMenu;
 
-	public static Entity selectedEntity = null;
+	public static GameObject selectedObject = null;
 	
 	@Override
 	public void setup() {
@@ -73,7 +77,19 @@ public class GameLayer extends UILayer {
 
 		// TOOL ICON
 		elements.add(new UIIcon("tool-icon", (WIDTH / 2) - (-90 * SCALE) / 2, 6 * SCALE, 22, 24, "icon", "icon-pressed",
-				"icon-unavailable", "tool-icon"));
+				"icon-unavailable", "tool-icon") {
+			@Override
+			protected void onDeClick() {
+				MouseInput.area = new AreaSelector() {
+					@Override
+					public void handle(GameObject obj) {
+						if(obj.getID() == ID.Tree) {
+							Main.inst.world.settlement.addTask(new GatherTask(obj), false);
+						}
+					}
+				};
+			}
+		});
 
 		// BACKGROUND
 		elements.add(new UIImage("icon-background", (WIDTH / 2) - (146 * SCALE) / 2, 0, 146, 30, "icon-board"));
@@ -122,9 +138,9 @@ public class GameLayer extends UILayer {
 
 	@Override
 	public void render(SpriteBatch b) {
-		if (selectedEntity != null) {
-			selectedEntity.renderUICard(b);
-		}
+		
+		if(selectedObject != null) selectedObject.updateUICard();
+		
 		super.render(b);
 	}
 }

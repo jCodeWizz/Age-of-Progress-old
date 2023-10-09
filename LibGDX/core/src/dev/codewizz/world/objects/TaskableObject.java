@@ -45,8 +45,26 @@ public abstract class TaskableObject extends Entity {
 		}
 	}
 	
-	public void addTask(Task task) {
-		tree.addLast(task);
+	public void addTask(Task task, boolean prio) {
+		if(prio) {
+			tree.addFirst(task);
+		} else {
+			tree.addLast(task);
+		}
+	}
+	
+	public void addPrioTask(Task t) {
+		if(this.getCurrentTask() != null) {
+			Task task = this.getCurrentTask();
+			task.stop();
+			task.reset();
+			task.setStarted(false);
+			addTask(task, true);
+		}
+		
+		this.getTree().addFirst(t);
+		this.setCurrentTask(t);
+		this.getCurrentTask().start(this);
 	}
 
 	@Override
@@ -59,6 +77,7 @@ public abstract class TaskableObject extends Entity {
 			}
 		} else {
 			// TODO: maybe add a check to see if Hermit can take a task
+			// TODO: on second note, I don't care about that.
 			if(currentTask.isStarted()) {
 				currentTask.update(d);
 			} else {

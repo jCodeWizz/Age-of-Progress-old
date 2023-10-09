@@ -8,6 +8,7 @@ import dev.codewizz.world.objects.Flag;
 import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.objects.Wolf;
+import dev.codewizz.world.objects.buildings.Building;
 
 public class GameObjectData {
 
@@ -37,6 +38,9 @@ public class GameObjectData {
 		} else if(t.equalsIgnoreCase("flag")) {
 			Flag flag = new Flag(x, y);
 			flag.load(ro);
+		} else if(t.equalsIgnoreCase("building")) {
+			Building building = new Building(x, y);
+			building.load(ro);
 		}
 	}
 	

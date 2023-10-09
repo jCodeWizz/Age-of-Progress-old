@@ -17,10 +17,16 @@ public class Nature {
 	public List<Herd> herds = new CopyOnWriteArrayList<>();
 
 	// counter is decreased by 1 every second.
-	public float counter = 0;
+	public float counter = Utils.getRandom(100, 200);
 	
 	public Nature(World world) {
 		this.world = world;
+		
+		for(GameObject object : world.objects) {
+			if(object instanceof Animal) {
+				animals.add((Animal)object);
+			}
+		}
 	}
 	
 	public void update(float dt) {
@@ -47,9 +53,6 @@ public class Nature {
 		Cell cell = world.getRandomCell();
 		
 		for(int i = 0; i < size; i++) {
-			
-			
-			
 			
 			Cow cow = new Cow(cell.x + Utils.getRandom(0, 256), cell.y + Utils.getRandom(0, 80));
 			if(addAnimal(cow)) {

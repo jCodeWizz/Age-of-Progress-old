@@ -33,7 +33,7 @@ public class Agent {
 	private void checkDistance(float x, float y) {
 		if (path.size > 0) {
 			Vector2 target = path.first().getMiddlePoint();
-			if (Vector2.dst(x, y, target.x, target.y) < 30) {
+			if (Vector2.dst(x, y, target.x, target.y) < 5) {
 				reachGoal(x, y);
 			}
 		}

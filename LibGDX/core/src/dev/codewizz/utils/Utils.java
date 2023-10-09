@@ -31,6 +31,10 @@ public class Utils {
 		return((value - oldmin) / (oldmax - oldmin)) * (newmax - newmin) + newmin;
 	}
 	
+	public static int round(float value, float multiplier) {
+		return (int) (multiplier*(Math.round(value/multiplier)));
+	}
+	
 	public static int HSBtoRGBA8888(float hue, float saturation, float brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {

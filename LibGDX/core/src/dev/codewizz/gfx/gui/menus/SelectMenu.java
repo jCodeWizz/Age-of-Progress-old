@@ -4,24 +4,20 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import dev.codewizz.gfx.gui.UIElement;
 import dev.codewizz.gfx.gui.UIIcon;
 import dev.codewizz.gfx.gui.UIImage;
 import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.UIMenu;
 import dev.codewizz.gfx.gui.UIText;
 import dev.codewizz.gfx.gui.layers.GameLayer;
-import dev.codewizz.world.objects.Animal;
-import dev.codewizz.world.objects.Entity;
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.GameObject;
 
 public class SelectMenu extends UIMenu {
 
-	public Entity entity;
+	public GameObject object;
 	
 	private UIText nameText;
-	private UIText healthText;
-	private UIText descriptionText;
-	
 	
 	public SelectMenu(String id, int x, int y, int w, int h, UILayer layer) {
 		super(id, x, y, w, h, layer);
@@ -30,16 +26,9 @@ public class SelectMenu extends UIMenu {
 	@Override
 	public void setup() {
 		
-		nameText = new UIText("name", (6 + 3) * UILayer.SCALE,  (6+98) * UILayer.SCALE, 10, 10, "", 8);
-		descriptionText = new UIText("description", (6 + 3) * UILayer.SCALE,  (6+40) * UILayer.SCALE, 10, 10, "", 8);
-		healthText = new UIText("health", (6 + 3) * UILayer.SCALE,  (6 + 8) * UILayer.SCALE, 10, 10, "", 8);
-
-		
+		nameText = new UIText("name-text", (6 + 3) * UILayer.SCALE,  (6+98) * UILayer.SCALE, 10, 10, "", 8);
 		
 		elements.add(nameText);
-		elements.add(healthText);
-		elements.add(descriptionText);
-		
 		
 		elements.add(new UIIcon("close-button", (6 + 142) * UILayer.SCALE - 1, (6+87) * UILayer.SCALE + 1, 14, 15,
 				"close-icon") {
@@ -58,33 +47,27 @@ public class SelectMenu extends UIMenu {
 	}
 	
 	public void updateData() {
-		nameText.setText("" + entity.getName());
-		healthText.setText((int)entity.getHealth() + " / " + (int)entity.getMaxHealth() + " HP");
-		
-		descriptionText.setText("Idle");
-		
-		if(entity instanceof Animal) {
-			Animal a = (Animal) entity;
-			if(a.getCurrentTask() != null) {
-				descriptionText.setText(a.getCurrentTask().getName());
-			} 
-		} else if (entity instanceof Hermit) {
-			Hermit a = (Hermit) entity;
-			if(a.getCurrentTask() != null) {
-				descriptionText.setText(a.getCurrentTask().getName());
-			} 
-		}
+		nameText.setText("" + object.getName());
+
 	}
 
 	@Override
 	public void onOpen() {
-		entity = GameLayer.selectedEntity;
+		object = GameLayer.selectedObject;
 		updateData();
 	}
 
 	@Override
 	public void onClose() {
-		entity = null;
+		
+		for(UIElement e : elements) {
+			if(!e.getID().equalsIgnoreCase("selected-background") && !e.getID().equalsIgnoreCase("close-button") && !e.getID().equalsIgnoreCase("name-text")) {
+				elements.remove(e);
+				layer.elements.remove(e);
+			}
+		}
+		
+		object = null;
 	}
 	
 	@Override

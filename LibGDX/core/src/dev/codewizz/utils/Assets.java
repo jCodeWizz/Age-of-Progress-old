@@ -82,7 +82,9 @@ public class Assets {
 		sprites.put("right-down-hermit-1", atlasses.get("entities").createSprite("right-down-hermit-1"));
 		sprites.put("right-down-hermit-2", atlasses.get("entities").createSprite("right-down-hermit-2"));
 		sprites.put("right-down-hermit-3", atlasses.get("entities").createSprite("right-down-hermit-3"));
-
+		sprites.put("hermit-axe-1", atlasses.get("entities").createSprite("hermit-axe-1"));
+		sprites.put("hermit-axe-2", atlasses.get("entities").createSprite("hermit-axe-2"));
+		
 		sprites.put("tree", atlasses.get("objects").createSprite("tree"));
 		sprites.put("flag", atlasses.get("objects").createSprite("flag"));
 		sprites.put("rock", atlasses.get("objects").createSprite("rock"));

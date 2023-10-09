@@ -12,6 +12,7 @@ import dev.codewizz.gfx.gui.UIMenu;
 import dev.codewizz.gfx.gui.UIScrollList;
 import dev.codewizz.gfx.gui.UITabButton;
 import dev.codewizz.gfx.gui.UIText;
+import dev.codewizz.input.MouseInput;
 import dev.codewizz.world.objects.Flag;
 import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.tiles.DirtPathTile;
@@ -51,6 +52,7 @@ public class BuildingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (7 + 15) * UILayer.SCALE + 1, 14, 15, "close-icon") {
 			@Override
 			protected void onDeClick() {
+				MouseInput.currentlyDrawingObject = null;
 				closeAllTabs();
 				close();
 			}

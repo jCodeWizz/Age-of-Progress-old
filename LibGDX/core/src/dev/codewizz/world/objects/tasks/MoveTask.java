@@ -24,9 +24,6 @@ public class MoveTask extends Task {
 
 	@Override
 	public void stop() {
-		
-		// TODO: re-add the task back to the pool (Tree would not be handy ig)
-		
 		object.getAgent().stop();
 		object.finishCurrentTask();
 	}
@@ -49,5 +46,10 @@ public class MoveTask extends Task {
 	@Override
 	public String getName() {
 		return "Moving";
+	}
+
+	@Override
+	public void reset() {
+		
 	}
 }

@@ -8,6 +8,8 @@ public class Animation {
 	private int index;
 	private Sprite[] frames;
 	private boolean justRestarted;
+	
+	private float x, y;
 
 	public Animation(float speed, Sprite... frames) {
 		this.speed = speed;
@@ -15,6 +17,17 @@ public class Animation {
 
 		index = 0;
 	}
+	
+	public Animation(float x, float y, float speed, Sprite... frames) {
+		this.x = x;
+		this.y = y;
+		
+		this.speed = speed;
+		this.frames = frames;
+
+		index = 0;
+	}
+	
 	
 	/*
 	 * 
@@ -57,6 +70,22 @@ public class Animation {
 
 	public Sprite getFrame() {
 		return frames[index];
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
 	}
 
 }

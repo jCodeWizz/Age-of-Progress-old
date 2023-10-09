@@ -10,12 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 
 import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.layers.MainMenuLayer;
+import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.World;
 
 public class Renderer {
 
 	private static ShapeRenderer debugRenderer = new ShapeRenderer();
+	public static ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	public SpriteBatch tileBatch;
 	public SpriteBatch objectBatch;
@@ -59,12 +61,29 @@ public class Renderer {
 	}
 
 	public void renderUI() {
+		
+		Gdx.gl.glLineWidth(5);
+
+		
+		shapeRenderer.setProjectionMatrix(Main.inst.camera.cam.combined);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+		shapeRenderer.setColor(Color.ORANGE);
+		
+		MouseInput.renderArea();
+		
+		shapeRenderer.end();
+		
+		Gdx.gl.glLineWidth(5);
+
+		
 		uiBatch.begin();
 		ui.render(uiBatch);
 		uiBatch.end();
 	}
 
 	public void renderDebug(World world, OrthographicCamera cam) {
+		Gdx.gl.glLineWidth(1);
+
 		debugRenderer.setProjectionMatrix(Main.inst.camera.cam.combined);
 		debugRenderer.begin(ShapeRenderer.ShapeType.Line);
 		debugRenderer.setColor(Color.WHITE);

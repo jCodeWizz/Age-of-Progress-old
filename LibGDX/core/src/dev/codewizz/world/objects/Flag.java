@@ -23,9 +23,6 @@ public class Flag extends GameObject implements IBuy, Serializable {
 		super(x, y);
 
 		this.id = ID.Flag;
-		
-		this.x += 15;
-		this.y += 26;
 	}
 
 	@Override
@@ -35,7 +32,7 @@ public class Flag extends GameObject implements IBuy, Serializable {
 
 	@Override
 	public void render(SpriteBatch b) {
-		b.draw(texture, x, y);
+		b.draw(texture, x + 15, y + 26);
 		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
 			Cell cell = MouseInput.hoveringOverCell;

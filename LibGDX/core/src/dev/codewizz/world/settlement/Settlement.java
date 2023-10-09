@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Queue;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.objects.tasks.Task;
 
 public class Settlement {
@@ -16,6 +17,7 @@ public class Settlement {
 	
 	public List<Hermit> members = new CopyOnWriteArrayList<>();
 	public Queue<Task> taskTree = new Queue<>();
+	public List<Building> homes = new CopyOnWriteArrayList<>();
 	
 	public Settlement(float x, float y) {
 		this.x = x;

@@ -1,5 +1,7 @@
 package dev.codewizz.world.objects;
 
+import java.awt.Polygon;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -9,15 +11,17 @@ import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
 
-public class Tree extends GameObject implements Serializable {
+public class Tree extends GameObject implements Serializable, IGatherable {
 
 	private static Sprite texture = Assets.getSprite("tree");
 	
 	public Tree(float x, float y) {
 		super(x, y);
 
-		this.x -= 32;
-		this.y += 25;
+		this.w = 64;
+		this.h = 64;
+		
+		this.sortHeight = 25f;
 		
 		this.id = ID.Tree;
 	}
@@ -29,7 +33,13 @@ public class Tree extends GameObject implements Serializable {
                                    
 	@Override
 	public void render(SpriteBatch b) {
-		b.draw(texture, x, y);
+		b.draw(texture, x - 32, y + 25);
+	}
+	
+	@Override
+	public Polygon getHitBox() {
+		return new Polygon( new int[] {(int)x + 27, (int)x + 27, (int)x + 37, (int)x + 37},
+							new int[] {(int)y + 32, (int)y + 100, (int)y + 100, (int)y + 32}, 4) ;
 	}
 
 	@Override
@@ -40,5 +50,15 @@ public class Tree extends GameObject implements Serializable {
 	@Override
 	public void load(RCObject object) {
 		Main.inst.world.objects.add(this);
+	}
+
+	@Override
+	public int duration() {
+		return 10;
+	}
+
+	@Override
+	public void gather() {
+		destroy();
 	}
 }

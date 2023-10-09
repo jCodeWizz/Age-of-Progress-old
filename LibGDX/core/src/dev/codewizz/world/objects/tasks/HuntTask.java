@@ -81,4 +81,9 @@ public class HuntTask extends Task {
 	public String getName() {
 		return "Hunting";
 	}
+
+	@Override
+	public void reset() {
+		
+	}
 }

@@ -1,34 +1,49 @@
 package dev.codewizz.input;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.Rectangle;
 
-import dev.codewizz.world.Cell;
+import com.badlogic.gdx.math.Vector2;
+
+import dev.codewizz.main.Main;
+import dev.codewizz.world.GameObject;
 
 public class AreaSelector {
 
-	public boolean selected = false;
-	public List<Cell> area = new CopyOnWriteArrayList<>();
-	public Cell start, stop;
+	public Vector2 start;
+
+	public void start(Vector2 start) {
+		this.start = start;
+	}
 	
 	
-	/*
-	 * 
-	 * Unfinished, might not be used.
-	 * 
-	 */
-	
-	
-	public void setArea(Cell[][] grid) {
-		if(start.indexX != stop.indexX && start.indexY != stop.indexY) {
-			int dirX = Math.abs(stop.indexX - start.indexX)/(stop.indexX - start.indexX);
-			int dirY = Math.abs(stop.indexY - start.indexY)/(stop.indexY - start.indexY);
-			
-			for(int i = start.indexX; i != stop.indexX; i+=dirX) {
-				for(int j = start.indexY; j != stop.indexY; j+=dirY) {
-					area.add(grid[i][j]);
-				}
+
+	public void end(Vector2 end) {
+		
+		if(start.x > end.x) {
+			float a = start.x;
+			start.x = end.x;
+			end.x = a;
+		}
+		
+		if(start.y > end.y) {
+			float a = start.y;
+			start.y = end.y;
+			end.y = a;
+		}
+		
+		int w = (int) (end.x - start.x);
+		int h = (int) (end.y - start.y);
+
+		Rectangle rec = new Rectangle((int) start.x, (int) start.y, w, h);
+
+		for (GameObject obj : Main.inst.world.objects) {
+			if (obj.getHitBox().intersects(rec)) {
+				handle(obj);
 			}
 		}
+	}
+
+	public void handle(GameObject obj) {
+
 	}
 }

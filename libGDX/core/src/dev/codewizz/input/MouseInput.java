@@ -3,29 +3,33 @@ package dev.codewizz.input;
 import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import dev.codewizz.gfx.Renderer;
 import dev.codewizz.gfx.gui.UIElement;
+import dev.codewizz.gfx.gui.layers.GameLayer;
 import dev.codewizz.main.Camera;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
-import dev.codewizz.world.objects.Entity;
 import dev.codewizz.world.objects.IBuy;
+import dev.codewizz.world.tiles.EmptyTile;
 
 public class MouseInput implements InputProcessor {
 
 	public static boolean object = true;
-	
+
 	public static boolean[] dragging = new boolean[5];
 	public static Vector3 coords = new Vector3();
 	public static Cell hoveringOverCell;
 	public static TileType currentlyDrawingType = TileType.Water;
 	public static GameObject currentlyDrawingObject = null;
-	public static AreaSelector area = new AreaSelector();
+	public static AreaSelector area = null;
 	public static boolean clear = false;
 	public static UIElement lastClickedUIElement;
 
@@ -65,20 +69,18 @@ public class MouseInput implements InputProcessor {
 			if (dragging[0]) {
 
 				if (hoveringOverCell != null) {
-					
-					if(object) {
-						if(currentlyDrawingObject != null) {
+
+					if (object) {
+						if (currentlyDrawingObject != null) {
 							IBuy object = (IBuy) currentlyDrawingObject;
-							
+
 							Main.inst.world.objects.add(object.getCopy(hoveringOverCell.x, hoveringOverCell.y));
 							object.onPlace(hoveringOverCell);
-							
-							
-							
+
 							dragging[0] = object.conintues() && object.available();
 							lastClickedUIElement.setAvailable(object.available());
-							
-							if(!object.available()) {
+
+							if (!object.available()) {
 								currentlyDrawingObject = null;
 							}
 						}
@@ -90,11 +92,9 @@ public class MouseInput implements InputProcessor {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
+
 					}
-					
-					
-					
+
 					if (Main.DEBUG) {
 						Cell.printDebugInfo(hoveringOverCell);
 					}
@@ -111,6 +111,18 @@ public class MouseInput implements InputProcessor {
 			}
 		}
 	}
+	
+	public static void renderArea() {
+
+		if(area != null) {
+			if(area.start != null) {
+				Renderer.shapeRenderer.line(area.start, new Vector2(area.start.x, coords.y));
+				Renderer.shapeRenderer.line(new Vector2(area.start.x, coords.y), new Vector2(coords.x, coords.y));
+				Renderer.shapeRenderer.line(new Vector2(coords.x, coords.y), new Vector2(coords.x, area.start.y));
+				Renderer.shapeRenderer.line(new Vector2(coords.x, area.start.y), area.start);
+			}
+		}
+	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -121,28 +133,25 @@ public class MouseInput implements InputProcessor {
 		 * Object selector
 		 * 
 		 */
-		
-		if(Main.inst.world != null) {
-			
+
+		if (Main.inst.world != null) {
+
 			Collections.sort(Main.inst.world.objects);
 			Collections.reverse(Main.inst.world.objects);
-			for (GameObject obj : Main.inst.world.objects) {
-				if (obj instanceof Entity) {
-					Entity entity = (Entity) obj;
-					if(entity.isSelected())
-						entity.deselect();
-				}
-			}
 			
-			boolean hit = false;
+			if(area != null) {
+				area.start(new Vector2(coords.x, coords.y));
+				return false;
+			}
+
+			if(GameLayer.selectedObject != null) GameLayer.selectedObject.deselect();
+
 			for (GameObject obj : Main.inst.world.objects) {
-				if (obj instanceof Entity) {
-					Entity entity = (Entity) obj;
-					if (entity.getBounds().contains(coords.x, coords.y) && !entity.isSelected() && !hit) {
-						entity.select();
-						hit = true;
-						dragging[button] = false;
-					}
+
+				if (obj.getHitBox().contains(coords.x, coords.y) && !obj.isSelected()) {
+					obj.select();
+					dragging[button] = false;
+					break;
 				}
 			}
 		}
@@ -153,6 +162,18 @@ public class MouseInput implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		dragging[button] = false;
+		
+		if(area != null) {
+			area.end(new Vector2(coords.x, coords.y));
+			area = null;
+		}
+		
+		if(Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
+			Cell cell = Main.inst.world.getCellSmart(coords.x, coords.y);
+			cell.setTile(new EmptyTile(cell));
+		}
+		
+		
 		return false;
 	}
 

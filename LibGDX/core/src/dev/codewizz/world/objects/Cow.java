@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import dev.codewizz.gfx.Animation;
+import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.serialization.RCField;
@@ -110,8 +111,13 @@ public class Cow extends Animal implements Serializable {
 	}
 
 	@Override
-	public void renderUICard(SpriteBatch b) {
+	public void renderUICard(SelectMenu m) {
 		
+	}
+	
+	@Override
+	public void updateUICard() {
+
 	}
 
 	@Override

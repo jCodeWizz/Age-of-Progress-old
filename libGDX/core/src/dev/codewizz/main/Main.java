@@ -81,6 +81,7 @@ public class Main extends ApplicationAdapter {
 		if(PLAYING) {
 			renderer.render(world, camera.cam);
 		}
+		
 		renderer.renderUI();
 		
 		if(DEBUG && PLAYING) {

@@ -1,6 +1,8 @@
 package dev.codewizz.input;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.zip.Deflater;
 
 import com.badlogic.gdx.Gdx;
@@ -12,6 +14,11 @@ import com.badlogic.gdx.graphics.PixmapIO;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.TileType;
+import dev.codewizz.world.World;
+import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.tasks.MoveTask;
+import dev.codewizz.world.objects.tasks.Task;
+import dev.codewizz.world.settlement.Settlement;
 import dev.codewizz.world.tiles.EmptyTile;
 
 public class KeyInput implements InputProcessor {
@@ -48,6 +55,35 @@ public class KeyInput implements InputProcessor {
 			return true;
 		}
 		
+		if(key == Input.Keys.NUM_3) {
+			World.gameSpeed = 3;
+		}
+		if(key == Input.Keys.NUM_2) {
+			World.gameSpeed = 2;
+		}
+		if(key == Input.Keys.NUM_1) {
+			World.gameSpeed = 1;
+		}
+		if(key == Input.Keys.NUM_0) {
+			World.gameSpeed = 0;
+		}
+		
+		if(key == Input.Keys.R) {
+			
+			Settlement s = Main.inst.world.settlement;
+			
+			if(s != null) {
+				
+				for(Hermit hermit : s.members) {
+					
+					Task task = new MoveTask(Main.inst.world.getCell(s.getX(), s.getY()));
+					hermit.addPrioTask(task);
+				}
+			}
+			
+			return true;
+		}
+		
 		
 		// create a screenshot
 		if(key == Input.Keys.C) {
@@ -60,7 +96,10 @@ public class KeyInput implements InputProcessor {
 				pixels.put(i, (byte) 255);
 			}
 
-			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\screenshot.png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");  
+			LocalDateTime now = LocalDateTime.now();  
+			
+			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\sc_" + dtf.format(now) + ".png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
 			pixmap.dispose();
 
 
