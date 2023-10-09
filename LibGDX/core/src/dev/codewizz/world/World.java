@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.dongbat.jbump.util.MathUtils;
 
+import dev.codewizz.gfx.Particle;
 import dev.codewizz.gfx.Shaders;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
@@ -46,6 +48,8 @@ public class World {
 	public QuadTree<Cell> tree;
 	public Cell[][] grid;
 	public List<GameObject> objects = new CopyOnWriteArrayList<>();
+	public List<Particle> particles = new CopyOnWriteArrayList<>();
+	
 	public Settlement settlement;
 	public Nature nature;
 
@@ -296,7 +300,15 @@ public class World {
 					object.update(Gdx.graphics.getDeltaTime());
 				}
 			}
+			
+			for(Particle p : particles) {
+				for(int i = 0; i < gameSpeed; i++) {
+					p.update(Gdx.graphics.getDeltaTime());
+				}
+			}
 		}
+		
+		
 
 		List<GameObject> o = getObjects();
 		Collections.sort(o);
@@ -312,6 +324,11 @@ public class World {
 			object.render(b);
 
 		}
+		
+		for(Particle p : particles) {
+			p.render(b);
+		}
+		b.setColor(Color.WHITE);
 	}
 
 	public Cell getCell(float x, float y) {

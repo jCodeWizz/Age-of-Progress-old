@@ -35,6 +35,15 @@ public class Utils {
 		return (int) (multiplier*(Math.round(value/multiplier)));
 	}
 	
+	public static float clamp(float v, float a, float b) {
+		if(v < a)
+			return a;
+		else if(v > b)
+			return b;
+		else
+			return v;
+	}
+	
 	public static int HSBtoRGBA8888(float hue, float saturation, float brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
