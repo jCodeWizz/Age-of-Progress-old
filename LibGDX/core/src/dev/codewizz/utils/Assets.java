@@ -93,6 +93,7 @@ public class Assets {
 		sprites.put("tent", atlasses.get("objects").createSprite("tent"));
 
 		sprites.put("particle-default", atlasses.get("particles").createSprite("particle-default"));
+		sprites.put("particle-leave", atlasses.get("particles").createSprite("particle-leave"));
 		
 		sprites.put("icon", atlasses.get("ui").createSprite("icon"));
 		sprites.put("icon-pressed", atlasses.get("ui").createSprite("icon-pressed"));

@@ -11,6 +11,7 @@ import dev.codewizz.utils.Utils;
 public class Particle {
 
 	private static Sprite DEFAULT = Assets.getSprite("particle-default");
+	public static Sprite LEAVE = Assets.getSprite("particle-leave");
 	
 	private float gravity = 1f;
 	private float x, y, w, h, velX, velY, traveled, distance = 0f;
@@ -80,14 +81,14 @@ public class Particle {
 	}
 	
 	public Particle velocity(float velX, float velY) {
-		this.velX = Utils.getRandom(-(velX-1f), velX);
+		this.velX = velX == 0 ? 0 : Utils.getRandom(-velX, velX);
 		this.velY = velY;
 		return this;
 	}
 	
 	public Particle gravity(float gravity, float distance) {
 		this.gravity = gravity;
-		this.distance = distance + Utils.getRandom(-10, 10);
+		this.distance = distance;
 		return this;
 	}
 	

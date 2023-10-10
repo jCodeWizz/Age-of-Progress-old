@@ -147,7 +147,7 @@ public class MouseInput implements InputProcessor {
 			if(GameLayer.selectedObject != null) GameLayer.selectedObject.deselect();
 
 			for (GameObject obj : Main.inst.world.objects) {
-
+				obj.setSelected(false);
 				if (obj.getHitBox().contains(coords.x, coords.y) && !obj.isSelected()) {
 					obj.select();
 					dragging[button] = false;

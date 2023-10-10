@@ -84,6 +84,7 @@ public class GameLayer extends UILayer {
 					@Override
 					public void handle(GameObject obj) {
 						if(obj.getID() == ID.Tree) {
+							obj.setSelected(true);
 							Main.inst.world.settlement.addTask(new GatherTask(obj), false);
 						}
 					}

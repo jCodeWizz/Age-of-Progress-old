@@ -80,5 +80,6 @@ public class GatherTask extends Task {
 	@Override
 	public void reset() {
 		counter = (float)((IGatherable) object).duration();
+		reached = false;
 	}
 }
