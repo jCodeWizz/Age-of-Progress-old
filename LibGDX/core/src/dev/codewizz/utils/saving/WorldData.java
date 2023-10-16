@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.utils.quadtree.QuadTree;
 import dev.codewizz.utils.serialization.RCDatabase;
 import dev.codewizz.utils.serialization.RCField;
@@ -25,7 +26,7 @@ public class WorldData {
 	public QuadTree<Cell> tree;
 	public CellGraph cellGraph;
 	public Settlement settlement;
-	public List<GameObject> objects;
+	public List<Renderable> objects;
 	public boolean showStartInfo;
 	public TileType[] tileTypes;
 
@@ -53,7 +54,7 @@ public class WorldData {
 		data.tree = new QuadTree<Cell>(-World.WORLD_SIZE_WP / 2, -World.WORLD_SIZE_HP / 2, World.WORLD_SIZE_WP / 2, World.WORLD_SIZE_HP / 2);
 		data.cellGraph = new CellGraph();
 		data.tileTypes = tileTypes;
-		data.objects = new CopyOnWriteArrayList<GameObject>();
+		data.objects = new CopyOnWriteArrayList<Renderable>();
 
 		for (int i = 0; i < World.WORLD_SIZE_W; i++) {
 			for (int j = 0; j < World.WORLD_SIZE_H; j++) {
@@ -97,14 +98,15 @@ public class WorldData {
 		
 		db.addObject(tiles);
 
-		for (GameObject object : world.objects) {
+		for (Renderable object : world.objects) {
 			if (object instanceof Serializable) {
-				RCObject ro = new RCObject("$" + object.getID());
+				GameObject obj = (GameObject) object;
+				RCObject ro = new RCObject("$" + obj.getID());
 
-				ro.addField(RCField.Float("x", object.getX()));
-				ro.addField(RCField.Float("y", object.getY()));
+				ro.addField(RCField.Float("x", obj.getX()));
+				ro.addField(RCField.Float("y", obj.getY()));
 				
-				ro = ((Serializable) object).save(ro);
+				ro = ((Serializable) obj).save(ro);
 
 				db.addObject(ro);
 			}

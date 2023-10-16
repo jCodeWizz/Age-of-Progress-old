@@ -7,18 +7,19 @@ import dev.codewizz.gfx.gui.UIIcon;
 import dev.codewizz.gfx.gui.UIImage;
 import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.menus.BuildingMenu;
-import dev.codewizz.gfx.gui.menus.DebugMenu;
+import dev.codewizz.gfx.gui.menus.NotificationMenu;
 import dev.codewizz.gfx.gui.menus.PathingMenu;
 import dev.codewizz.gfx.gui.menus.PauseMenu;
 import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.gfx.gui.menus.SettingsGameMenu;
+import dev.codewizz.gfx.gui.menus.SettlementMenu;
 import dev.codewizz.gfx.gui.menus.StartInfoMenu;
 import dev.codewizz.input.AreaSelector;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.World;
-import dev.codewizz.world.objects.ID;
+import dev.codewizz.world.objects.IGatherable;
 import dev.codewizz.world.objects.tasks.GatherTask;
 
 public class GameLayer extends UILayer {
@@ -29,14 +30,31 @@ public class GameLayer extends UILayer {
 	private SettingsGameMenu settingsMenu;
 	private SelectMenu selectMenu;
 	private StartInfoMenu startInfoMenu;
-	private DebugMenu debugMenu;
+	//private DebugMenu debugMenu;
+	private NotificationMenu notificationMenu;
+	private SettlementMenu settlementMenu;
 
 	public static GameObject selectedObject = null;
 	
 	@Override
 	public void setup() {
 		// MANAGE ICON
-		elements.add(new UIIcon("manage-icon", (WIDTH / 2) - (134 * SCALE) / 2, 6 * SCALE, 22, 24, "manage-icon"));
+		elements.add(new UIIcon("manage-icon", (WIDTH / 2) - (134 * SCALE) / 2, 6 * SCALE, 22, 24, "manage-icon") {
+			
+			@Override
+			protected void onDeClick() {
+				if (!pauseMenu.isEnabled()) {
+					UIElement e = settlementMenu;
+					if (e.isEnabled())
+						e.disable();
+					else {
+						closeMenus();
+						e.enable();
+					}
+				}
+			}
+			
+		});
 		
 		// PATH ICON
 		elements.add(new UIIcon("path-icon", (WIDTH / 2) - (78 * SCALE) / 2, 6 * SCALE, 22, 24, "icon", "icon-pressed",
@@ -47,8 +65,10 @@ public class GameLayer extends UILayer {
 					UIElement e = pathingMenu;
 					if (e.isEnabled())
 						e.disable();
-					else
+					else {
+						closeMenus();
 						e.enable();
+					}
 				}
 			}
 		});
@@ -57,12 +77,14 @@ public class GameLayer extends UILayer {
 		elements.add(new UIIcon("build-icon", (WIDTH / 2) - (22 * SCALE) / 2, 6 * SCALE, 22, 24, "build-icon") {
 			@Override
 			protected void onDeClick() {
-				if (!buildingMenu.isEnabled()) {
+				if (!pauseMenu.isEnabled()) {
 					UIElement e = buildingMenu;
 					if (e.isEnabled())
 						e.disable();
-					else
+					else {
+						closeMenus();
 						e.enable();
+					}
 				}
 			}
 		});
@@ -83,9 +105,11 @@ public class GameLayer extends UILayer {
 				MouseInput.area = new AreaSelector() {
 					@Override
 					public void handle(GameObject obj) {
-						if(obj.getID() == ID.Tree) {
-							obj.setSelected(true);
-							Main.inst.world.settlement.addTask(new GatherTask(obj), false);
+						if(obj instanceof IGatherable) {
+							if(((IGatherable) obj).ready()) {
+								obj.setSelected(true);
+								Main.inst.world.settlement.addTask(new GatherTask(obj), false);
+							}
 						}
 					}
 				};
@@ -104,6 +128,11 @@ public class GameLayer extends UILayer {
 		buildingMenu = new BuildingMenu("buildingMenu", 0, 0, 128, 260, this);
 		buildingMenu.disable();
 		elements.add(buildingMenu);
+		
+		// SETTLEMENT MENU
+		settlementMenu = new SettlementMenu("settlementMenu", UILayer.WIDTH/2 - (531/2) * UILayer.SCALE, UILayer.HEIGHT/2 - 298/2 * UILayer.SCALE, 531, 298, this);
+		settlementMenu.disable();
+		elements.add(settlementMenu);
 
 		// PAUSE MENU
 		pauseMenu = new PauseMenu("pauseMenu", 0, 0, 100, 100, this);
@@ -122,26 +151,30 @@ public class GameLayer extends UILayer {
 		
 		// INFO MENU START
 		startInfoMenu = new StartInfoMenu("startInfoMenu", WIDTH / 2 - 160 * UILayer.SCALE, HEIGHT / 2 - 107 * UILayer.SCALE, 320, 214, this);
-		
 		if(Main.inst.world.showInfoSartMenu) {
 			startInfoMenu.enable();
 		} else {
 			startInfoMenu.disable();
 		}
-		
 		elements.add(startInfoMenu);
 		
+		/*
 		debugMenu = new DebugMenu("debugMenu", 0, 0, 0, 0, this);
 		elements.add(debugMenu);
 		debugMenu.enable();
+		*/
+		
+		// NOTIFICATION MENU
+		notificationMenu = new NotificationMenu("notification-menu", UILayer.WIDTH - NotificationMenu.notificationWidth * UILayer.SCALE - 4 * UILayer.SCALE, UILayer.HEIGHT - NotificationMenu.notificationHeight * UILayer.SCALE - 4 * UILayer.SCALE, 200, 100, this);
+		
+		elements.add(notificationMenu);
+		notificationMenu.enable();
 		
 	}
 
 	@Override
 	public void render(SpriteBatch b) {
-		
 		if(selectedObject != null) selectedObject.updateUICard();
-		
 		super.render(b);
 	}
 }

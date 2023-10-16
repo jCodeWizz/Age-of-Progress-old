@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.badlogic.gdx.math.Vector2;
 
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.GameObject;
 
@@ -36,9 +37,11 @@ public class AreaSelector {
 
 		Rectangle rec = new Rectangle((int) start.x, (int) start.y, w, h);
 
-		for (GameObject obj : Main.inst.world.objects) {
-			if (obj.getHitBox().intersects(rec)) {
-				handle(obj);
+		for (Renderable obj : Main.inst.world.objects) {
+			if(obj instanceof GameObject) {
+				if (((GameObject)obj).getHitBox().intersects(rec)) {
+					handle((GameObject)obj);
+				}
 			}
 		}
 	}

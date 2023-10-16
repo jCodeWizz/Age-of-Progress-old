@@ -6,9 +6,9 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
-import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.IGatherable;
 import dev.codewizz.world.objects.TaskableObject;
+import dev.codewizz.world.objects.hermits.Hermit;
 
 public class GatherTask extends Task {
 

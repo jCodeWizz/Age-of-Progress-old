@@ -8,15 +8,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import box2dLight.PointLight;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
-import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.IBuy;
 import dev.codewizz.world.objects.ID;
+import dev.codewizz.world.objects.hermits.Hermit;
 
 public class Building extends GameObject implements IBuy, Serializable {
 	
@@ -29,7 +30,8 @@ public class Building extends GameObject implements IBuy, Serializable {
 	private final float sleepConst = 1f;
 	
 	public int size = 2;
-
+	private PointLight light;
+	
 	public Building(float x, float y) {
 		super(x, y);
 
@@ -42,6 +44,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 		this.h = 48;
 		
 		this.sortHeight = 8;
+		
 	}
 	
 	public void enter(Hermit hermit) {
@@ -73,11 +76,21 @@ public class Building extends GameObject implements IBuy, Serializable {
 	}
 	
 	@Override
-	public Polygon getHitBox() {
+	public void onDestroy() {
+		Main.inst.renderer.removeLight(light);
+		for(Hermit hermit : owned) {
+			hermit.setHome(null);
+		}
 		
+		for(Hermit hermit : inside) {
+			leave(hermit);
+		}
+	}
+	
+	@Override
+	public Polygon getHitBox() {
 		return new Polygon( new int[] {(int)x + 36, (int)x - 11, (int)x + 6, (int)x + 49, (int)x + 65}, 
 							new int[] {(int)y + 16, (int)y + 40, (int)y + 80, (int)y + 64, (int)y + 32}, 5);
-		
 	}
 	
 	@Override
@@ -112,7 +125,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 
 	@Override
 	public void onPlace(Cell cell) {
-		
+		this.light = Main.inst.renderer.addLight(x + 48, y + 32, 150);
 	}
 	
 	@Override
@@ -126,6 +139,6 @@ public class Building extends GameObject implements IBuy, Serializable {
 	}
 	
 	public boolean isFull() {
-		return size < owned.size();
+		return owned.size() >= size;
 	}
 }

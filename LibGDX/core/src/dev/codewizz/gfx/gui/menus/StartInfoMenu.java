@@ -29,8 +29,8 @@ private boolean[] states = null;
 			}
 		});
 		
-		elements.add(new UIText("startinginfomenu-title", x + 13, y + h * UILayer.SCALE - 13, 0, 0, "Start Information", UILayer.SCALE * 3));
-		elements.add(new UIText("startinginfomenu-title", x + 13, y + h * UILayer.SCALE - 65, w*UILayer.SCALE - 25, 0,
+		elements.add(new UIText("startinginfomenu-title", x + 13, y + h * UILayer.SCALE - 13, "Start Information", UILayer.SCALE * 3));
+		elements.add(new UIText("startinginfomenu-title", x + 13, y + h * UILayer.SCALE - 65, w*UILayer.SCALE - 25,
 				"Greetings Traveller, (n) (n) " +
 				"I hope your journey thru time and space went well. Welcome to your lands, your people have been waiting for your guidance. (n) (n) " +
 				"Your goal is to grow your settlement both in size and thru time. Use research to unlock new technologies and make your settlement a better place to attract new settlers. (n) (n) " +

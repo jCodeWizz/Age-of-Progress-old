@@ -25,6 +25,7 @@ public class Assets {
 		atlasses.put("tiles", new TextureAtlas(Gdx.files.internal("../assets/packs/tiles.atlas")));
 		atlasses.put("entities", new TextureAtlas(Gdx.files.internal("../assets/packs/entities.atlas")));
 		atlasses.put("particles", new TextureAtlas(Gdx.files.internal("../assets/packs/particles.atlas")));
+		atlasses.put("items", new TextureAtlas(Gdx.files.internal("../assets/packs/items.atlas")));
 		atlasses.put("objects", new TextureAtlas(Gdx.files.internal("../assets/packs/objects.atlas")));
 		atlasses.put("ui", new TextureAtlas(Gdx.files.internal("packs/ui.atlas")));
 		atlasses.put("paths", new TextureAtlas());
@@ -33,7 +34,10 @@ public class Assets {
 		sprites.put("water-tile", atlasses.get("tiles").createSprite("water-tile"));
 		sprites.put("dirt-tile", atlasses.get("tiles").createSprite("dirt-tile"));
 		sprites.put("empty-tile", atlasses.get("tiles").createSprite("empty-tile"));
-		
+		sprites.put("farm-tile", atlasses.get("tiles").createSprite("farm-tile"));
+		sprites.put("carrot-farm-tile", atlasses.get("tiles").createSprite("carrot-farm-tile"));
+		sprites.put("carrot2-farm-tile", atlasses.get("tiles").createSprite("carrot2-farm-tile"));
+		sprites.put("carrot3-farm-tile", atlasses.get("tiles").createSprite("carrot3-farm-tile"));
 		sprites.put("sand-tile", atlasses.get("tiles").createSprite("sand-tile"));
 		sprites.put("clay-tile", atlasses.get("tiles").createSprite("clay-tile"));
 		sprites.put("flower-tile-1", atlasses.get("tiles").createSprite("flower-tile-1"));
@@ -85,11 +89,15 @@ public class Assets {
 		sprites.put("right-down-hermit-3", atlasses.get("entities").createSprite("right-down-hermit-3"));
 		sprites.put("hermit-axe-1", atlasses.get("entities").createSprite("hermit-axe-1"));
 		sprites.put("hermit-axe-2", atlasses.get("entities").createSprite("hermit-axe-2"));
+		sprites.put("farmer-hermit", atlasses.get("entities").createSprite("farmer-hermit"));
 		
 		sprites.put("tree", atlasses.get("objects").createSprite("tree"));
+		sprites.put("mushrooms", atlasses.get("objects").createSprite("mushrooms"));
 		sprites.put("flag", atlasses.get("objects").createSprite("flag"));
 		sprites.put("rock", atlasses.get("objects").createSprite("rock"));
-		sprites.put("broken-rock", atlasses.get("objects").createSprite("broken-rock"));
+		sprites.put("bush", atlasses.get("objects").createSprite("bush"));
+		sprites.put("bush-berries", atlasses.get("objects").createSprite("bush-berries"));
+		sprites.put("rock-broken", atlasses.get("objects").createSprite("rock-broken"));
 		sprites.put("tent", atlasses.get("objects").createSprite("tent"));
 
 		sprites.put("particle-default", atlasses.get("particles").createSprite("particle-default"));
@@ -120,8 +128,13 @@ public class Assets {
 		sprites.put("tab-button", atlasses.get("ui").createSprite("tab-button"));
 		sprites.put("tab-button-pressed", atlasses.get("ui").createSprite("tab-button-pressed"));
 		sprites.put("tab-button-unavailable", atlasses.get("ui").createSprite("tab-button-unavailable"));
+		sprites.put("notification", atlasses.get("ui").createSprite("notification"));
+		sprites.put("settlement-menu", atlasses.get("ui").createSprite("settlement-menu"));
 
-
+		sprites.put("item-wood", atlasses.get("items").createSprite("item-wood"));
+		sprites.put("item-stone", atlasses.get("items").createSprite("item-stone"));
+		sprites.put("item-carrot", atlasses.get("items").createSprite("item-carrot"));
+		
 		addImage("../assets/textures/procuderal/path-tile.png", "t");
 		addImage("../assets/textures/procuderal/path-tile-TL.png", "tTL");
 		addImage("../assets/textures/procuderal/path-tile-TR.png", "tTR");

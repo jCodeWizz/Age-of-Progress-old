@@ -57,9 +57,11 @@ public abstract class TaskableObject extends Entity {
 		if(this.getCurrentTask() != null) {
 			Task task = this.getCurrentTask();
 			task.stop();
-			task.reset();
-			task.setStarted(false);
-			addTask(task, true);
+			if(task.shouldRestart()) {
+				task.reset();
+				task.setStarted(false);
+				addTask(task, true);
+			}
 		}
 		
 		this.getTree().addFirst(t);

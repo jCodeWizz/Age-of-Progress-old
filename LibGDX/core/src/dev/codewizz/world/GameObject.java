@@ -6,13 +6,14 @@ import java.awt.Rectangle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.Renderer;
 import dev.codewizz.gfx.gui.layers.GameLayer;
 import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.objects.ID;
 
-public abstract class GameObject implements Comparable<GameObject> {
+public abstract class GameObject extends Renderable {
 
 	protected float x, y, sortHeight;
 	protected int w, h;
@@ -53,6 +54,7 @@ public abstract class GameObject implements Comparable<GameObject> {
 	}
 	
 	public void select() {
+		Main.inst.renderer.ui.closeMenus();
 		GameLayer.selectedObject = this;
 		this.renderUICard((SelectMenu)Main.inst.renderer.ui.getElement("selectMenu"));
 		Main.inst.renderer.ui.getElement("selectMenu").enable();
@@ -137,6 +139,11 @@ public abstract class GameObject implements Comparable<GameObject> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public float getSorthingHeight() {
+		return sortHeight;
 	}
 	
 }

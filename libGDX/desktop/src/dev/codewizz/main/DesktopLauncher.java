@@ -10,7 +10,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		
-		config.setTitle("Age of Progress | HPG");
+		config.setTitle("Age of Progress");
 		config.setForegroundFPS(60);
 		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		config.useVsync(true);
@@ -29,6 +29,7 @@ public class DesktopLauncher {
 		TexturePacker.process(settings, "../assets/textures/entities", "../assets/packs", "entities");
 		TexturePacker.process(settings, "../assets/textures/objects", "../assets/packs", "objects");
 		TexturePacker.process(settings, "../assets/textures/particles", "../assets/packs", "particles");
+		TexturePacker.process(settings, "../assets/textures/items", "../assets/packs", "items");
 
 	}
 }

@@ -1,4 +1,4 @@
-package dev.codewizz.world.objects;
+ package dev.codewizz.world.objects;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 

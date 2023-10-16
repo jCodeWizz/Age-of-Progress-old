@@ -5,10 +5,10 @@ import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.objects.Cow;
 import dev.codewizz.world.objects.Flag;
-import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.objects.Wolf;
 import dev.codewizz.world.objects.buildings.Building;
+import dev.codewizz.world.objects.hermits.Hermit;
 
 public class GameObjectData {
 

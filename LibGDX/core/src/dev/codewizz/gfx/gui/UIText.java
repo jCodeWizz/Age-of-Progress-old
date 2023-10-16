@@ -18,8 +18,8 @@ public class UIText extends UIElement {
 	private BitmapFont f;
 	private float offset = 0f;
 	
-	public UIText(String id, int x, int y, int w, int h, String text, int size) {
-		super(id, x, y, w, h);
+	public UIText(String id, int x, int y, String text, int size) {
+		super(id, x, y, 0, 0);
 		
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size * UILayer.SCALE;
@@ -32,8 +32,8 @@ public class UIText extends UIElement {
 		this.text[0] = text;
 	}
 	
-	public UIText(String id, int x, int y, int w, int h, String text, int size, float offset) {
-		super(id, x, y, w, h);
+	public UIText(String id, int x, int y, float w, String text, int size, float offset) {
+		super(id, x, y, 0, 0);
 		
 		this.offset = offset;
 		

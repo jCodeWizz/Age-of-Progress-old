@@ -6,68 +6,177 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 
+import dev.codewizz.gfx.Renderable;
+import dev.codewizz.gfx.gui.UINotification;
+import dev.codewizz.gfx.gui.menus.NotificationMenu;
 import dev.codewizz.main.Main;
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.items.Item;
 import dev.codewizz.world.objects.buildings.Building;
+import dev.codewizz.world.objects.hermits.Hermit;
+import dev.codewizz.world.objects.hermits.Jobs;
+import dev.codewizz.world.objects.tasks.GrowCropTask;
+import dev.codewizz.world.objects.tasks.HaulTask;
 import dev.codewizz.world.objects.tasks.Task;
 
 public class Settlement {
 
 	private float x, y;
-	
+	private float timer = 0, max_timer = 5f;
+
 	public List<Hermit> members = new CopyOnWriteArrayList<>();
 	public Queue<Task> taskTree = new Queue<>();
 	public List<Building> homes = new CopyOnWriteArrayList<>();
-	
+	public List<Item> items = new CopyOnWriteArrayList<>();
+	public List<Crop> crops = new CopyOnWriteArrayList<>();
+
 	public Settlement(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void update(float dt) {
+		if (timer < max_timer)
+			timer += dt;
+		else {
+			timer = 0f;
+			checkHaulTask();
+		}
+		
+		if(Main.inst.world.nature.day) {
+			for(Crop crop : crops) {
+				if(crop.isReady()) {
+					if(!crop.tasked) {
+						crop.tasked = true;
+						addTask(new GrowCropTask(crop, Jobs.Farmer), true);
+					}
+				} else {
+					crop.counter += dt;
+				}
+			}
+		}
 	}
-	
+
 	public Hermit addHermit(float x, float y) {
-		
+
 		Hermit hermit = new Hermit(x, y);
-		
+
 		hermit.setSettlement(this);
 		members.add(hermit);
 		Main.inst.world.objects.add(hermit);
-		
+
+		((NotificationMenu) Main.inst.renderer.ui.getElement("notification-menu")).addNotification(new UINotification(
+				"A new Hermit arrived!", "Give " + hermit.getName() + " a warm welcome! (And a meal!)", "people-icon"));
+		;
 		return hermit;
 	}
-	
+
+	private void checkHaulTask() {
+		List<Item> items = new CopyOnWriteArrayList<>();
+
+		for (Renderable r : Main.inst.world.objects) {
+			if (r instanceof Item) {
+				Item i = (Item) r;
+				if (!i.isHauled()) {
+					items.add(i);
+				}
+			}
+		}
+
+		List<Item> t = new CopyOnWriteArrayList<>();
+		for (int i = 0; i < items.size(); i++) {
+			t.add(items.get(i));
+
+			if (t.size() > 5) {
+				HaulTask task = new HaulTask(t);
+				taskTree.addLast(task);
+				t = new CopyOnWriteArrayList<>();
+			}
+		}
+
+		if (!t.isEmpty()) {
+			HaulTask task = new HaulTask(t);
+			taskTree.addLast(task);
+		}
+	}
+
 	public Hermit addHermit(Hermit hermit) {
-		
+
 		hermit.setSettlement(this);
 		members.add(hermit);
-		
+
 		return hermit;
 	}
-	
+
 	public Queue<Task> getTasks() {
 		return taskTree;
 	}
-	
+
 	public void addTask(Task task, boolean prio) {
-		
-		if(prio) {
+
+		if (prio) {
 			taskTree.addFirst(task);
 		} else {
 			taskTree.addLast(task);
 		}
 	}
-	
+
+	public void addItem(Item i) {
+
+		for (Item items : items) {
+			if (items.getType() == i.getType()) {
+				items.setSize(items.getSize() + i.getSize());
+				return;
+			}
+		}
+
+		items.add(i);
+	}
+
+	public boolean removeItem(Item i) {
+
+		if (containsItem(i, i.getSize())) {
+
+			for (Item items : items) {
+
+				if (items.getType() == i.getType()) {
+
+					if (items.getSize() >= i.getSize()) {
+						items.setSize(items.getSize() - i.getSize());
+						return true;
+					} else if (items.getSize() == i.getSize()) {
+						this.items.remove(items);
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean containsItem(Item i, int count) {
+
+		for (Item items : items) {
+			if (items.getType() == i.getType()) {
+				if (items.getSize() >= count) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void removeTask(Task task) {
 		taskTree.removeValue(task, false);
 	}
-	
 
 	public Vector2 getLocation() {
 		return new Vector2(x, y);
 	}
-	
+
 	public float getX() {
 		return x;
 	}
@@ -83,6 +192,5 @@ public class Settlement {
 	public void setY(float y) {
 		this.y = y;
 	}
-	
 
 }

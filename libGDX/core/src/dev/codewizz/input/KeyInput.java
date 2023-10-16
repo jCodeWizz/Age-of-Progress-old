@@ -12,14 +12,15 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 
 import dev.codewizz.main.Main;
-import dev.codewizz.world.Cell;
-import dev.codewizz.world.TileType;
+import dev.codewizz.world.GameObject;
 import dev.codewizz.world.World;
-import dev.codewizz.world.objects.Hermit;
+import dev.codewizz.world.objects.IGatherable;
+import dev.codewizz.world.objects.hermits.Farmer;
+import dev.codewizz.world.objects.hermits.Hermit;
+import dev.codewizz.world.objects.tasks.GatherTask;
 import dev.codewizz.world.objects.tasks.MoveTask;
 import dev.codewizz.world.objects.tasks.Task;
 import dev.codewizz.world.settlement.Settlement;
-import dev.codewizz.world.tiles.EmptyTile;
 
 public class KeyInput implements InputProcessor {
 
@@ -28,8 +29,6 @@ public class KeyInput implements InputProcessor {
 	 * Key Input handling class
 	 * 
 	 */
-	
-	
 	@Override
 	public boolean keyDown(int key) {
 		
@@ -55,6 +54,12 @@ public class KeyInput implements InputProcessor {
 			return true;
 		}
 		
+		if(key == Input.Keys.SPACE) {
+			for(Hermit h : Main.inst.world.settlement.members) {
+				h.setJob(new Farmer());
+			}
+		}
+		
 		if(key == Input.Keys.NUM_3) {
 			World.gameSpeed = 3;
 		}
@@ -67,9 +72,27 @@ public class KeyInput implements InputProcessor {
 		if(key == Input.Keys.NUM_0) {
 			World.gameSpeed = 0;
 		}
+		if(key == Input.Keys.NUM_9) {
+			World.gameSpeed = 40;
+		}
+		
+		if(key == Input.Keys.H) {
+			MouseInput.area = new AreaSelector() {
+				@Override
+				public void handle(GameObject obj) {
+					if(Main.inst.world.settlement != null) {
+						if(obj instanceof IGatherable) {
+							if(((IGatherable) obj).ready()) {
+								obj.setSelected(true);
+								Main.inst.world.settlement.addTask(new GatherTask(obj), false);
+							}
+						}
+					}
+				}
+			};
+		}
 		
 		if(key == Input.Keys.R) {
-			
 			Settlement s = Main.inst.world.settlement;
 			
 			if(s != null) {
@@ -102,19 +125,7 @@ public class KeyInput implements InputProcessor {
 			PixmapIO.writePNG(Gdx.files.external("\\Desktop\\Java Coding\\Eclipse\\Age-of-Progress\\LibGDX\\sc_" + dtf.format(now) + ".png"), pixmap, Deflater.DEFAULT_COMPRESSION, true);
 			pixmap.dispose();
 
-
-
 			return true;
-		}
-		
-		if(key == Input.Keys.SPACE) {
-			Cell cell = Main.inst.world.findCell(MouseInput.coords.x, MouseInput.coords.y, 5, false, TileType.Base);
-			
-			if(cell != null) {
-				cell.setTile(new EmptyTile(cell));
-			}
-			
-			
 		}
 		
 		return false;

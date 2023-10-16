@@ -4,4 +4,6 @@ public interface IGatherable {
 
 	public int duration();
 	public void gather();
+	public boolean ready();
+	
 }

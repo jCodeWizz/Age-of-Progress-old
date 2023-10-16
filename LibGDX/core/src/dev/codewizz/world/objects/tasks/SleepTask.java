@@ -2,12 +2,15 @@ package dev.codewizz.world.objects.tasks;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
-import dev.codewizz.world.objects.Hermit;
 import dev.codewizz.world.objects.TaskableObject;
+import dev.codewizz.world.objects.buildings.Building;
+import dev.codewizz.world.objects.hermits.Hermit;
 
 public class SleepTask extends Task {
 
 	private Hermit hermit;
+	private final float sleepConst = 0.5f;
+	private boolean onGround = false;
 	
 	@Override
 	public void finish() {
@@ -23,10 +26,17 @@ public class SleepTask extends Task {
 	@Override
 	public void start(TaskableObject object) {
 		hermit = (Hermit) object;
-		Cell cell = Main.inst.world.getCell(hermit.getHome().getX(), hermit.getHome().getY() + 32);
-		object.getAgent().setGoal(cell, object.getX(), object.getY());
-		if(object.getAgent().path.isEmpty())
-			stop();
+		
+		Building b = hermit.getHome();
+		
+		if(b != null) {
+			Cell cell = Main.inst.world.getCell(b.getX(), b.getY() + 32);
+			object.getAgent().setGoal(cell, object.getX(), object.getY());
+		} else {
+			//TODO: maybe add different ways/spaces to sleep.
+			onGround = true;
+		}
+		
 		started = true;
 	}
 
@@ -38,6 +48,13 @@ public class SleepTask extends Task {
 	@Override
 	public void update(float d) {
 		
+		if(onGround && started) {
+			if(hermit.getSleepNeed() <= 0f) {
+				finish();
+			}
+			
+			hermit.setSleepNeed(hermit.getSleepNeed() - sleepConst * d);
+		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package dev.codewizz.world.objects;
+package dev.codewizz.world.objects.hermits;
 
 import java.awt.Polygon;
 import java.util.HashMap;
@@ -17,7 +17,10 @@ import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.serialization.RCField;
 import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.Serializable;
+import dev.codewizz.world.objects.ID;
+import dev.codewizz.world.objects.TaskableObject;
 import dev.codewizz.world.objects.buildings.Building;
+import dev.codewizz.world.objects.tasks.Task;
 import dev.codewizz.world.settlement.Settlement;
 
 public class Hermit extends TaskableObject implements Serializable {
@@ -34,6 +37,7 @@ public class Hermit extends TaskableObject implements Serializable {
 	
 	private Settlement s;
 	private Building home;
+	private Job job;
 	
 	private float intelligence = 1f;
 	private float strength = 1f;
@@ -65,6 +69,8 @@ public class Hermit extends TaskableObject implements Serializable {
 		
 		setMaxHealth(0f);
 		setSleepNeed();
+
+		this.setJob(new Worker());
 	}
 	
 	@Override
@@ -72,7 +78,15 @@ public class Hermit extends TaskableObject implements Serializable {
 		super.update(d);
 		
 		if(this.currentTask == null && s.getTasks().notEmpty()) {
-			this.addTask(s.getTasks().removeFirst(), false);
+			
+			for(Task task : s.getTasks()) {
+				
+				if(task.canTake(this)) {
+					this.addTask(task, false);
+					s.getTasks().removeValue(task, false);
+					break;
+				}
+			}
 		}
 		
 		if(currentAnimation != null) {
@@ -89,6 +103,8 @@ public class Hermit extends TaskableObject implements Serializable {
 		} else {
 			currentDirection = directions.get(dir);
 		}
+		
+		job.update(d);
 	}
 	
 	
@@ -109,6 +125,8 @@ public class Hermit extends TaskableObject implements Serializable {
 				}
 			}
 		}
+		
+		job.render(b);
 	}
 	
 	@Override
@@ -119,9 +137,9 @@ public class Hermit extends TaskableObject implements Serializable {
 
 	private SelectMenu m;
 	private UIText nameText;
-	private UIText taskText = new UIText("task-text", (6 + 3) * UILayer.SCALE,  (6+50) * UILayer.SCALE, 10, 10, "", 8);
-	private UIText moodText = new UIText("mood-text", (6 + 3) * UILayer.SCALE,  (6+80) * UILayer.SCALE, 10, 10, "", 8);
-	
+	private UIText jobText = new UIText("job-text", (6 + 3) * UILayer.SCALE, (6+30) * UILayer.SCALE, "", 8);
+	private UIText taskText = new UIText("task-text", (6 + 3) * UILayer.SCALE, (6+50) * UILayer.SCALE, "", 8);
+	private UIText moodText = new UIText("mood-text", (6 + 3) * UILayer.SCALE, (6+80) * UILayer.SCALE, "", 8);
 	
 	@Override
 	public void renderUICard(SelectMenu m) {
@@ -129,6 +147,7 @@ public class Hermit extends TaskableObject implements Serializable {
 		nameText = (UIText)m.layer.getElement("name-text");
 		m.elements.add(moodText);
 		m.elements.add(taskText);
+		m.elements.add(jobText);
 	}
 	
 	@Override
@@ -136,7 +155,7 @@ public class Hermit extends TaskableObject implements Serializable {
 		if(nameText != null) nameText.setText(name + "   ( " + age + " )");
 		else nameText = (UIText) m.layer.getElement("name-text");
 		moodText.setText("mood");
-		
+		jobText.setText("Job >> " + job.getJob().toString());
 		if(this.getCurrentTask() == null) {
 			taskText.setText("Task >> Idle");
 		} else {
@@ -280,5 +299,14 @@ public class Hermit extends TaskableObject implements Serializable {
 
 	public void setTaskAnimation(Animation taskAnimation) {
 		this.taskAnimation = taskAnimation;
+	}
+	
+	public Job getJob() {
+		return job;
+	}
+	
+	public void setJob(Job job) {
+		this.job = job;
+		this.job.setHermit(this);
 	}
 }

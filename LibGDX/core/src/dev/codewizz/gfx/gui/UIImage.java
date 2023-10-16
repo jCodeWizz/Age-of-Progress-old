@@ -26,6 +26,15 @@ public class UIImage extends UIElement {
 		
 		sprite = Assets.getSprite(spriteName);
 	}
+	
+	public UIImage(String id, int x, int y, int w, int h, Sprite sprite) {
+		super(id, x, y, w, h);
+
+		this.scale = UILayer.SCALE;
+		this.wantsClick = false;
+		
+		this.sprite = sprite;
+	}
 
 	@Override
 	public void render(SpriteBatch b) {

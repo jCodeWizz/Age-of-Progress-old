@@ -17,6 +17,7 @@ import dev.codewizz.world.tiles.ClayTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
 import dev.codewizz.world.tiles.EmptyTile;
+import dev.codewizz.world.tiles.FarmTile;
 import dev.codewizz.world.tiles.FlowerTile;
 import dev.codewizz.world.tiles.SandTile;
 import dev.codewizz.world.tiles.TiledTile;
@@ -63,8 +64,6 @@ public class PathingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (7 + 15) * UILayer.SCALE + 1, 14, 15, "close-icon") {
 			@Override
 			protected void onDeClick() {
-				MouseInput.object = true;
-				MouseInput.currentlyDrawingObject = null;
 				closeAllTabs();
 				close();
 			}
@@ -94,8 +93,7 @@ public class PathingMenu extends UIMenu {
 			}
 		});
 
-		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1,
-				10, 10, "Pathing Menu", 8));
+		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1, "Pathing Menu", 8));
 
 		terrainList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new BaseTile(null)));
@@ -111,6 +109,8 @@ public class PathingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (340 * UILayer.SCALE), 160 - 8, 52, new WaterTile(null)));
 		terrainList.slots.add(new UIBuyslotTile("slot-7", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (390 * UILayer.SCALE), 160 - 8, 52, new EmptyTile(null)));
+		terrainList.slots.add(new UIBuyslotTile("slot-8", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (440 * UILayer.SCALE), 160 - 8, 52, new FarmTile(null)));
 
 		stonesList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new DirtPathTile(null)));
@@ -161,6 +161,8 @@ public class PathingMenu extends UIMenu {
 
 	@Override
 	public void onClose() {
+		MouseInput.object = true;
+		MouseInput.currentlyDrawingObject = null;
 		closeAllTabs();
 	}
 }

@@ -3,35 +3,50 @@ package dev.codewizz.world;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import dev.codewizz.gfx.Renderable;
+import dev.codewizz.main.Main;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.world.objects.Animal;
 import dev.codewizz.world.objects.Cow;
 import dev.codewizz.world.objects.Herd;
+import dev.codewizz.world.objects.hermits.Hermit;
+import dev.codewizz.world.objects.tasks.SleepTask;
 
 public class Nature {
 
+	public static final float TRANSITION_TIME = 60f;
+	public static final float DAY_TIME = 12f*60f - TRANSITION_TIME;	
+	public static final float DAY_LIGHT = 1f;
+	public static final float NIGHT_LIGHT = 0.2f;
+	
+	
 	public World world;
 	public static final int ANIMAL_CAP = 20;
 	
 	public List<Animal> animals = new CopyOnWriteArrayList<>();
 	public List<Herd> herds = new CopyOnWriteArrayList<>();
 
-	// counter is decreased by 1 every second.
-	public float counter = Utils.getRandom(100, 200);
+	// spawnCounter is decreased by 1 every second.
+	public float spawnCounter = Utils.getRandom(100, 200);
+	public float timeCounter = 0;
+	public boolean transition = false;
+	public boolean day = true;
+	public float light = DAY_LIGHT;
 	
 	public Nature(World world) {
 		this.world = world;
 		
-		for(GameObject object : world.objects) {
+		for(Renderable object : world.objects) {
 			if(object instanceof Animal) {
 				animals.add((Animal)object);
 			}
 		}
+		
+		Main.inst.renderer.setAmbientLight(light);
 	}
 	
 	public void update(float dt) {
-		if(counter < 0) {
-			
+		if(spawnCounter < 0) {
 			if(animals.size() < ANIMAL_CAP) {
 				for(int i = 0; i < 5; i++) {
 					if(spawnHerd()) { 
@@ -39,11 +54,26 @@ public class Nature {
 					}
 				}
 			}
-			
-			counter = Utils.getRandom(100, 200);
+			spawnCounter = Utils.getRandom(100, 200);
 		} else {
-			counter -= dt;
+			spawnCounter -= dt;
 		} 
+		
+		dayCycle(dt);
+	}
+	
+	public void onDay() {
+		
+	}
+	
+	public void onNight() {
+		if(Main.inst.world.settlement != null) {
+			for(Hermit h : Main.inst.world.settlement.members) {
+				SleepTask t = new SleepTask();
+				h.addTask(t, true);
+			}
+		}
+		
 	}
 	
 	public boolean spawnHerd() {
@@ -76,18 +106,24 @@ public class Nature {
 	}
 	
 	public boolean addAnimal(Animal a) {
+		List<Cell> cells = world.findCell(a.getX(), a.getY(), 4, false, TileType.Base, TileType.Flower);
+		if(!cells.isEmpty()) {
+			Cell cell = cells.get(cells.size()-1);
+			
+			if(cell == null) { return false; }
+			
+			a.setX(cell.x);
+			a.setY(cell.y);
+			
+			world.objects.add(a);
+			animals.add(a);
+			
+			return true;
+		}
 		
-		Cell cell = world.findCell(a.getX(), a.getY(), 4, false, TileType.Base, TileType.Flower);
 		
-		if(cell == null) { return false; }
 		
-		a.setX(cell.x);
-		a.setY(cell.y);
-		
-		world.objects.add(a);
-		animals.add(a);
-		
-		return true;
+		return false;
 	}
 	
 	public Herd addHerd(Herd h) {
@@ -98,6 +134,41 @@ public class Nature {
 	public void removeAnimal(Animal a) {
 		animals.remove(a);
 		world.objects.remove(a);
+	}
+	
+	private void dayCycle(float dt) {
+		if(!transition) {
+			if(timeCounter < DAY_TIME) {
+				timeCounter += dt;
+			} else {
+				transition = true;
+				timeCounter = 0;
+			}
+		} else {
+			if(timeCounter < TRANSITION_TIME) {
+				timeCounter += dt;
+				float lightStep = 0.8f/(TRANSITION_TIME/dt);
+				if(day) {
+					light = Utils.clamp(light -= lightStep, NIGHT_LIGHT, DAY_LIGHT);
+				} else {
+					light = Utils.clamp(light += lightStep, NIGHT_LIGHT, DAY_LIGHT);
+				}
+				Main.inst.renderer.setAmbientLight(light);
+			} else {
+				day = !day;
+				if(day) {
+					onDay();
+					light = DAY_LIGHT;
+					Main.inst.renderer.setAmbientLight(DAY_LIGHT);
+				} else {
+					light = NIGHT_LIGHT;
+					Main.inst.renderer.setAmbientLight(NIGHT_LIGHT);
+					onNight();
+				}
+				transition = false;
+				timeCounter = 0;
+			}
+		}
 	}
 	
 }

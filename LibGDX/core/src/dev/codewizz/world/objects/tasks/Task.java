@@ -1,14 +1,26 @@
 package dev.codewizz.world.objects.tasks;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import dev.codewizz.world.objects.TaskableObject;
+import dev.codewizz.world.objects.hermits.Hermit;
+import dev.codewizz.world.objects.hermits.Jobs;
 
 public abstract class Task {
 	
+	private List<Jobs> jobs = new CopyOnWriteArrayList<>();
+	
 	protected boolean tasking = false;
 	protected boolean started = false;
+	protected boolean shouldRestart = true;
 	
-	public Task() {
-		
+	public Task(Jobs... jobs) {
+		if(jobs != null) {
+			for(int i = 0; i < jobs.length; i++) {
+				this.jobs.add(jobs[i]);
+			}
+		}
 	}
 	
 	// called when task is finished
@@ -31,6 +43,10 @@ public abstract class Task {
 	
 	public abstract String getName();
 
+	public boolean canTake(Hermit hermit) {
+		return (jobs.contains(hermit.getJob().getJob()) || jobs.isEmpty());
+	}
+	
 	public boolean isTasking() {
 		return tasking;
 	}
@@ -47,5 +63,8 @@ public abstract class Task {
 		this.started = started;
 	}
 	
+	public boolean shouldRestart() {
+		return shouldRestart;
+	}
 	
 }

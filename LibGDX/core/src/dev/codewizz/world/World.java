@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.dongbat.jbump.util.MathUtils;
 
 import dev.codewizz.gfx.Particle;
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.Shaders;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
@@ -25,6 +26,8 @@ import dev.codewizz.utils.quadtree.QuadTree;
 import dev.codewizz.utils.saving.GameObjectData;
 import dev.codewizz.utils.saving.WorldData;
 import dev.codewizz.utils.serialization.RCDatabase;
+import dev.codewizz.world.objects.Mushrooms;
+import dev.codewizz.world.objects.Rock;
 import dev.codewizz.world.objects.Tree;
 import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.settlement.Settlement;
@@ -47,9 +50,9 @@ public class World {
 
 	public QuadTree<Cell> tree;
 	public Cell[][] grid;
-	public List<GameObject> objects = new CopyOnWriteArrayList<>();
+	public List<Renderable> objects = new CopyOnWriteArrayList<>();
 	public List<Particle> particles = new CopyOnWriteArrayList<>();
-	
+
 	public Settlement settlement;
 	public Nature nature;
 
@@ -134,6 +137,7 @@ public class World {
 	public void init() {
 		spawnRivers();
 		spawnTree();
+		spawnRock();
 		spawnResources();
 
 		nature.spawnHerd();
@@ -169,6 +173,32 @@ public class World {
 
 					if (n > 0.65f) {
 						cell.setTile(new FlowerTile(cell));
+					}
+				}
+			}
+		}
+	}
+
+	private void spawnRock() {
+		for (int i = 0; i < WORLD_SIZE_W; i++) {
+			for (int j = 0; j < WORLD_SIZE_H; j++) {
+
+				Cell cell = grid[i][j];
+				if (cell.tile.getType() == TileType.Base) {
+					float e = 21f;
+					float n = (float) noise.noise(cell.indexX * e, cell.indexY * e);
+
+					if (n > 0.8f) {
+						List<Cell> cells = this.findCell(cell.x, cell.y, 3, false, TileType.Base);
+
+						for (Cell c : cells) {
+							
+							if(Utils.getRandom(1, 4) < 3) {
+								objects.add(new Mushrooms(c.x, c.y));
+							} 
+						}
+					} else if (n > 0.7f) {
+						objects.add(new Rock(cell.x, cell.y));
 					}
 				}
 			}
@@ -288,44 +318,42 @@ public class World {
 			}
 		}
 		if (nature != null) {
-			for(int i = 0; i < gameSpeed; i++) {
+			for (int i = 0; i < gameSpeed; i++) {
 				nature.update(Gdx.graphics.getDeltaTime());
 			}
 		}
-			
 
 		if (!Main.PAUSED) {
-			for (GameObject object : objects) {
+			for (Renderable object : objects) {
 				for (int i = 0; i < gameSpeed; i++) {
 					object.update(Gdx.graphics.getDeltaTime());
 				}
 			}
-			
-			for(Particle p : particles) {
-				for(int i = 0; i < gameSpeed; i++) {
+
+			for (Particle p : particles) {
+				for (int i = 0; i < gameSpeed; i++) {
 					p.update(Gdx.graphics.getDeltaTime());
 				}
 			}
 		}
-		
-		
 
-		List<GameObject> o = getObjects();
-		Collections.sort(o);
+		Collections.sort(objects);
 
-		for (GameObject object : o) {
+		for (Renderable object : objects) {
 
-			if (object.isSelected()) {
-				b.setShader(Shaders.outlineShader);
-				object.render(b);
-				b.setShader(Shaders.defaultShader);
+			if (object instanceof GameObject) {
+				if (((GameObject) object).isSelected()) {
+					b.setShader(Shaders.outlineShader);
+					((GameObject) object).render(b);
+					b.setShader(Shaders.defaultShader);
+				}
 			}
 
 			object.render(b);
 
 		}
-		
-		for(Particle p : particles) {
+
+		for (Particle p : particles) {
 			p.render(b);
 		}
 		b.setColor(Color.WHITE);
@@ -353,7 +381,11 @@ public class World {
 	public List<GameObject> getObjects() {
 		List<GameObject> list = new CopyOnWriteArrayList<>();
 
-		list.addAll(objects);
+		for (Renderable r : objects) {
+			if (r instanceof GameObject) {
+				list.add((GameObject) r);
+			}
+		}
 
 		return list;
 	}
@@ -366,7 +398,7 @@ public class World {
 
 	}
 
-	public Cell findCell(float x, float y, int r, boolean filter, TileType... types) {
+	public List<Cell> findCell(float x, float y, int r, boolean filter, TileType... types) {
 		ArrayList<Cell> cells = new ArrayList<>();
 		ArrayList<TileType> t = new ArrayList<>();
 
@@ -377,7 +409,7 @@ public class World {
 		Cell cell = getCell(x, y);
 
 		if (cell == null)
-			return null;
+			return cells;
 
 		// if filter is on, tiletype should not be in list. if filer is off, tiletype
 		// should be in list if (!evaluateTile(cell, filter, t)) {
@@ -433,11 +465,7 @@ public class World {
 			}
 		}
 
-		if (!cells.isEmpty()) {
-			return cells.get(cells.size() - 1);
-		} else {
-			return null;
-		}
+		return cells;
 
 	}
 

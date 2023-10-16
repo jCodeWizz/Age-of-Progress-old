@@ -13,6 +13,7 @@ import dev.codewizz.world.tiles.ClayTile;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.DirtTile;
 import dev.codewizz.world.tiles.EmptyTile;
+import dev.codewizz.world.tiles.FarmTile;
 import dev.codewizz.world.tiles.FlowerTile;
 import dev.codewizz.world.tiles.SandTile;
 import dev.codewizz.world.tiles.TiledTile;
@@ -80,6 +81,10 @@ public abstract class Tile {
 	public String getName() {
 		return name;
 	}
+	
+	public void setCurrentSprite(Sprite texture) {
+		this.texture = texture;
+	}
  	
 	public Polygon getHitbox() {
 		return new Polygon(cell.getXPoints(), cell.getYPoints(), 4);
@@ -146,6 +151,8 @@ public abstract class Tile {
 			return new FlowerTile(cell);
 		} else if(type == TileType.Clay) {
 			return new ClayTile(cell);
+		} else if(type == TileType.Farm) {
+			return new FarmTile(cell);
 		}
 		
 		throw new Exception("TILE TYPE NOT FOUND [Tile.getTileFromType(TileType type)]");

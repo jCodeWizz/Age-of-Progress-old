@@ -7,6 +7,7 @@ public enum TileType {
 	Dirt(),
 	DirtPath(),
 	Empty(),
+	Farm(),
 	Flower(),
 	Sand(),
 	Stone(),

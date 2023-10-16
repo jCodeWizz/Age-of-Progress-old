@@ -8,6 +8,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import box2dLight.PointLight;
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.Renderer;
 import dev.codewizz.gfx.gui.UIElement;
 import dev.codewizz.gfx.gui.layers.GameLayer;
@@ -32,11 +34,19 @@ public class MouseInput implements InputProcessor {
 	public static AreaSelector area = null;
 	public static boolean clear = false;
 	public static UIElement lastClickedUIElement;
+	public static PointLight light;
 
+	public MouseInput() {
+		light = Main.inst.renderer.addLight(0, 0, 300);
+	}
+	
 	public void update(float d) {
+		
+		coords = Main.inst.camera.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));		
+		light.setPosition(coords.x, coords.y);
+		
 		if (Main.PLAYING && !Main.PAUSED) {
 			Cell[][] grid = Main.inst.world.grid;
-			coords = Main.inst.camera.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
 			/*
 			 * 
@@ -73,9 +83,9 @@ public class MouseInput implements InputProcessor {
 					if (object) {
 						if (currentlyDrawingObject != null) {
 							IBuy object = (IBuy) currentlyDrawingObject;
-
-							Main.inst.world.objects.add(object.getCopy(hoveringOverCell.x, hoveringOverCell.y));
-							object.onPlace(hoveringOverCell);
+							GameObject obj = object.getCopy(hoveringOverCell.x, hoveringOverCell.y);
+							Main.inst.world.objects.add(obj);
+							((IBuy)obj).onPlace(hoveringOverCell);
 
 							dragging[0] = object.conintues() && object.available();
 							lastClickedUIElement.setAvailable(object.available());
@@ -113,7 +123,6 @@ public class MouseInput implements InputProcessor {
 	}
 	
 	public static void renderArea() {
-
 		if(area != null) {
 			if(area.start != null) {
 				Renderer.shapeRenderer.line(area.start, new Vector2(area.start.x, coords.y));
@@ -146,12 +155,16 @@ public class MouseInput implements InputProcessor {
 
 			if(GameLayer.selectedObject != null) GameLayer.selectedObject.deselect();
 
-			for (GameObject obj : Main.inst.world.objects) {
-				obj.setSelected(false);
-				if (obj.getHitBox().contains(coords.x, coords.y) && !obj.isSelected()) {
-					obj.select();
-					dragging[button] = false;
-					break;
+			for (Renderable o : Main.inst.world.objects) {
+				if(o instanceof GameObject) {
+					GameObject obj = (GameObject) o;
+					obj.setSelected(false);
+					if (obj.getHitBox().contains(coords.x, coords.y) && !obj.isSelected()) {
+						
+						obj.select();
+						dragging[button] = false;
+						break;
+					}
 				}
 			}
 		}

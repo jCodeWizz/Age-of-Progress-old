@@ -52,7 +52,6 @@ public class BuildingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (7 + 15) * UILayer.SCALE + 1, 14, 15, "close-icon") {
 			@Override
 			protected void onDeClick() {
-				MouseInput.currentlyDrawingObject = null;
 				closeAllTabs();
 				close();
 			}
@@ -82,8 +81,7 @@ public class BuildingMenu extends UIMenu {
 			}
 		});
 
-		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1,
-				10, 10, "Building Menu", 8));
+		elements.add(new UIText("text", (6 + 6) * UILayer.SCALE, Gdx.graphics.getHeight() - (6 + 5) * UILayer.SCALE + 1, "Building Menu", 8));
 
 		settlementList.slots.add(new UIBuyslotObject("slot-1", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new Flag(0, 0)));
@@ -126,6 +124,8 @@ public class BuildingMenu extends UIMenu {
 
 	@Override
 	public void onClose() {
+		MouseInput.object = true;
+		MouseInput.currentlyDrawingObject = null;
 		closeAllTabs();
 	}
 }

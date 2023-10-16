@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import dev.codewizz.gfx.Animation;
+import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.serialization.RCField;
 import dev.codewizz.utils.serialization.RCObject;
-import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
 import dev.codewizz.world.objects.tasks.HuntTask;
 
@@ -79,9 +79,9 @@ public class Wolf extends Animal implements Serializable {
 		if (moving)
 			walkAnim.tick(d);
 
-		for (GameObject object : Main.inst.world.objects) {
+		for (Renderable object : Main.inst.world.objects) {
 			if (object instanceof Entity) {
-				if (object.getID() == ID.Cow) {
+				if (((Entity) object).getID() == ID.Cow) {
 					if (Vector2.dst(object.getX(), object.getY(), getX(), getY()) < 400) {
 
 						this.addTask(new HuntTask((Entity) object, damage, attackSpeed), true);

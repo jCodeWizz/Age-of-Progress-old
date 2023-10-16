@@ -23,6 +23,8 @@ public class Flag extends GameObject implements IBuy, Serializable {
 		super(x, y);
 
 		this.id = ID.Flag;
+		
+		this.sortHeight = 26;
 	}
 
 	@Override

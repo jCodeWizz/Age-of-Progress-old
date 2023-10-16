@@ -34,9 +34,9 @@ public class Main extends ApplicationAdapter {
 		inst = this;
 		Assets.create();
 		
-		renderer = new Renderer();
-		camera = new Camera();
 		
+		camera = new Camera();
+		renderer = new Renderer();
 		mouseInput = new MouseInput();
 		keyInput = new KeyInput();
 		

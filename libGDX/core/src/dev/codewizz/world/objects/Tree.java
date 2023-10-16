@@ -13,10 +13,14 @@ import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
+import dev.codewizz.world.items.Item;
+import dev.codewizz.world.items.ItemType;
 
 public class Tree extends GameObject implements Serializable, IGatherable {
 
 	private static Sprite texture = Assets.getSprite("tree");
+	
+	private boolean tasked = false;
 
 	public Tree(float x, float y) {
 		super(x, y);
@@ -27,6 +31,7 @@ public class Tree extends GameObject implements Serializable, IGatherable {
 		this.sortHeight = 25f;
 
 		this.id = ID.Tree;
+		this.name = "Tree";
 	}
 
 	@Override
@@ -62,24 +67,34 @@ public class Tree extends GameObject implements Serializable, IGatherable {
 	@Override
 	public void gather() {
 		
+		int amount = Utils.getRandom(4, 8);
+		for(int i = 0; i < amount; i++) {
+			Item item = new Item(x + 25 + Utils.getRandom(-15, 15), y + 35 + Utils.getRandom(-5, 5), ItemType.Wood);
+			Main.inst.world.objects.add(item);
+		}
+		destroy();
+	}
+	
+	@Override
+	public void onDestroy() {
 		for (int i = 0; i < 20; i += 4) {
 			Particle p = new Particle(x + 40 + 4 * i - 50, y + 100 + 10, 17, 13)
 					.color(new Color(0.549f, 0.71f, 0.227f, 1f)).sprite(Particle.LEAVE).counter(4, 5)
-					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat(), 100 + Utils.getRandom(-15, 15));
+					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat()*2, 100 + Utils.getRandom(-15, 15));
 			Main.inst.world.particles.add(p);
 		}
 		
 		for (int i = 5; i < 13; i += 4) {
 			Particle p = new Particle(x + 40 + 4 * i - 50, y + 100, 17, 13)
 					.color(new Color(0.549f, 0.71f, 0.227f, 1f)).sprite(Particle.LEAVE).counter(4, 5)
-					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat(), 90 + Utils.getRandom(-15, 15));
+					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat()*2, 90 + Utils.getRandom(-15, 15));
 			Main.inst.world.particles.add(p);
 		}
 		
 		for (int i = 5; i < 13; i += 4) {
 			Particle p = new Particle(x + 40 + 4 * i - 50, y + 100 + 20, 17, 13)
 					.color(new Color(0.549f, 0.71f, 0.227f, 1f)).sprite(Particle.LEAVE).counter(4, 5)
-					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat(), 100 + 10 + Utils.getRandom(-15, 15));
+					.velocity(0, -0.5f).gravity(-0.5f - Utils.RANDOM.nextFloat()*2, 100 + 10 + Utils.getRandom(-15, 15));
 			Main.inst.world.particles.add(p);
 		}
 
@@ -92,7 +107,11 @@ public class Tree extends GameObject implements Serializable, IGatherable {
 				Main.inst.world.particles.add(p);
 			}
 		}
+	}
 
-		destroy();
+	@Override
+	public boolean ready() {
+		if(tasked) { return false; }
+		else { tasked = true; return true; }
 	}
 }

@@ -26,7 +26,7 @@ public class SelectMenu extends UIMenu {
 	@Override
 	public void setup() {
 		
-		nameText = new UIText("name-text", (6 + 3) * UILayer.SCALE,  (6+98) * UILayer.SCALE, 10, 10, "", 8);
+		nameText = new UIText("name-text", (6 + 3) * UILayer.SCALE,  (6+98) * UILayer.SCALE, "", 8);
 		
 		elements.add(nameText);
 		
@@ -67,6 +67,7 @@ public class SelectMenu extends UIMenu {
 			}
 		}
 		
+		if(GameLayer.selectedObject != null) GameLayer.selectedObject.deselect();
 		object = null;
 	}
 	
