@@ -17,6 +17,7 @@ import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.layers.MainMenuLayer;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
+import dev.codewizz.world.Nature;
 import dev.codewizz.world.World;
 
 public class Renderer {
@@ -67,8 +68,10 @@ public class Renderer {
 		 * OBJECT PART DONE CONTINUE TO UI
 		 * 
 		 */
-		rayHandler.setCombinedMatrix(Main.inst.camera.cam);
-		rayHandler.updateAndRender();
+		if(!Main.inst.world.nature.day || Main.inst.world.nature.day && Main.inst.world.nature.transition) {
+			rayHandler.setCombinedMatrix(Main.inst.camera.cam);
+			rayHandler.updateAndRender();
+		}
 	}
 	
 	public void setAmbientLight(float l) {
@@ -100,6 +103,14 @@ public class Renderer {
 		light.setStaticLight(true);
 		light.setXray(true);
 		lights.add(light);
+		
+		if(Main.inst.world != null) {
+			Nature n = Main.inst.world.nature;
+			light.setActive(!n.day || n.day && n.transition);
+		} else {
+			light.setActive(false);
+		}
+		
 		return light;
 	}
 	

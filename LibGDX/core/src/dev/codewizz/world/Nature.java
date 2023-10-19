@@ -3,6 +3,7 @@ package dev.codewizz.world;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import box2dLight.PointLight;
 import dev.codewizz.gfx.Renderable;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Utils;
@@ -18,7 +19,6 @@ public class Nature {
 	public static final float DAY_TIME = 12f*60f - TRANSITION_TIME;	
 	public static final float DAY_LIGHT = 1f;
 	public static final float NIGHT_LIGHT = 0.2f;
-	
 	
 	public World world;
 	public static final int ANIMAL_CAP = 20;
@@ -142,6 +142,11 @@ public class Nature {
 				timeCounter += dt;
 			} else {
 				transition = true;
+				
+				for(PointLight l : Main.inst.renderer.lights) {
+					l.setActive(day);
+				}
+				
 				timeCounter = 0;
 			}
 		} else {

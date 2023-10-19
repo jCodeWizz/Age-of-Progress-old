@@ -1,6 +1,8 @@
 package dev.codewizz.input;
 
 import java.awt.Rectangle;
+import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -15,8 +17,6 @@ public class AreaSelector {
 	public void start(Vector2 start) {
 		this.start = start;
 	}
-	
-	
 
 	public void end(Vector2 end) {
 		
@@ -37,6 +37,8 @@ public class AreaSelector {
 
 		Rectangle rec = new Rectangle((int) start.x, (int) start.y, w, h);
 
+		Collections.reverse(Main.inst.world.objects);
+		
 		for (Renderable obj : Main.inst.world.objects) {
 			if(obj instanceof GameObject) {
 				if (((GameObject)obj).getHitBox().intersects(rec)) {

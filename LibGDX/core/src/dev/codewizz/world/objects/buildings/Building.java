@@ -15,6 +15,8 @@ import dev.codewizz.utils.serialization.RCObject;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
+import dev.codewizz.world.items.Item;
+import dev.codewizz.world.items.ItemType;
 import dev.codewizz.world.objects.IBuy;
 import dev.codewizz.world.objects.ID;
 import dev.codewizz.world.objects.hermits.Hermit;
@@ -24,6 +26,8 @@ public class Building extends GameObject implements IBuy, Serializable {
 	private static Sprite texture = Assets.getSprite("tent");
 	private static Sprite icon = Assets.getSprite("tent");
 
+	private List<Item> costs = new CopyOnWriteArrayList<>();
+	
 	private List<Hermit> inside = new CopyOnWriteArrayList<>();
 	public ArrayList<Hermit> owned = new ArrayList<>();
 	
@@ -45,6 +49,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 		
 		this.sortHeight = 8;
 		
+		this.costs.add(new Item(0, 0, ItemType.Wood, 15));
 	}
 	
 	public void enter(Hermit hermit) {
@@ -140,5 +145,10 @@ public class Building extends GameObject implements IBuy, Serializable {
 	
 	public boolean isFull() {
 		return owned.size() >= size;
+	}
+
+	@Override
+	public List<Item> costs() {
+		return costs;
 	}
 }

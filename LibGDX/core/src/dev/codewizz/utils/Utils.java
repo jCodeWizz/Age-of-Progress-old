@@ -112,7 +112,7 @@ public class Utils {
 		try (Stream<String> lines = Files.lines(Paths.get(file.getAbsolutePath()))) {
 		    name = lines.skip(RANDOM.nextInt(7940)).findFirst().get();
 		} catch(Exception e) {
-			name = "CodeWizz";
+			name = "ptr1500";
 			e.printStackTrace();
 		}
 		

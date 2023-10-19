@@ -10,6 +10,7 @@ import dev.codewizz.gfx.gui.menus.BuildingMenu;
 import dev.codewizz.gfx.gui.menus.NotificationMenu;
 import dev.codewizz.gfx.gui.menus.PathingMenu;
 import dev.codewizz.gfx.gui.menus.PauseMenu;
+import dev.codewizz.gfx.gui.menus.PeopleMenu;
 import dev.codewizz.gfx.gui.menus.SelectMenu;
 import dev.codewizz.gfx.gui.menus.SettingsGameMenu;
 import dev.codewizz.gfx.gui.menus.SettlementMenu;
@@ -18,7 +19,6 @@ import dev.codewizz.input.AreaSelector;
 import dev.codewizz.input.MouseInput;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.GameObject;
-import dev.codewizz.world.World;
 import dev.codewizz.world.objects.IGatherable;
 import dev.codewizz.world.objects.tasks.GatherTask;
 
@@ -33,6 +33,7 @@ public class GameLayer extends UILayer {
 	//private DebugMenu debugMenu;
 	private NotificationMenu notificationMenu;
 	private SettlementMenu settlementMenu;
+	private PeopleMenu peopleMenu;
 
 	public static GameObject selectedObject = null;
 	
@@ -93,7 +94,15 @@ public class GameLayer extends UILayer {
 		elements.add(new UIIcon("people-icon", (WIDTH / 2) - (-34 * SCALE) / 2, 6 * SCALE, 22, 24, "people-icon") {
 			@Override
 			protected void onDeClick() {
-				Main.inst.openWorld(new World());
+				if (!pauseMenu.isEnabled()) {
+					UIElement e = peopleMenu;
+					if (e.isEnabled())
+						e.disable();
+					else {
+						closeMenus();
+						e.enable();
+					}
+				}
 			}
 		});
 
@@ -133,6 +142,11 @@ public class GameLayer extends UILayer {
 		settlementMenu = new SettlementMenu("settlementMenu", UILayer.WIDTH/2 - (531/2) * UILayer.SCALE, UILayer.HEIGHT/2 - 298/2 * UILayer.SCALE, 531, 298, this);
 		settlementMenu.disable();
 		elements.add(settlementMenu);
+		
+		// SETTLEMENT MENU
+		peopleMenu = new PeopleMenu("peopleMenu", UILayer.WIDTH / 2 - (531 / 2) * UILayer.SCALE, UILayer.HEIGHT / 2 - 298 / 2 * UILayer.SCALE, 531, 298, this);
+		peopleMenu.disable();
+		elements.add(peopleMenu);
 
 		// PAUSE MENU
 		pauseMenu = new PauseMenu("pauseMenu", 0, 0, 100, 100, this);

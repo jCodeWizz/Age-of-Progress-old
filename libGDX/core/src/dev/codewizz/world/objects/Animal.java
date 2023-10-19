@@ -57,6 +57,11 @@ public abstract class Animal extends TaskableObject {
 						herd.leaderMoved();
 					} else {
 						Cell cell = herd.newPath();
+						
+						if(cell.tile.getType() == TileType.Empty || cell.tile.getType() == TileType.Water) {
+							return;
+						}
+						
 						tree.addLast(new MoveTask(cell));
 					}
 				} else {
@@ -71,6 +76,10 @@ public abstract class Animal extends TaskableObject {
 					offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
 					
 					Cell goalCell = Main.inst.world.grid[offX][offY];
+					
+					if(goalCell.tile.getType() == TileType.Empty || goalCell.tile.getType() == TileType.Water) {
+						return;
+					}
 				
 					tree.addLast(new MoveTask(goalCell));
 				}
