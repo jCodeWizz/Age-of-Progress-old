@@ -130,7 +130,11 @@ public class Assets {
 		sprites.put("tab-button-unavailable", atlasses.get("ui").createSprite("tab-button-unavailable"));
 		sprites.put("notification", atlasses.get("ui").createSprite("notification"));
 		sprites.put("settlement-menu", atlasses.get("ui").createSprite("settlement-menu"));
+		sprites.put("work-icon", atlasses.get("ui").createSprite("work-icon"));
+		sprites.put("worker-icon", atlasses.get("ui").createSprite("worker-icon"));
+		sprites.put("farmer-icon", atlasses.get("ui").createSprite("farmer-icon"));
 
+		
 		sprites.put("item-wood", atlasses.get("items").createSprite("item-wood"));
 		sprites.put("item-stone", atlasses.get("items").createSprite("item-stone"));
 		sprites.put("item-carrot", atlasses.get("items").createSprite("item-carrot"));

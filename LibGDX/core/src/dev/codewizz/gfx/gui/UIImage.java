@@ -35,9 +35,26 @@ public class UIImage extends UIElement {
 		
 		this.sprite = sprite;
 	}
+	
+	public UIImage(String id, int x, int y, int w, int h, Sprite sprite, int scale) {
+		super(id, x, y, w, h);
+
+		this.scale = scale;
+		this.wantsClick = false;
+		
+		this.sprite = sprite;
+	}
 
 	@Override
 	public void render(SpriteBatch b) {
 		b.draw(sprite, x, y, w * scale, h * scale);
+	}
+	
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+	
+	public void setScale(int scale) {
+		this.scale = scale;
 	}
 }

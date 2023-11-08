@@ -12,6 +12,8 @@ public class SleepTask extends Task {
 	private final float sleepConst = 0.5f;
 	private boolean onGround = false;
 	
+	private float sleepNeedStart;
+	
 	@Override
 	public void finish() {
 		hermit.finishCurrentTask();
@@ -37,6 +39,7 @@ public class SleepTask extends Task {
 			onGround = true;
 		}
 		
+		sleepNeedStart = hermit.getSleepNeed();
 		started = true;
 	}
 
@@ -59,7 +62,7 @@ public class SleepTask extends Task {
 
 	@Override
 	public String getName() {
-		return "Getting sleep";
+		return "Getting sleep " + (int)((1f-(hermit.getSleepNeed()/sleepNeedStart))*100f) + "%";
 	}
 
 	@Override

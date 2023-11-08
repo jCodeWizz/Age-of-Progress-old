@@ -1,5 +1,6 @@
 package dev.codewizz.world.objects.hermits;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Job {
@@ -21,4 +22,6 @@ public abstract class Job {
 	public Jobs getJob() {
 		return job;
 	}
+	
+	public abstract Sprite getIcon();
 }

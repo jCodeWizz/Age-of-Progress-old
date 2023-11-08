@@ -62,6 +62,7 @@ public class Hermit extends TaskableObject implements Serializable {
 		this.w = 24;
 		this.h = 36;
 		this.health = 10f;
+		this.maxHealth = 10f;
 		
 		this.speed = 20f;
 		

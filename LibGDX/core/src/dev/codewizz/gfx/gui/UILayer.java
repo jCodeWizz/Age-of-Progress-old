@@ -60,11 +60,16 @@ public abstract class UILayer implements InputProcessor {
 				}
 			}
 		}
+
 		for (UIElement e : elements) {
+			
 			if (e.getBounds().contains(screenX, screenY) && e.isAvailable() && e.isEnabled() && e.wantsClick) {
 				current = e;
 				e.click();
+				
+				
 				MouseInput.lastClickedUIElement = e;
+				
 				return true;
 			}
 		}

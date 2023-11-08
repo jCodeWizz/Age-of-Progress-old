@@ -2,7 +2,6 @@ package dev.codewizz.input;
 
 import java.awt.Rectangle;
 import java.util.Collections;
-import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 

@@ -69,6 +69,10 @@ public abstract class UIElement {
 		this.hovering = hovering;
 	}
 	
+	public void setWantsClick(boolean a) {
+		this.wantsClick = a;
+	}
+	
 	public boolean isHovering() {
 		return hovering;
 	}

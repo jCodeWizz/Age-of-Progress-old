@@ -8,7 +8,7 @@ import dev.codewizz.utils.Assets;
 public class Farmer extends Job {
 
 	private static Sprite texture = Assets.getSprite("farmer-hermit");
-	
+	private static Sprite icon = Assets.getSprite("farmer-icon");
 	
 	public Farmer() {
 		this.job = Jobs.Farmer;
@@ -23,5 +23,10 @@ public class Farmer extends Job {
 	@Override
 	public void render(SpriteBatch b) {
 		b.draw(texture, hermit.getX(), hermit.getY(), hermit.getW(), hermit.getH());
+	}
+	
+	@Override
+	public Sprite getIcon() {
+		return icon;
 	}
 }
