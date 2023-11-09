@@ -15,6 +15,7 @@ import dev.codewizz.gfx.gui.UILayer;
 import dev.codewizz.gfx.gui.UIMenu;
 import dev.codewizz.gfx.gui.UIText;
 import dev.codewizz.main.Main;
+import dev.codewizz.world.objects.hermits.Craftsman;
 import dev.codewizz.world.objects.hermits.Farmer;
 import dev.codewizz.world.objects.hermits.Hermit;
 import dev.codewizz.world.objects.hermits.Job;
@@ -42,7 +43,7 @@ public class PeopleMenu extends UIMenu {
 	
 	private UIButton farmer;
 	private UIButton worker;
-	private UIButton carpenter;
+	private UIButton craftsman;
 	
 	private boolean promoting = false;
 	
@@ -124,13 +125,21 @@ public class PeopleMenu extends UIMenu {
 		};
 		buttons.add(farmer);
 		
-		worker = new UIButton("worker-button", UILayer.WIDTH/2 - (99/2) * UILayer.SCALE, Gdx.graphics.getHeight()/2 - 18 * UILayer.SCALE + 50 * UILayer.SCALE, 99, 36, "Worker") {
+		worker = new UIButton("worker-button", UILayer.WIDTH/2 - (99/2) * UILayer.SCALE, Gdx.graphics.getHeight()/2 - 18 * UILayer.SCALE + 40 * UILayer.SCALE, 99, 36, "Worker") {
 			@Override
 			protected void onDeClick() {
 				changeJob(new Worker());
 			}
 		};
 		buttons.add(worker);
+		
+		craftsman = new UIButton("craftsman-button", UILayer.WIDTH/2 - (99/2) * UILayer.SCALE, Gdx.graphics.getHeight()/2 - 18 * UILayer.SCALE + 80 * UILayer.SCALE, 99, 36, "Craftsman") {
+			@Override
+			protected void onDeClick() {
+				changeJob(new Craftsman());
+			}
+		};
+		buttons.add(craftsman);
 	}
 	
 	public void changeJob(Job job) {

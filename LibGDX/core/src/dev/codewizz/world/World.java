@@ -295,7 +295,7 @@ public class World {
 					b.draw(Assets.getSprite("tile-highlight"), MouseInput.hoveringOverCell.x,
 							MouseInput.hoveringOverCell.y);
 				} else {
-					b.draw(Assets.getSprite("tile-highlight-red"), MouseInput.hoveringOverCell.x,
+					b.draw(Assets.getSprite("tile-highlight2"), MouseInput.hoveringOverCell.x,
 							MouseInput.hoveringOverCell.y);
 				}
 

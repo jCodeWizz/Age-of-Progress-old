@@ -9,6 +9,7 @@ public class UIImage extends UIElement {
 	
 	public Sprite sprite;
 	public int scale = 1;
+	public String spriteName = "sprite";
 	
 	public UIImage(String id, int x, int y, int w, int h, String spriteName) {
 		super(id, x, y, w, h);
@@ -16,6 +17,7 @@ public class UIImage extends UIElement {
 		this.scale = UILayer.SCALE;
 		this.wantsClick = false;
 		sprite = Assets.getSprite(spriteName);
+		this.spriteName = spriteName;
 	}
 	
 	public UIImage(String id, int x, int y, int w, int h, String spriteName, int scale) {
@@ -25,6 +27,7 @@ public class UIImage extends UIElement {
 		this.wantsClick = false;
 		
 		sprite = Assets.getSprite(spriteName);
+		this.spriteName = spriteName;
 	}
 	
 	public UIImage(String id, int x, int y, int w, int h, Sprite sprite) {

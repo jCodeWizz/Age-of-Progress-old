@@ -6,7 +6,7 @@ filter: Nearest, Nearest
 repeat: none
 build-icon
   rotate: false
-  xy: 1434, 739
+  xy: 1626, 934
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -32,23 +32,44 @@ button-unavailable
   orig: 66, 24
   offset: 0, 0
   index: -1
+buyslot
+  rotate: false
+  xy: 854, 594
+  size: 250, 84
+  orig: 250, 84
+  offset: 0, 0
+  index: -1
+buyslot-pressed
+  rotate: false
+  xy: 1368, 765
+  size: 250, 84
+  orig: 250, 84
+  offset: 0, 0
+  index: -1
 close-icon
   rotate: false
-  xy: 1626, 934
+  xy: 1694, 960
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
-farmer-icon
+craftsman-icon
   rotate: false
   xy: 802, 510
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+farmer-icon
+  rotate: false
+  xy: 1368, 681
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 icon
   rotate: false
-  xy: 1694, 960
+  xy: 1952, 998
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -62,14 +83,14 @@ icon-board
   index: -1
 icon-pressed
   rotate: false
-  xy: 1952, 998
+  xy: 1070, 568
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 icon-unavailable
   rotate: false
-  xy: 1070, 568
+  xy: 1172, 635
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -90,7 +111,7 @@ main-menu
   index: -1
 manage-icon
   rotate: false
-  xy: 1172, 635
+  xy: 802, 484
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -104,7 +125,7 @@ notification
   index: -1
 path-icon
   rotate: false
-  xy: 802, 484
+  xy: 1402, 689
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -118,7 +139,7 @@ path-menu
   index: -1
 people-icon
   rotate: false
-  xy: 1402, 689
+  xy: 1468, 739
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
@@ -158,20 +179,6 @@ tab-button-unavailable
   orig: 55, 17
   offset: 0, 0
   index: -1
-tile-background-buyslot
-  rotate: false
-  xy: 854, 594
-  size: 250, 84
-  orig: 250, 84
-  offset: 0, 0
-  index: -1
-tile-background-buyslot-pressed
-  rotate: false
-  xy: 1368, 765
-  size: 250, 84
-  orig: 250, 84
-  offset: 0, 0
-  index: -1
 tile-highlight
   rotate: false
   xy: 1106, 630
@@ -188,21 +195,21 @@ tile-highlight2
   index: -1
 tool-icon
   rotate: false
-  xy: 1458, 739
+  xy: 1626, 908
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 work-icon
   rotate: false
-  xy: 1626, 908
+  xy: 1650, 934
   size: 22, 24
   orig: 22, 24
   offset: 0, 0
   index: -1
 worker-icon
   rotate: false
-  xy: 1368, 681
+  xy: 1434, 731
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

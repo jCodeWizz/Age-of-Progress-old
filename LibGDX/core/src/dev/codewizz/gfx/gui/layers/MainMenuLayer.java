@@ -22,6 +22,6 @@ public class MainMenuLayer extends UILayer {
 		settingsMenu.disable();
 		elements.add(settingsMenu);
 		
-		elements.add(new UIImage("main-menu-logo", 0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight(), "main-menu-logo", 1));
+		elements.add(new UIImage("main-menu", 0, 0, Gdx.graphics.getHeight(), Gdx.graphics.getHeight(), "main-menu", 1));
 	}
 }
