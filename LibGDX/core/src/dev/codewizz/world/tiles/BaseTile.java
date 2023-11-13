@@ -13,7 +13,7 @@ public class BaseTile extends Tile {
 		this.name = "Base Tile";
 		this.texture = Assets.getSprite("base-tile");
 		this.type = TileType.Base;
-		this.cost = 5;
+		this.cost = 10;
 	}
 
 }

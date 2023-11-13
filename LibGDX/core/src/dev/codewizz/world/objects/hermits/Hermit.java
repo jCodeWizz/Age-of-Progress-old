@@ -39,16 +39,16 @@ public class Hermit extends TaskableObject implements Serializable {
 	private Job job;
 	private Inventory inventory;
 	
-	private float intelligence = 1f;
-	private float strength = 1f;
+	//private float intelligence = 1f;
+	//private float strength = 1f;
 	//private float speed = 1f;
-	private float willpower = 1f;
+	//private float willpower = 1f;
 	private float sleep = 1f;
 	private float healthy = Utils.RANDOM.nextFloat();
 	private float body = Utils.RANDOM.nextFloat();
-	private float social = 1f;
-	private float hunger = 1f;
-	private float thirst = 1f;
+	//private float social = 1f;
+	//private float hunger = 1f;
+	//private float thirst = 1f;
 	
 	private float sleepNeed = 10f;
 	

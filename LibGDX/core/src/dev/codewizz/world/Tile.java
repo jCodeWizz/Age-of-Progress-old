@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Assets;
+import dev.codewizz.utils.Logger;
 import dev.codewizz.world.pathfinding.CellGraph;
 import dev.codewizz.world.pathfinding.Link;
 import dev.codewizz.world.tiles.BaseTile;
@@ -118,7 +119,7 @@ public abstract class Tile {
 		return data;
 	}
 	
-	public static Tile getTileFromType(TileType type, Cell cell) throws Exception {
+	public static Tile getTileFromType(TileType type, Cell cell) {
 		if(type == TileType.Empty) {
 			return new EmptyTile(cell);
 		} else if(type == TileType.Base) {
@@ -154,8 +155,9 @@ public abstract class Tile {
 		} else if(type == TileType.Farm) {
 			return new FarmTile(cell);
 		}
-		
-		throw new Exception("TILE TYPE NOT FOUND [Tile.getTileFromType(TileType type)]");
+
+		Logger.error("TileType not found: " + type.toString());
+		return null;
 	}
 	
 	public TileType getType() {
