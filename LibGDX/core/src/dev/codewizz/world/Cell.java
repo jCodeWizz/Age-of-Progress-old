@@ -23,7 +23,8 @@ public class Cell {
 	public boolean odd = false;
 	public World world;
 	public int index;
-
+	public GameObject object; 
+	
 	public Cell(float x, float y, int indexX, int indexY, boolean odd) {
 		this.x = x;
 		this.y = y;
@@ -276,5 +277,18 @@ public class Cell {
 	
 	public Vector2 getMiddlePoint() {
 		return new Vector2(x+32, y+32);
+	}
+	
+	public void setObject(GameObject object) {
+		if(object != null) {
+			object.setCell(this);
+			Main.inst.world.objects.add(object);
+		}
+		
+		this.object = object;
+	}
+	
+	public GameObject getObject() {
+		return object;
 	}
 }

@@ -38,10 +38,6 @@ public class WorldData {
 		data.showStartInfo = generalData.findField("showStartInfo").getBoolean();
 
 		RCObject settlementData = db.findObject("settlementData");
-		Settlement settlement = new Settlement(settlementData.findField("x").getFloat(),
-				settlementData.findField("y").getFloat());
-		data.settlement = settlement;
-
 		RCObject tiles = db.findObject("tiles");
 		int size = World.WORLD_SIZE_H * World.WORLD_SIZE_W;
 		TileType[] tileTypes = new TileType[size];
@@ -71,8 +67,20 @@ public class WorldData {
 				}
 			}
 		}
+		
+		float sx = settlementData.findField("x").getFloat();
+		float sy = settlementData.findField("y").getFloat();
 
-
+		loop:
+		for (int i = 0; i < data.grid.length; i++) {
+			for (int j = 0; j < data.grid[i].length; j++) {
+				if (data.grid[i][j].tile.getHitbox().contains(sx, sy)) {
+					data.settlement = new Settlement(data.grid[i][j]);
+					break loop;
+				}
+			}
+		}
+		
 		return data;
 	}
 

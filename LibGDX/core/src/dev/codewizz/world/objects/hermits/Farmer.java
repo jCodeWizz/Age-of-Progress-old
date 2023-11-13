@@ -36,44 +36,44 @@ public class Farmer extends Job {
 	
 	private void createAnimations() {
 		Sprite[] S = new Sprite[3];
-		S[0] = Assets.getSprite("down-1-worker");
-		S[1] = Assets.getSprite("down-2-worker");
-		S[2] = Assets.getSprite("down-3-worker");
+		S[0] = Assets.getSprite("down-1-farmer");
+		S[1] = Assets.getSprite("down-2-farmer");
+		S[2] = Assets.getSprite("down-3-farmer");
 		
 		Sprite[] SW = new Sprite[3];
-		SW[0] = Assets.getSprite("down-left-1-worker");
-		SW[1] = Assets.getSprite("down-left-2-worker");
-		SW[2] = Assets.getSprite("down-left-3-worker");
+		SW[0] = Assets.getSprite("down-left-1-farmer");
+		SW[1] = Assets.getSprite("down-left-2-farmer");
+		SW[2] = Assets.getSprite("down-left-3-farmer");
 		
 		Sprite[] W = new Sprite[3];
-		W[0] = Assets.getSprite("left-1-worker");
-		W[1] = Assets.getSprite("left-2-worker");
-		W[2] = Assets.getSprite("left-3-worker");
+		W[0] = Assets.getSprite("left-1-farmer");
+		W[1] = Assets.getSprite("left-2-farmer");
+		W[2] = Assets.getSprite("left-3-farmer");
 		
 		Sprite[] NW = new Sprite[3];
-		NW[0] = Assets.getSprite("up-left-1-worker");
-		NW[1] = Assets.getSprite("up-left-2-worker");
-		NW[2] = Assets.getSprite("up-left-3-worker");
+		NW[0] = Assets.getSprite("up-left-1-farmer");
+		NW[1] = Assets.getSprite("up-left-2-farmer");
+		NW[2] = Assets.getSprite("up-left-3-farmer");
 		
 		Sprite[] N = new Sprite[3];
-		N[0] = Assets.getSprite("up-1-worker");
-		N[1] = Assets.getSprite("up-2-worker");
-		N[2] = Assets.getSprite("up-3-worker");
+		N[0] = Assets.getSprite("up-1-farmer");
+		N[1] = Assets.getSprite("up-2-farmer");
+		N[2] = Assets.getSprite("up-3-farmer");
 		
 		Sprite[] NE = new Sprite[3];
-		NE[0] = Assets.getSprite("up-right-1-worker");
-		NE[1] = Assets.getSprite("up-right-2-worker");
-		NE[2] = Assets.getSprite("up-right-3-worker");
+		NE[0] = Assets.getSprite("up-right-1-farmer");
+		NE[1] = Assets.getSprite("up-right-2-farmer");
+		NE[2] = Assets.getSprite("up-right-3-farmer");
 		
 		Sprite[] E = new Sprite[3];
-		E[0] = Assets.getSprite("right-1-worker");
-		E[1] = Assets.getSprite("right-2-worker");
-		E[2] = Assets.getSprite("right-3-worker");
+		E[0] = Assets.getSprite("right-1-farmer");
+		E[1] = Assets.getSprite("right-2-farmer");
+		E[2] = Assets.getSprite("right-3-farmer");
 		
 		Sprite[] SE = new Sprite[3];
-		SE[0] = Assets.getSprite("down-right-1-worker");
-		SE[1] = Assets.getSprite("down-right-2-worker");
-		SE[2] = Assets.getSprite("down-right-3-worker");
+		SE[0] = Assets.getSprite("down-right-1-farmer");
+		SE[1] = Assets.getSprite("down-right-2-farmer");
+		SE[2] = Assets.getSprite("down-right-3-farmer");
 		
 		animations.put(Direction.South, new Animation(Hermit.walkAnimSpeed, S));
 		animations.put(Direction.SouthWest, new Animation(Hermit.walkAnimSpeed, SW));
@@ -84,13 +84,13 @@ public class Farmer extends Job {
 		animations.put(Direction.East, new Animation(Hermit.walkAnimSpeed, E));
 		animations.put(Direction.SouthEast, new Animation(Hermit.walkAnimSpeed, SE));
 		
-		directions.put(Direction.South, Assets.getSprite("down-2-worker"));
-		directions.put(Direction.SouthWest, Assets.getSprite("down-left-2-worker"));
-		directions.put(Direction.West, Assets.getSprite("left-2-worker"));
-		directions.put(Direction.NorthWest, Assets.getSprite("up-left-2-worker"));
-		directions.put(Direction.North, Assets.getSprite("up-2-worker"));
-		directions.put(Direction.NorthEast, Assets.getSprite("up-right-2-worker"));
-		directions.put(Direction.East, Assets.getSprite("right-2-worker"));
-		directions.put(Direction.SouthEast, Assets.getSprite("down-right-2-worker"));
+		directions.put(Direction.South, Assets.getSprite("down-2-farmer"));
+		directions.put(Direction.SouthWest, Assets.getSprite("down-left-2-farmer"));
+		directions.put(Direction.West, Assets.getSprite("left-2-farmer"));
+		directions.put(Direction.NorthWest, Assets.getSprite("up-left-2-farmer"));
+		directions.put(Direction.North, Assets.getSprite("up-2-farmer"));
+		directions.put(Direction.NorthEast, Assets.getSprite("up-right-2-farmer"));
+		directions.put(Direction.East, Assets.getSprite("right-2-farmer"));
+		directions.put(Direction.SouthEast, Assets.getSprite("down-right-2-farmer"));
 	}
 }

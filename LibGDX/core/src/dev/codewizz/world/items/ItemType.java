@@ -9,6 +9,7 @@ public enum ItemType {
 	Carrot("item-carrot"),
 	Clay("item-clay"),
 	Mushrooms("mushrooms"),
+	Planks("item-plank"),
 	Stone("item-stone"),
 	Wood("item-wood");
 	

@@ -1,6 +1,5 @@
 package dev.codewizz.world.objects.tasks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -14,9 +13,6 @@ public class HaulTask extends Task {
 
 	private Hermit hermit;
 	public List<Item> items;
-	private List<Item> items2;
-
-	
 	
 	public HaulTask(List<Item> items) {
 		this.items = new CopyOnWriteArrayList<>();
@@ -26,7 +22,6 @@ public class HaulTask extends Task {
 			this.items.add(i);
 		}
 		
-		this.items2 = new ArrayList<>();
 		this.shouldRestart = false;
 	}
 	
@@ -41,11 +36,12 @@ public class HaulTask extends Task {
 			i.setHauled(false);
 		}
 		
-		for(Item i : items2) {
+		for(Item i : hermit.getInventory().getItems()) {
 			i.setX(hermit.getX());
 			i.setY(hermit.getY());
 			i.setHauled(false);
 			Main.inst.world.objects.add(i);
+			hermit.getInventory().removeItem(i);
 		}
 		
 		hermit.getAgent().stop();
@@ -68,18 +64,19 @@ public class HaulTask extends Task {
 	public void reach() {
 		if(items.isEmpty()) {
 			
-			for(Item item : items2) {
-				Main.inst.world.settlement.addItem(item);
+			for(Item item : hermit.getInventory().getItems()) {
+				Main.inst.world.settlement.getInventory().addItem(item);
+				hermit.getInventory().removeItem(item);
 			}
 			
 			finish();
 		} else {
 			Main.inst.world.objects.remove(items.get(0));
-			items2.add(items.get(0));
+			hermit.getInventory().addItem(items.get(0));
 			items.remove(0);
 			
 			if(items.isEmpty()) {
-				Cell cell = Main.inst.world.getCell(Main.inst.world.settlement.getX(), Main.inst.world.settlement.getY());
+				Cell cell = hermit.getSettlement().getCell();
 				
 				hermit.getAgent().setGoal(cell, hermit.getX(), hermit.getY());
 				if(hermit.getAgent().path.isEmpty())
@@ -108,6 +105,6 @@ public class HaulTask extends Task {
 
 	@Override
 	public String getName() {
-		return "Hauling Items";
+		return "Moving Items";
 	}
 }

@@ -189,8 +189,8 @@ public class Assets {
 		if(sprites.containsKey(s)) {
 			return sprites.get(s);
 		} else {
-			System.out.println(" COULD NOT FIND " + s);
-			return null;
+			Logger.error("Couldn't find requested texture in Assets Handler:"); Logger.error(s);
+			return sprites.get("cow-idle");
 		}
 	}
 	

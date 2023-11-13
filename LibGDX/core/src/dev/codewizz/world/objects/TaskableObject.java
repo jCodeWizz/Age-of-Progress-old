@@ -21,7 +21,7 @@ public abstract class TaskableObject extends Entity {
 	public TaskableObject(float x, float y) {
 		super(x, y);
 		
-		agent = new Agent() {
+		agent = new Agent(this) {
 			@Override
 			public void onReach() {
 				reachCell();

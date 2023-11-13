@@ -13,7 +13,11 @@ import dev.codewizz.gfx.gui.UIScrollList;
 import dev.codewizz.gfx.gui.UITabButton;
 import dev.codewizz.gfx.gui.UIText;
 import dev.codewizz.input.MouseInput;
+import dev.codewizz.world.objects.Fence;
+import dev.codewizz.world.objects.FenceGate;
+import dev.codewizz.world.objects.FencePost;
 import dev.codewizz.world.objects.Flag;
+import dev.codewizz.world.objects.Stump;
 import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.tiles.DirtPathTile;
 import dev.codewizz.world.tiles.TiledTile;
@@ -87,6 +91,14 @@ public class BuildingMenu extends UIMenu {
 				Gdx.graphics.getHeight() - (90 * UILayer.SCALE), 160 - 8, 52, new Flag(0, 0)));
 		settlementList.slots.add(new UIBuyslotObject("slot-2", (8) * UILayer.SCALE + 4,
 				Gdx.graphics.getHeight() - (140 * UILayer.SCALE), 160 - 8, 52, new Building(0, 0)));
+		settlementList.slots.add(new UIBuyslotObject("slot-3", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (190 * UILayer.SCALE), 160 - 8, 52, new Stump(0, 0)));
+		settlementList.slots.add(new UIBuyslotObject("slot-3", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (240 * UILayer.SCALE), 160 - 8, 52, new FencePost(0, 0)));
+		settlementList.slots.add(new UIBuyslotObject("slot-3", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (290 * UILayer.SCALE), 160 - 8, 52, new Fence(0, 0)));
+		settlementList.slots.add(new UIBuyslotObject("slot-3", (8) * UILayer.SCALE + 4,
+				Gdx.graphics.getHeight() - (340 * UILayer.SCALE), 160 - 8, 52, new FenceGate(0, 0)));
 		
 		
 		housingList.slots.add(new UIBuyslotTile("slot-1", (8) * UILayer.SCALE + 4,

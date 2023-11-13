@@ -66,7 +66,6 @@ public class Tree extends GameObject implements Serializable, IGatherable {
 
 	@Override
 	public void gather() {
-		
 		int amount = Utils.getRandom(4, 8);
 		for(int i = 0; i < amount; i++) {
 			Item item = new Item(x + 25 + Utils.getRandom(-15, 15), y + 35 + Utils.getRandom(-5, 5), ItemType.Wood);

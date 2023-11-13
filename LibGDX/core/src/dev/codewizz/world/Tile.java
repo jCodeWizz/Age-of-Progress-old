@@ -161,4 +161,30 @@ public abstract class Tile {
 	public TileType getType() {
 		return type;
 	}
+	
+	public int getCost() {
+		return cost;
+	}
+	
+	public void setCost(int cost) {
+		
+		CellGraph c = Main.inst.world.cellGraph;
+		if(cost != -1) {
+			if(c.containsCell(cell)) {
+				for(Link link : c.getLinks(cell)) {
+					link.setCost(cost);
+				}
+			} else {
+				Cell[] neighBours = cell.getCrossedNeighbours();
+				for(int i = 0; i < neighBours.length; i++) {
+					if(neighBours[i] != null) {
+						c.connectCells(cell, neighBours[i], this.cost);
+					}
+				}
+			}
+		} else {
+			c.removeConnections(cell);
+		}
+		this.cost = cost;
+	}
 }

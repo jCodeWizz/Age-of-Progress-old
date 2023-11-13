@@ -38,19 +38,19 @@ public class Flag extends GameObject implements IBuy, Serializable {
 
 	@Override
 	public void update(float d) {
-		
 	}
 
 	@Override
 	public void render(SpriteBatch b) {
-		b.draw(texture, x + 15, y + 26);
-		
 		if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+			
 			Cell cell = MouseInput.hoveringOverCell;
 			if(cell != null) {
 				Main.inst.world.settlement.addTask(new MoveTask(cell), false);
 			}
-		}		
+		}	
+
+		b.draw(texture, x + 15, y + 26);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class Flag extends GameObject implements IBuy, Serializable {
 	
 	@Override
 	public void onPlace(Cell cell) {
-		Settlement s = new Settlement(cell.x, cell.y);
+		Settlement s = new Settlement(cell);
 		Main.inst.world.start(s);
 		
 		Main.inst.renderer.ui.getElement("manage-icon").setAvailable(true);

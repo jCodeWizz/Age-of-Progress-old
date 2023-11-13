@@ -14,9 +14,11 @@ import com.badlogic.gdx.graphics.PixmapIO;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.GameObject;
 import dev.codewizz.world.World;
+import dev.codewizz.world.items.Recipe;
 import dev.codewizz.world.objects.IGatherable;
-import dev.codewizz.world.objects.hermits.Farmer;
 import dev.codewizz.world.objects.hermits.Hermit;
+import dev.codewizz.world.objects.hermits.Jobs;
+import dev.codewizz.world.objects.tasks.CraftTask;
 import dev.codewizz.world.objects.tasks.GatherTask;
 import dev.codewizz.world.objects.tasks.MoveTask;
 import dev.codewizz.world.objects.tasks.Task;
@@ -54,10 +56,17 @@ public class KeyInput implements InputProcessor {
 			return true;
 		}
 		
+		if(key == Input.Keys.R) {
+			MouseInput.rotate = !MouseInput.rotate;
+		}
+		
 		if(key == Input.Keys.SPACE) {
-			for(Hermit h : Main.inst.world.settlement.members) {
-				h.setJob(new Farmer());
-			}
+
+			CraftTask task = new CraftTask(Recipe.Planks);
+			task.addJob(Jobs.Craftsman);
+			
+			Main.inst.world.settlement.addTask(task, false);
+			
 		}
 		
 		if(key == Input.Keys.NUM_3) {

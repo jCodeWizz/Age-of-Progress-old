@@ -18,6 +18,8 @@ public abstract class GameObject extends Renderable {
 	protected float x, y, sortHeight;
 	protected int w, h;
 	protected ID id;
+	protected boolean flip = false;
+	protected Cell cell;
 	
 	protected boolean selected = false;
 	protected String name = "Object";
@@ -25,11 +27,6 @@ public abstract class GameObject extends Renderable {
 	public GameObject(float x, float y) {
 		this.x = x;
 		this.y = y;
-	}
-	
-	public GameObject(Tile tile) {
-		this.x = tile.cell.x;
-		this.y = tile.cell.y;
 	}
 	
 	public abstract void update(float d);
@@ -51,6 +48,7 @@ public abstract class GameObject extends Renderable {
 	public void destroy() {
 		onDestroy();
 		Main.inst.world.objects.remove(this);
+		if(cell != null) cell.setObject(null);
 	}
 	
 	public void select() {
@@ -145,5 +143,22 @@ public abstract class GameObject extends Renderable {
 	public float getSorthingHeight() {
 		return sortHeight;
 	}
+
+	public boolean isFlip() {
+		return flip;
+	}
+
+	public void setFlip(boolean flip) {
+		this.flip = flip;
+	}
+	
+	public void setCell(Cell cell) {
+		this.cell = cell;
+	}
+	
+	public Cell getCell() {
+		return this.cell;
+	}
+	
 	
 }

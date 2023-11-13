@@ -6,9 +6,9 @@ import com.dongbat.jbump.util.MathUtils;
 import dev.codewizz.main.Main;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.world.Cell;
-import dev.codewizz.world.TileType;
 import dev.codewizz.world.World;
 import dev.codewizz.world.objects.tasks.MoveTask;
+import dev.codewizz.world.pathfinding.CellGraph;
 
 public abstract class Animal extends TaskableObject {
 
@@ -48,8 +48,9 @@ public abstract class Animal extends TaskableObject {
 						offY = MathUtils.clamp(offY, 0, World.WORLD_SIZE_H-1);
 						
 						Cell goalCell = Main.inst.world.grid[offX][offY];
-						
-						if(goalCell.tile.getType() == TileType.Empty || goalCell.tile.getType() == TileType.Water) {
+						CellGraph c = Main.inst.world.cellGraph;
+						int s = c.getConnections(goalCell).size;
+						if(s == 0) {
 							return;
 						}
 					
@@ -58,7 +59,9 @@ public abstract class Animal extends TaskableObject {
 					} else {
 						Cell cell = herd.newPath();
 						
-						if(cell.tile.getType() == TileType.Empty || cell.tile.getType() == TileType.Water) {
+						CellGraph c = Main.inst.world.cellGraph;
+						int s = c.getConnections(cell).size;
+						if(s == 0) {
 							return;
 						}
 						
@@ -77,10 +80,12 @@ public abstract class Animal extends TaskableObject {
 					
 					Cell goalCell = Main.inst.world.grid[offX][offY];
 					
-					if(goalCell.tile.getType() == TileType.Empty || goalCell.tile.getType() == TileType.Water) {
+					CellGraph c = Main.inst.world.cellGraph;
+					int s = c.getConnections(goalCell).size;
+					if(s == 0) {
 						return;
 					}
-				
+					
 					tree.addLast(new MoveTask(goalCell));
 				}
 			}

@@ -9,7 +9,7 @@ import dev.codewizz.world.objects.hermits.Jobs;
 
 public abstract class Task {
 	
-	private List<Jobs> jobs = new CopyOnWriteArrayList<>();
+	protected List<Jobs> jobs = new CopyOnWriteArrayList<>();
 	
 	protected boolean tasking = false;
 	protected boolean started = false;
@@ -21,6 +21,10 @@ public abstract class Task {
 				this.jobs.add(jobs[i]);
 			}
 		}
+	}
+	
+	public void addJob(Jobs job) {
+		jobs.add(job);
 	}
 	
 	// called when task is finished

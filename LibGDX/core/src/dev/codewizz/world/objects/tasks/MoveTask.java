@@ -36,8 +36,8 @@ public class MoveTask extends Task {
 	@Override
 	public void start(TaskableObject object) {
 		this.object = object;
-		object.getAgent().setGoal(cell, object.getX(), object.getY());
-		if(object.getAgent().path.isEmpty())
+		boolean success = object.getAgent().setGoal(cell, object.getX(), object.getY());
+		if(object.getAgent().path.isEmpty() || !success)
 			reach();
 		started = true;
 		

@@ -10,8 +10,10 @@ import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.gui.UINotification;
 import dev.codewizz.gfx.gui.menus.NotificationMenu;
 import dev.codewizz.main.Main;
+import dev.codewizz.world.Cell;
+import dev.codewizz.world.GameObject;
+import dev.codewizz.world.items.Inventory;
 import dev.codewizz.world.items.Item;
-import dev.codewizz.world.objects.buildings.Building;
 import dev.codewizz.world.objects.hermits.Hermit;
 import dev.codewizz.world.objects.hermits.Jobs;
 import dev.codewizz.world.objects.tasks.GrowCropTask;
@@ -22,19 +24,25 @@ public class Settlement {
 
 	private float x, y;
 	private float timer = 0, max_timer = 5f;
-
+	private Cell cell;
+	
 	public List<Hermit> members = new CopyOnWriteArrayList<>();
 	public Queue<Task> taskTree = new Queue<>();
-	public List<Building> homes = new CopyOnWriteArrayList<>();
-	public List<Item> items = new CopyOnWriteArrayList<>();
+	public List<GameObject> buildings = new CopyOnWriteArrayList<>();
 	public List<Crop> crops = new CopyOnWriteArrayList<>();
+	
+	public Inventory inventory;
 
-	public Settlement(float x, float y) {
-		this.x = x;
-		this.y = y;
+	public Settlement(Cell cell) {
+		this.x = cell.x + 32;
+		this.y = cell.y + 32;
+		this.cell = cell;
+		
+		this.inventory = new Inventory(-1);
 	}
 
 	public void update(float dt) {
+
 		if (timer < max_timer)
 			timer += dt;
 		else {
@@ -120,53 +128,8 @@ public class Settlement {
 		}
 	}
 
-	public void addItem(Item i) {
-
-		for (Item items : items) {
-			if (items.getType() == i.getType()) {
-				items.setSize(items.getSize() + i.getSize());
-				return;
-			}
-		}
-
-		items.add(i);
-	}
-
-	public boolean removeItem(Item i) {
-
-		if (containsItem(i, i.getSize())) {
-
-			for (Item items : items) {
-
-				if (items.getType() == i.getType()) {
-
-					if (items.getSize() >= i.getSize()) {
-						items.setSize(items.getSize() - i.getSize());
-						return true;
-					} else if (items.getSize() == i.getSize()) {
-						this.items.remove(items);
-						return true;
-					} else {
-						return false;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	public boolean containsItem(Item i, int count) {
-
-		for (Item items : items) {
-			if (items.getType() == i.getType()) {
-				if (items.getSize() >= count) {
-					return true;
-				}
-			}
-		}
-
-		return false;
+	public Cell getCell() {
+		return cell;
 	}
 
 	public void removeTask(Task task) {
@@ -191,6 +154,10 @@ public class Settlement {
 
 	public void setY(float y) {
 		this.y = y;
+	}
+	
+	public Inventory getInventory() {
+		return this.inventory;
 	}
 
 }

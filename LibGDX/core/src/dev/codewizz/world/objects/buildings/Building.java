@@ -23,8 +23,7 @@ import dev.codewizz.world.objects.hermits.Hermit;
 
 public class Building extends GameObject implements IBuy, Serializable {
 	
-	private static Sprite texture = Assets.getSprite("tent");
-	private static Sprite icon = Assets.getSprite("tent");
+	private static Sprite texture = Assets.getSprite("crude-home");
 
 	private List<Item> costs = new CopyOnWriteArrayList<>();
 	
@@ -42,7 +41,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 		this.id = ID.Building;
 		
 		if(Main.inst.world.settlement != null) 
-			Main.inst.world.settlement.homes.add(this);
+			Main.inst.world.settlement.buildings.add(this);
 		
 		this.w = 64;
 		this.h = 48;
@@ -77,7 +76,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 
 	@Override
 	public void render(SpriteBatch b) {
-		b.draw(texture, x - 15, y + 16);
+		b.draw(texture, x - 2, y + 16);
 	}
 	
 	@Override
@@ -100,7 +99,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 	
 	@Override
 	public Sprite getMenuSprite() {
-		return icon;
+		return texture;
 	}
 
 	@Override

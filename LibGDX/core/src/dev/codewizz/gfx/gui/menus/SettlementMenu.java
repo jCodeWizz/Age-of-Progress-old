@@ -54,8 +54,8 @@ public class SettlementMenu extends UIMenu {
 
 	@Override
 	public void onOpen() {
-		for(int i = 0; i < Main.inst.world.settlement.items.size(); i++) {
-			addItemCard(Main.inst.world.settlement.items.get(i), x + x_padding + ((i % 4) * (width + x_padding)), y + h*UILayer.SCALE - 150 - (((int)(i / 4)) * (height + y_padding)));
+		for(int i = 0; i < Main.inst.world.settlement.getInventory().getItems().size(); i++) {
+			addItemCard(Main.inst.world.settlement.getInventory().getItems().get(i), x + x_padding + ((i % 4) * (width + x_padding)), y + h*UILayer.SCALE - 150 - (((int)(i / 4)) * (height + y_padding)));
 		}
 		
 		elements.add(image);

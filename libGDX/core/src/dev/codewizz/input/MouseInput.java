@@ -35,6 +35,7 @@ public class MouseInput implements InputProcessor {
 	public static boolean clear = false;
 	public static UIElement lastClickedUIElement;
 	public static PointLight light;
+	public static boolean rotate = false;
 
 	public MouseInput() {
 		light = Main.inst.renderer.addLight(0, 0, 300);
@@ -81,10 +82,12 @@ public class MouseInput implements InputProcessor {
 				if (hoveringOverCell != null) {
 
 					if (object) {
-						if (currentlyDrawingObject != null) {
+						if (currentlyDrawingObject != null && hoveringOverCell.getObject() == null ) {
 							IBuy object = (IBuy) currentlyDrawingObject;
 							GameObject obj = object.getCopy(hoveringOverCell.x, hoveringOverCell.y);
-							Main.inst.world.objects.add(obj);
+							obj.setFlip(rotate);
+							hoveringOverCell.setObject(obj);
+							obj.setCell(hoveringOverCell);
 							((IBuy)obj).onPlace(hoveringOverCell);
 
 							dragging[0] = object.conintues() && object.available();

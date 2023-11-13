@@ -194,11 +194,14 @@ public class World {
 						for (Cell c : cells) {
 							
 							if(Utils.getRandom(1, 4) < 3) {
-								objects.add(new Mushrooms(c.x, c.y));
+								if(c.object == null)
+									c.setObject(new Mushrooms(c.x, c.y));
 							} 
 						}
 					} else if (n > 0.7f) {
-						objects.add(new Rock(cell.x, cell.y));
+						if(cell.object == null)
+							cell.setObject(new Rock(cell.x, cell.y));
+							
 					}
 				}
 			}
@@ -256,7 +259,8 @@ public class World {
 					float n = (float) noise.noise(cell.indexX * e, cell.indexY * e);
 
 					if (n > 0.4f) {
-						objects.add(new Tree(cell.x, cell.y + Utils.RANDOM.nextFloat()));
+						if(cell.object == null)
+							cell.setObject(new Tree(cell.x, cell.y + Utils.RANDOM.nextFloat()));
 					}
 				}
 			}
@@ -357,6 +361,23 @@ public class World {
 			p.render(b);
 		}
 		b.setColor(Color.WHITE);
+		
+		if(MouseInput.currentlyDrawingObject != null && MouseInput.object && MouseInput.hoveringOverCell != null) {
+			
+			MouseInput.currentlyDrawingObject.setX(MouseInput.hoveringOverCell.x);
+			MouseInput.currentlyDrawingObject.setY(MouseInput.hoveringOverCell.y);
+			MouseInput.currentlyDrawingObject.setFlip(MouseInput.rotate);
+			
+			if(MouseInput.hoveringOverCell.object == null)
+				b.setColor(1f, 1f, 1f, 0.5f);
+			else
+				b.setColor(1f, 0.2f, 0.2f, 0.5f);
+			
+			MouseInput.currentlyDrawingObject.render(b);
+			
+			b.setColor(1f, 1f, 1f, 1f);
+
+		}
 	}
 
 	public Cell getCell(float x, float y) {

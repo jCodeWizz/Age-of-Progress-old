@@ -25,17 +25,15 @@ public class CellGraph implements IndexedGraph<Cell> {
 		cells.add(cell);
 	}
 	
-
-	
-	
-	
 	public void connectCells(Cell fromCell, Cell toCell, int cost) {
 		Link link = new Link(fromCell, toCell);
 		link.setCost(cost);
 		if(!linkMap.containsKey(fromCell)) {
 			linkMap.put(fromCell, new Array<Connection<Cell>>());
 		}
-		linkMap.get(fromCell).add(link);;
+		if(!linkMap.get(fromCell).contains(link, false)) {
+			linkMap.get(fromCell).add(link);
+		}
 		links.add(link);
 	}
 	
@@ -62,6 +60,27 @@ public class CellGraph implements IndexedGraph<Cell> {
 	
 	public void removeConnections(Cell fromNode) {
 		linkMap.remove(fromNode);
+	}
+	
+	public void removeConnection(Cell from, Cell to) {
+		Array<Connection<Cell>> a = linkMap.get(from);
+		Array<Connection<Cell>> b = linkMap.get(to);
+		
+		if(a != null) {
+			for(Connection<Cell> c : a) {
+				if(c.getFromNode().index == from.index && c.getToNode().index == to.index) {
+					linkMap.get(from).removeValue(c, false);
+				}
+			}
+		}
+		
+		if(b != null) {
+			for(Connection<Cell> c : b) {
+				if(c.getFromNode().index == from.index && c.getToNode().index == to.index) {
+					linkMap.get(from).removeValue(c, false);
+				}
+			}
+		}
 	}
 	
 	@Override

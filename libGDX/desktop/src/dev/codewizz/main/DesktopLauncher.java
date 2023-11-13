@@ -30,6 +30,5 @@ public class DesktopLauncher {
 		TexturePacker.process(settings, "../assets/textures/objects", "../assets/packs", "objects");
 		TexturePacker.process(settings, "../assets/textures/particles", "../assets/packs", "particles");
 		TexturePacker.process(settings, "../assets/textures/items", "../assets/packs", "items");
-
 	}
 }

@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Queue;
 
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
+import dev.codewizz.world.GameObject;
+import dev.codewizz.world.objects.Animal;
+import dev.codewizz.world.objects.ID;
 
 public class Agent {
 
@@ -17,16 +20,19 @@ public class Agent {
 	private Vector2 dir;
 
 	public Cell goal;
-	
-	public Agent() {
+
+	private GameObject object;
+
+	public Agent(GameObject object) {
 		dir = new Vector2();
+		this.object = object;
 	}
 
 	public void update(float d, float x, float y) {
-		
-		if(graph == null) graph = Main.inst.world.cellGraph;
-		
-		
+
+		if (graph == null)
+			graph = Main.inst.world.cellGraph;
+
 		checkDistance(x, y);
 	}
 
@@ -38,7 +44,7 @@ public class Agent {
 			}
 		}
 	}
-	
+
 	public Vector2 getMiddlePoint() {
 		return new Vector2();
 	}
@@ -55,11 +61,11 @@ public class Agent {
 			setSpeedToNextCell(x, y);
 		}
 	}
-	
+
 	public Vector2 getDir() {
 		return dir;
 	}
-	
+
 	private void reach() {
 		path.clear();
 		dir.x = 0;
@@ -67,44 +73,65 @@ public class Agent {
 		moving = false;
 		onReach();
 	}
-	
+
 	public void stop() {
 		path.clear();
 		dir.x = 0;
 		dir.y = 0;
 		moving = false;
 	}
-	
+
 	public void onReach() {
-		
+
 	}
-	
-	public void setGoal(Cell goal, float x, float y) {
+
+	public boolean setGoal(Cell goal, float x, float y) {
 		this.goal = goal;
-		
+
 		Cell[][] grid = Main.inst.world.grid;
-		for(int i = 0; i < grid.length; i++) {
-			for(int j = 0; j < grid[i].length; j++) {
-				if(grid[i][j].tile.getHitbox().contains(x, y)) {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].tile.getHitbox().contains(x, y)) {
 					previousCell = grid[i][j];
 				}
 			}
 		}
-	    GraphPath<Cell> graphPath = graph.findPath(previousCell, goal);
-	    for (int i = 1; i < graphPath.getCount(); i++) {
-	      path.addLast(graphPath.get(i));
-	    }
-	    if(!path.isEmpty()) {
-	    	setSpeedToNextCell(x, y);
-		    moving = true;
-	    }
-	  }
+		GraphPath<Cell> graphPath = graph.findPath(previousCell, goal);
+		for (int i = 1; i < graphPath.getCount(); i++) {
+			
+			if(object instanceof Animal) {
+				if(graphPath.get(i).getObject() != null) {
+					if(graphPath.get(i).getObject().getID() == ID.FenceGate) {
+						stop();
+						return false;
+					}
+				}
+			}
+			
+			
+			
+			
+			
+			path.addLast(graphPath.get(i));
+		}
+		
+		int s = graph.getConnections(goal).size;
+		
+		
+		if (!path.isEmpty() && s > 0) {
+			setSpeedToNextCell(x, y);
+			moving = true;
+			
+			return true;
+		}
+		
+		return false;
+	}
 
-	
 	private void setSpeedToNextCell(float x, float y) {
 		Cell nextCell = path.first();
-	    float angle = MathUtils.atan2(nextCell.getMiddlePoint().y - y, nextCell.getMiddlePoint().x - x);
-	    dir.x = MathUtils.cos(angle);
-	    dir.y = MathUtils.sin(angle);
+		float angle = MathUtils.atan2(nextCell.getMiddlePoint().y - y, nextCell.getMiddlePoint().x - x);
+		dir.x = MathUtils.cos(angle);
+		dir.y = MathUtils.sin(angle);
 	}
 }

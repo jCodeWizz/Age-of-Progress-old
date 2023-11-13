@@ -65,6 +65,11 @@ public class Mushrooms extends GameObject implements Serializable, IGatherable {
 	}
 	
 	@Override
+	public void onDestroy() {
+		cell.setObject(null);
+	}
+	
+	@Override
 	public RCObject save(RCObject object) {
 		return object;
 	}

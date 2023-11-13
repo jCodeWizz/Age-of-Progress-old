@@ -14,10 +14,13 @@ import dev.codewizz.utils.Direction;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.serialization.RCField;
 import dev.codewizz.utils.serialization.RCObject;
+import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Serializable;
+import dev.codewizz.world.items.Inventory;
 import dev.codewizz.world.objects.ID;
 import dev.codewizz.world.objects.TaskableObject;
 import dev.codewizz.world.objects.buildings.Building;
+import dev.codewizz.world.objects.tasks.ClearInventoryTask;
 import dev.codewizz.world.objects.tasks.Task;
 import dev.codewizz.world.settlement.Settlement;
 
@@ -34,6 +37,7 @@ public class Hermit extends TaskableObject implements Serializable {
 	private Settlement s;
 	private Building home;
 	private Job job;
+	private Inventory inventory;
 	
 	private float intelligence = 1f;
 	private float strength = 1f;
@@ -54,6 +58,7 @@ public class Hermit extends TaskableObject implements Serializable {
 		super(x, y);
 		this.id = ID.Hermit;
 		this.name= Utils.getRandomName();
+		this.inventory = new Inventory(5);
 		
 		this.w = 24;
 		this.h = 36;
@@ -82,6 +87,10 @@ public class Hermit extends TaskableObject implements Serializable {
 					break;
 				}
 			}
+		}
+		
+		if(this.currentTask == null && this.getInventory().getItems().size() > 0) {
+			this.addTask(new ClearInventoryTask(), true);
 		}
 		
 		if(currentAnimation != null) {
@@ -207,11 +216,14 @@ public class Hermit extends TaskableObject implements Serializable {
 		
 		if(this.home == null) {
 			
-			for(Building b : s.homes) {
-				if(!b.isFull()) {
-					b.owned.add(this);
-					this.home = b;
-					return b;
+			for(GameObject object : s.buildings) {
+				if(object instanceof Building) {
+					Building b = (Building) object;
+					if(!b.isFull()) {
+						b.owned.add(this);
+						this.home = b;
+						return b;
+					}
 				}
 			}
 			return null;
@@ -245,5 +257,9 @@ public class Hermit extends TaskableObject implements Serializable {
 	public void setJob(Job job) {
 		this.job = job;
 		this.job.setHermit(this);
+	}
+	
+	public Inventory getInventory() {
+		return this.inventory;
 	}
 }

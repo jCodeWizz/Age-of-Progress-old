@@ -31,6 +31,10 @@ public class Item extends Renderable {
 		this.size = size;
 	}
 	
+	public Item(ItemType type, int size) {
+		this(0, 0, type, size);
+	}
+	
 	@Override
 	public void render(SpriteBatch b) {
 		b.draw(type.getSprite(), x, y + floating, w, h);
