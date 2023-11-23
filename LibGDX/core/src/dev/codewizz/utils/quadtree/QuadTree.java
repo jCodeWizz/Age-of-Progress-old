@@ -1,3 +1,4 @@
+
 package dev.codewizz.utils.quadtree;
 
 import java.util.ArrayList;

@@ -51,7 +51,6 @@ public class PeopleMenu extends UIMenu {
 		super(id, x, y, w, h, layer);
 		
 		this.wantsClick = false;
-		
 	}
 	
 	@Override

@@ -3,7 +3,6 @@ package dev.codewizz.input;
 import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -20,7 +19,6 @@ import dev.codewizz.world.GameObject;
 import dev.codewizz.world.Tile;
 import dev.codewizz.world.TileType;
 import dev.codewizz.world.objects.IBuy;
-import dev.codewizz.world.tiles.EmptyTile;
 
 public class MouseInput implements InputProcessor {
 
@@ -163,7 +161,6 @@ public class MouseInput implements InputProcessor {
 					GameObject obj = (GameObject) o;
 					obj.setSelected(false);
 					if (obj.getHitBox().contains(coords.x, coords.y) && !obj.isSelected()) {
-						
 						obj.select();
 						dragging[button] = false;
 						break;
@@ -183,12 +180,6 @@ public class MouseInput implements InputProcessor {
 			area.end(new Vector2(coords.x, coords.y));
 			area = null;
 		}
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
-			Cell cell = Main.inst.world.getCellSmart(coords.x, coords.y);
-			cell.setTile(new EmptyTile(cell));
-		}
-		
 		
 		return false;
 	}

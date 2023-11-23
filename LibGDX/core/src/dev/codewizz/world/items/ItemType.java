@@ -11,6 +11,7 @@ public enum ItemType {
 	Mushrooms("mushrooms"),
 	Planks("item-plank"),
 	Stone("item-stone"),
+	Wheat("item-wheat"),
 	Wood("item-wood");
 	
 	private Sprite s;

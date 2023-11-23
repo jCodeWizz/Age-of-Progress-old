@@ -1,6 +1,5 @@
 package dev.codewizz.world;
 
-import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +21,7 @@ import dev.codewizz.utils.Assets;
 import dev.codewizz.utils.Direction;
 import dev.codewizz.utils.Utils;
 import dev.codewizz.utils.WNoise;
+import dev.codewizz.utils.quadtree.Point;
 import dev.codewizz.utils.quadtree.QuadTree;
 import dev.codewizz.utils.saving.GameObjectData;
 import dev.codewizz.utils.saving.WorldData;
@@ -268,31 +268,33 @@ public class World {
 	}
 
 	public void renderTiles(SpriteBatch b) {
+		Vector3 p1 = Main.inst.camera.cam.unproject(new Vector3(-64, -64, 0));
+		Vector3 p2 = Main.inst.camera.cam.unproject(new Vector3(Gdx.graphics.getWidth() + 64, Gdx.graphics.getHeight() + 64, 0));
 
-		Vector3 p1 = Main.inst.camera.cam.unproject(new Vector3(0, 0, 0));
-		Vector3 p2 = Main.inst.camera.cam.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+		Cell c1 = this.getCell(p1.x, p2.y);
+		Cell c2 = this.getCell(p2.x, p1.y);
 
-		int x = (int) p1.x;
-		int y = (int) p1.y;
-		int x2 = (int) p2.x;
-		int y2 = (int) p2.y;
+		int iX1 = 0;
+		int iX2 = WORLD_SIZE_W;
+		int iY1 = 0;
+		int iY2 = WORLD_SIZE_H;
 
-		Rectangle screen = new Rectangle(x, y - (y - y2), (x2 - x), (y - y2));
-
-		/*
-		 * Point<Cell>[] list = tree.searchWithin(screen.x, screen.y, screen.x +
-		 * screen.width, screen.y + screen.height);
-		 * 
-		 * for (int i = list.length - 1; i >= 0; i--) { list[i].getValue().render(b); }
-		 */
-		for (int i = grid[0].length - 1; i >= 0; i--) {
-			for (int j = grid.length - 1; j >= 0; j--) {
-				if (screen.contains(grid[j][i].getMiddlePoint().x, grid[j][i].getMiddlePoint().y)) {
-					grid[j][i].render(b);
-				}
+		if(c1 != null) {
+			iX1 = c1.indexX;
+			iY1 = c1.indexY;
+		}
+		
+		if(c2 != null) {
+			iX2 = c2.indexX;
+			iY2 = c2.indexY;
+		}
+		
+		for (int i = iY2 - 1; i >= iY1; i--) {
+			for (int j = iX2 - 1; j >= iX1; j--) {
+				grid[j][i].render(b);
 			}
 		}
-
+		
 		if (!Main.PAUSED) {
 			if (MouseInput.hoveringOverCell != null) {
 				if (MouseInput.clear) {
@@ -378,18 +380,6 @@ public class World {
 			b.setColor(1f, 1f, 1f, 1f);
 
 		}
-	}
-
-	public Cell getCell(float x, float y) {
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].tile.getHitbox().contains(x, y)) {
-					return grid[i][j];
-				}
-			}
-		}
-
-		return null;
 	}
 
 	public Cell getCellIndex(int x, int y) {
@@ -494,26 +484,22 @@ public class World {
 		return grid[Utils.getRandom(0, WORLD_SIZE_W)][Utils.getRandom(0, WORLD_SIZE_H)];
 	}
 
-	public Cell getCellSmart(float x, float y) {
-
+	public Cell getCell(float x, float y) {
 		x -= 32f;
 		y -= 32f;
 
-		int xx = Utils.round(x, 32);
-		int yy = Utils.round(y, 16);
-
-		Cell cell = tree.get(xx, yy, null);
-
-		if (cell == null) {
-			cell = tree.get(xx - 32, yy, null);
-
-			System.out.println("FAILED!");
-			System.out.println("XX: " + xx);
-			System.out.println("XX-32: " + (xx - 32));
-
+		Point<Cell>[] list = tree.searchIntersect(x-100, y-100, x+100, y+100);
+		
+		x+=32;
+		y+=32;
+		
+		for(Point<Cell> cell : list) {
+			if(cell.getValue().tile.getHitbox().contains(x, y)) {
+				return cell.getValue();
+			}
 		}
-
-		return cell;
+		
+		return null;
 	}
 
 	private boolean evaluateTile(Cell cell, boolean filter, List<TileType> t) {

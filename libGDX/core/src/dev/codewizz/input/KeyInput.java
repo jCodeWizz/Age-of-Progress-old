@@ -50,6 +50,7 @@ public class KeyInput implements InputProcessor {
 			
 			return true;
 		}
+		
 		if(key == Input.Keys.TAB) {
 			// enter debug mode
 			Main.DEBUG = true;

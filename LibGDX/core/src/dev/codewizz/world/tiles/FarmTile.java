@@ -15,5 +15,4 @@ public class FarmTile extends Tile {
 		this.name = "Farm Tile";
 		this.cost = 5;
 	}
-
 }
