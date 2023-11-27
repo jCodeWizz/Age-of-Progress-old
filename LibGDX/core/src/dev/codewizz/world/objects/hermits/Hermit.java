@@ -52,7 +52,7 @@ public class Hermit extends TaskableObject implements Serializable {
 	
 	private float sleepNeed = 10f;
 	
-	private int age = 10;
+	private int age = 100;
 	
 	public Hermit(float x, float y) {
 		super(x, y);

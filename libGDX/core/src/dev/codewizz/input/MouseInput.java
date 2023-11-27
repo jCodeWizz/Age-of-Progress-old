@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import box2dLight.PointLight;
+import dev.codewizz.gfx.Camera;
 import dev.codewizz.gfx.Renderable;
 import dev.codewizz.gfx.Renderer;
 import dev.codewizz.gfx.gui.UIElement;
 import dev.codewizz.gfx.gui.layers.GameLayer;
-import dev.codewizz.main.Camera;
 import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.GameObject;

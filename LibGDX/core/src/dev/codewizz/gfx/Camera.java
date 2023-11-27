@@ -1,8 +1,10 @@
-package dev.codewizz.main;
+package dev.codewizz.gfx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+
+import dev.codewizz.main.Main;
 
 public class Camera {
 

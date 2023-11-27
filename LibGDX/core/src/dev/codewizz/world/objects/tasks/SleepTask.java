@@ -1,6 +1,5 @@
 package dev.codewizz.world.objects.tasks;
 
-import dev.codewizz.main.Main;
 import dev.codewizz.world.Cell;
 import dev.codewizz.world.objects.TaskableObject;
 import dev.codewizz.world.objects.buildings.Building;
@@ -32,7 +31,7 @@ public class SleepTask extends Task {
 		Building b = hermit.getHome();
 		
 		if(b != null) {
-			Cell cell = Main.inst.world.getCell(b.getX(), b.getY() + 32);
+			Cell cell = b.getCell();
 			object.getAgent().setGoal(cell, object.getX(), object.getY());
 		} else {
 			//TODO: maybe add different ways/spaces to sleep.

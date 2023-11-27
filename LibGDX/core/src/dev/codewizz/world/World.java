@@ -269,7 +269,7 @@ public class World {
 
 	public void renderTiles(SpriteBatch b) {
 		Vector3 p1 = Main.inst.camera.cam.unproject(new Vector3(-64, -64, 0));
-		Vector3 p2 = Main.inst.camera.cam.unproject(new Vector3(Gdx.graphics.getWidth() + 64, Gdx.graphics.getHeight() + 64, 0));
+		Vector3 p2 = Main.inst.camera.cam.unproject(new Vector3(Gdx.graphics.getWidth() + 400, Gdx.graphics.getHeight() + 400, 0));
 
 		Cell c1 = this.getCell(p1.x, p2.y);
 		Cell c2 = this.getCell(p2.x, p1.y);
@@ -485,15 +485,9 @@ public class World {
 	}
 
 	public Cell getCell(float x, float y) {
-		x -= 32f;
-		y -= 32f;
-
-		Point<Cell>[] list = tree.searchIntersect(x-100, y-100, x+100, y+100);
+		Point<Cell>[] cells = Main.inst.world.tree.searchIntersect(x - 100, y - 50, x + 50, y + 25);
 		
-		x+=32;
-		y+=32;
-		
-		for(Point<Cell> cell : list) {
+		for(Point<Cell> cell : cells) {
 			if(cell.getValue().tile.getHitbox().contains(x, y)) {
 				return cell.getValue();
 			}
@@ -502,6 +496,7 @@ public class World {
 		return null;
 	}
 
+	
 	private boolean evaluateTile(Cell cell, boolean filter, List<TileType> t) {
 		return (!filter && t.contains(cell.tile.type)) || filter && !t.contains(cell.tile.getType());
 	}

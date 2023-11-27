@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import dev.codewizz.gfx.Camera;
 import dev.codewizz.gfx.Renderer;
 import dev.codewizz.gfx.gui.layers.GameLayer;
 import dev.codewizz.gfx.gui.layers.MainMenuLayer;
@@ -28,7 +29,7 @@ public class Main extends ApplicationAdapter {
 	public World world;
 	public MouseInput mouseInput;
 	public KeyInput keyInput;
-		
+	
 	@Override
 	public void create () {
 		inst = this;
@@ -58,7 +59,6 @@ public class Main extends ApplicationAdapter {
 		inputMultiplexer.addProcessor(mouseInput);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
-
 	@Override
 	public void render () {
 		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1);

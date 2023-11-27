@@ -46,7 +46,7 @@ public class Building extends GameObject implements IBuy, Serializable {
 		this.w = 64;
 		this.h = 48;
 		
-		this.sortHeight = 8;
+		this.sortHeight = 16;
 		
 		this.costs.add(new Item(0, 0, ItemType.Wood, 15));
 	}
